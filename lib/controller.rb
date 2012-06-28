@@ -8,6 +8,9 @@ post '/upload' do
   redirect "/#{name}"
 end
 
+get '/favicon.ico' do
+end
+
 get '/:name' do
   File.read("#{File.dirname(__FILE__)}/../pages/#{params[:name]}.html")
 end
