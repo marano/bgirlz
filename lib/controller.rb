@@ -1,10 +1,16 @@
 get '/' do
+  @name = params[:name]
   erb :home
 end
 
 post '/upload' do
   name = params[:name]
-  content = File.read params[:page][:tempfile].path
+  page = params[:page]
+  if name.blank? || page.nil?
+    redirect "/?name=#{name}"
+    return
+  end
+  content = File.read page[:tempfile].path
   Page.create!(:name => name, :content => content)
   redirect "/#{name}"
 end
