@@ -1,9 +1,8 @@
 path = File.expand_path(File.join(File.dirname(__FILE__)))
 $LOAD_PATH << path
 
-require 'rubygems'
 require 'bundler'
-Bundler.require :default
+Bundler.require :default, ENV['RACK_ENV'].to_sym
 
 set :app_file, __FILE__
 
