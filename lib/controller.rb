@@ -11,13 +11,19 @@ post '/upload' do
     return
   end
   content = File.read page[:tempfile].path
-  Page.create!(:name => name, :content => content)
-  redirect "/#{name}"
+  page = Page.create!(:name => name, :content => content)
+  redirect page.link_to_self
 end
 
 get '/favicon.ico' do
 end
 
-get '/:name' do
-  Page.where(:name => params[:name]).first.content
+get '/:salt/:name' do
+  results = Page.where(:name => params[:name], :salt => params[:salt])
+  if results.empty?
+    status 404
+    "404 Not found"
+  else
+    results.first.content
+  end
 end
