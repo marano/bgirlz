@@ -24,6 +24,6 @@ get '/:salt/:name' do
     status 404
     "404 Not found"
   else
-    results.first.content
+    results.first.patched_html
   end
 end
