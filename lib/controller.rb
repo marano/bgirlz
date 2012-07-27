@@ -4,7 +4,8 @@ end
 
 post '/upload' do
   name = params[:name]
-  FileUtils.cp(params[:page][:tempfile].path, "#{File.dirname(__FILE__)}/../pages/#{name}.html")
+  content = File.read params[:page][:tempfile].path
+  Page.create!(:name => name, :content => content)
   redirect "/#{name}"
 end
 
@@ -12,5 +13,5 @@ get '/favicon.ico' do
 end
 
 get '/:name' do
-  File.read("#{File.dirname(__FILE__)}/../pages/#{params[:name]}.html")
+  Page.where(:name => params[:name]).first.content
 end
