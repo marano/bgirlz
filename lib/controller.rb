@@ -18,6 +18,11 @@ end
 get '/favicon.ico' do
 end
 
+get '/list' do
+  @pages = Page.all
+  erb :list
+end
+
 get '/:salt/:name' do
   results = Page.where(:name => params[:name], :salt => params[:salt])
   if results.empty?

@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <title>black girlz html publisher</title>
+  </head>
+  <body>
+    <div>
+      <ul>
+      <% @pages.each do |page| %>
+        <li><%= page.name %> at <a href='<%= page.link_to_self %>'><%= page.link_to_self %></a></li>
+      <% end %>
+      </ul>
+    </div>
+  </body>
+ </html>
+
