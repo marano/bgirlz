@@ -4,15 +4,15 @@ get '/' do
 end
 
 post '/upload' do
-  name = params[:name]
-  page = params[:page]
-  if name.blank? || page.nil?
-    redirect "/?name=#{name}"
+  @name = params[:name]
+  @page = params[:page]
+  if @name.blank? || @page.nil?
+    redirect "/#{@name.blank? ? '' : '?name=' + @name }"
     return
   end
-  content = File.read page[:tempfile].path
-  page = Page.create!(:name => name, :content => content)
-  redirect page.link_to_self
+  content = File.read @page[:tempfile].path
+  new_page = Page.create!(:name => @name, :content => content)
+  redirect new_page.link_to_self + '?first_time=true'
 end
 
 get '/favicon.ico' do
@@ -24,11 +24,27 @@ get '/list' do
 end
 
 get '/:salt/:name' do
-  results = Page.where(:name => params[:name], :salt => params[:salt])
-  if results.empty?
+  @first_time = params[:first_time]
+  @page = Page.find_by_name_and_salt(params[:name], params[:salt])
+  if @page.nil?
     status 404
     "404 Not found"
   else
-    results.first.patched_html
+    @page_name = @page.name
+    @page_salt = @page.salt
+    add_to_header = erb :_page_header
+    @page.patched_html add_to_header
+  end
+end
+
+get '/:salt/:name/panel' do
+  @page = Page.find_by_name_and_salt(params[:name], params[:salt])
+  if @page.nil?
+    status 404
+    "404 Not found"
+  else
+    @page_link = "http://bgirlz.heroku.com#{@page.link_to_self}"
+    @pretty_page_link = "http://bgirlz.heroku.com#{@page.pretty_link_to_self}"
+    erb :_page_info_panel
   end
 end
