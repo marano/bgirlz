@@ -6,11 +6,16 @@ end
 post '/upload' do
   @name = params[:name]
   @page = params[:page]
-  if @name.blank? || @page.nil?
+  @html = params[:html]
+  if @name.blank? || (@page.nil? && @html.blank?)
     redirect "/#{@name.blank? ? '' : '?name=' + @name }"
     return
   end
-  content = File.read @page[:tempfile].path
+  if @page
+    content = File.read @page[:tempfile].path
+  else
+    content = @html
+  end
   new_page = Page.create!(:name => @name, :content => content)
   redirect new_page.link_to_self + '?first_time=true'
 end
