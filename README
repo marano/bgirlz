@@ -1,0 +1,5 @@
+Test:
+rake test
+
+Run:
+rake server
