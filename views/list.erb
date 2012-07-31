@@ -6,7 +6,7 @@
     <div>
       <ul>
       <% @pages.each do |page| %>
-        <li><%= page.name %> at <a href="<%= page.link_to_self %>"><%= page.pretty_link_to_self %></a></li>
+        <li><%= page.name %> at <a href="<%= page.link_to_self(request) %>"><%= page.pretty_link_to_self(request) %></a></li>
       <% end %>
       </ul>
     </div>

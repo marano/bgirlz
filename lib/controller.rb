@@ -6,6 +6,7 @@ end
 post '/upload' do
   @name = params[:name]
   @page = params[:page]
+  @enable_comments = params[:enable_comments]
   @html = params[:html]
   if @name.blank? || (@page.nil? && @html.blank?)
     redirect "/#{@name.blank? ? '' : '?name=' + @name }"
@@ -16,8 +17,8 @@ post '/upload' do
   else
     content = @html
   end
-  new_page = Page.create!(:name => @name, :content => content)
-  redirect new_page.link_to_self + '?first_time=true'
+  new_page = Page.create!(:name => @name, :content => content, :enable_comments => @enable_comments == 'on')
+  redirect new_page.link_to_self(request) + '?first_time=true'
 end
 
 get '/favicon.ico' do
@@ -35,10 +36,9 @@ get '/:salt/:name' do
     status 404
     "404 Not found"
   else
-    @page_name = @page.name
-    @page_salt = @page.salt
     add_to_header = erb :_page_header
-    @page.patched_html add_to_header
+    add_to_body = erb :_comments
+    @page.patched_html add_to_header, add_to_body
   end
 end
 
@@ -48,8 +48,6 @@ get '/:salt/:name/panel' do
     status 404
     "404 Not found"
   else
-    @page_link = "http://bgirlz.heroku.com#{@page.link_to_self}"
-    @pretty_page_link = "http://bgirlz.heroku.com#{@page.pretty_link_to_self}"
     erb :_page_info_panel
   end
 end

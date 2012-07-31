@@ -9,6 +9,11 @@ body {
   width: 594px;
 }
 
+#plugins {
+  clear: both;
+  padding-top: 10px;
+}
+
 #file_column, #or_column, #html_column, #textarea_column {
   float: left;
 }
@@ -23,4 +28,5 @@ body {
 
 #submit {
   clear: both;
+  padding-top: 50px;
 }

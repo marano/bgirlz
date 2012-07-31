@@ -6,6 +6,7 @@ class Page
   key :name, String
   key :content, String
   key :salt, String
+  key :enable_comments, Boolean
 
   before_create :remove_double_quote, :create_salt, :validate
 
@@ -13,16 +14,17 @@ class Page
     where(:name => name, :salt => salt).first
   end
 
-  def link_to_self
-    "/#{@salt}/#{URI::encode(@name)}"
+  def link_to_self(request)
+    "http://#{request.host_with_port}/#{@salt}/#{URI::encode(@name)}"
   end
 
-  def pretty_link_to_self
-    "/#{@salt}/#{@name}"
+  def pretty_link_to_self(request)
+    "http://#{request.host_with_port}/#{@salt}/#{@name}"
   end
 
-  def patched_html(add_to_header)
+  def patched_html(add_to_header, add_to_body)
     add_to_header_fragment = Nokogiri::HTML::DocumentFragment.parse add_to_header
+    add_to_body_fragment = Nokogiri::HTML::DocumentFragment.parse add_to_body
     doc = Nokogiri::HTML::Document.parse @content
     page_content = doc.children
     html_tag = doc.css('html').first
@@ -43,6 +45,7 @@ class Page
     end
 
     head_tag.add_child add_to_header_fragment
+    body_tag.add_child add_to_body_fragment
 
     doc.to_html
   end

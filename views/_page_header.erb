@@ -2,6 +2,6 @@
 <script type='text/javascript' src='/patch.js'></script>
 <link href='/patch.css' media='all' rel='stylesheet' />
 <meta name="first_time" content="<%= @first_time %>" />
-<meta name="page_name" content="<%= @page_name %>" />
-<meta name="page_salt" content="<%= @page_salt %>" />
-<meta name="page_link" content="<%= @page.link_to_self %>" />
+<meta name="page_name" content="<%= @page.name %>" />
+<meta name="page_salt" content="<%= @page.salt %>" />
+<meta name="page_link" content="<%= @page.link_to_self(request) %>" />
