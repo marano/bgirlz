@@ -1,12 +1,12 @@
 ENV['RACK_ENV'] = 'test'
 
-require 'bundler'
-Bundler.require :test
+require 'tempfile'
+
+require_relative '../bgirlz'
 
 require 'capybara/rspec'
 require 'capybara/dsl'
 
-require_relative '../bgirlz'
 
 RSpec.configure do |c|
   c.include Capybara::DSL
