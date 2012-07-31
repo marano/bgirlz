@@ -2,9 +2,10 @@ path = File.expand_path(File.join(File.dirname(__FILE__)))
 $LOAD_PATH << path
 
 require 'bundler'
-Bundler.require :default, ENV['RACK_ENV'].to_sym
+envs = [:default]
+envs << :development if ENV['RACK_ENV'] != 'production'
+Bundler.require *envs
 
-set :app_file, __FILE__
 
 Dir['lib/**/*.rb'].each { |file| require file }
 

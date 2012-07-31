@@ -5,6 +5,12 @@ gem 'bson_ext'
 gem 'mongo_mapper'
 gem 'nokogiri'
 
-group :test, :development do
+group :development do
   gem 'pry'
+  gem 'shotgun'
+end
+
+group :test do
+  gem 'rspec'
+  gem 'capybara'
 end
