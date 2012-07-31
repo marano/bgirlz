@@ -10,5 +10,7 @@
     }(document, 'script', 'facebook-jssdk'));
   </script>
 
-  <div class="fb-comments" data-href="<%= @page.link_to_self(request) %>" data-num-posts="2" data-width="470"></div>
+  <div id='comments'>
+    <div class="fb-comments" data-href="<%= @page.link_to_self(request) %>" data-num-posts="2" data-width="470"></div>
+  </div>
 <% end %>
