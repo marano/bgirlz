@@ -15,11 +15,19 @@ class Page
   end
 
   def link_to_self(request)
-    "http://#{request.host_with_port}/#{@salt}/#{URI::encode(@name)}"
+    "http://#{request.host_with_port}#{relative_link_to_self}"
   end
 
   def pretty_link_to_self(request)
-    "http://#{request.host_with_port}/#{@salt}/#{@name}"
+    "http://#{request.host_with_port}#{relative_pretty_link_to_self}"
+  end
+
+  def relative_link_to_self
+    "/#{@salt}/#{URI::encode(@name)}"
+  end
+
+  def relative_pretty_link_to_self
+    "/#{@salt}/#{@name}"
   end
 
   def patched_html(add_to_header, add_to_body)
