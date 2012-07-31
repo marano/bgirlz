@@ -1,4 +1,4 @@
-require_relative 'bgirlz'
+require 'rake'
 
 task :default => :test
 
