@@ -2,7 +2,7 @@ ENV['RACK_ENV'] = 'test'
 
 require 'tempfile'
 
-require_relative '../bgirlz'
+require_relative 'bgirlz'
 
 require 'capybara/rspec'
 require 'capybara/dsl'
