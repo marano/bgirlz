@@ -10,6 +10,9 @@ require 'capybara/dsl'
 
 RSpec.configure do |c|
   c.include Capybara::DSL
+  c.before do
+    Capybara.reset_sessions!
+  end
 end
 
 Capybara.app = Controller
