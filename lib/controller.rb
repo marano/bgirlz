@@ -42,6 +42,17 @@ get '/:salt/:name' do
   end
 end
 
+delete '/:salt/:name' do
+  @page = Page.find_by_name_and_salt(params[:name], params[:salt])
+  if @page.nil?
+    status 404
+    "404 Not found"
+  else
+    @page.delete
+  end
+  redirect '/list'
+end
+
 get '/:salt/:name/panel' do
   @page = Page.find_by_name_and_salt(params[:name], params[:salt])
   if @page.nil?

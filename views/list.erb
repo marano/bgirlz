@@ -1,15 +1,33 @@
 <html>
   <head>
     <title>black girlz html publisher</title>
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js'></script>
+    <link href='/list.css' media='all' rel='stylesheet' />
   </head>
   <body>
     <div>
       <ul>
       <% @pages.each do |page| %>
-        <li><%= page.name %> at <a href="<%= page.relative_link_to_self %>"><%= page.relative_pretty_link_to_self %></a></li>
+        <li>
+        <form id='delete_page_<%= page.salt %>_<%= URI.encode(page.name) %>' action="<%= page.relative_link_to_self %>" method='post'>
+            <input type='hidden' name='_method' value='delete'/>
+            <a href='#' class='delete'>delete</a>
+          </form>
+          <%= page.name %> at <a href="<%= page.relative_link_to_self %>"><%= page.relative_pretty_link_to_self %></a>
+        </li>
       <% end %>
       </ul>
     </div>
+    <script>
+      $(function () {
+        $('.delete').click(function (e) {
+          var ok = confirm("Are you sure you want to delete that page?");
+          if (ok) {
+            $(e.target).parent().submit();
+          }
+          e.preventDefault();
+        });
+      });
+    </script>
   </body>
- </html>
-
+</html>
