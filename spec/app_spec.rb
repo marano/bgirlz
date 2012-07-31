@@ -7,7 +7,6 @@ require_relative '../bgirlz'
 require 'capybara/rspec'
 require 'capybara/dsl'
 
-
 RSpec.configure do |c|
   c.include Capybara::DSL
   c.before do
