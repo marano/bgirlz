@@ -17,6 +17,8 @@ end
 
 Capybara.app = Controller
 
+Capybara.current_driver = :selenium
+
 describe 'Black Girls Code Website Publisher' do
   it 'should allow me to update my website' do
     visit '/'
