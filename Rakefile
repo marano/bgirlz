@@ -1,11 +1,9 @@
-path = File.expand_path(File.join(File.dirname(__FILE__)))
-$LOAD_PATH << path
 require 'rake'
 
 task :default => :test
 
 task :console do
-  require 'bgirlz'
+  require_relative 'bgirlz'
   Pry.start
 end
 
