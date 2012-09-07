@@ -10,6 +10,11 @@ Bundler.require *envs
 
 Dir['lib/**/*.rb'].each { |file| require file }
 
-mongo_url = ENV['MONGOHQ_URL'] || 'mongodb://localhost:27017/bgirlz'
+if ENV['RACK_ENV'] == 'test'
+  mongo_url = 'mongodb://localhost:27017/bgirlz_test'
+else
+  mongo_url = ENV['MONGOHQ_URL'] || 'mongodb://localhost:27017/bgirlz'
+end
+
 MongoMapper.config = { 'girlz' => { 'uri' => mongo_url } }
 MongoMapper.connect('girlz')
