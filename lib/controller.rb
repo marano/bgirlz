@@ -1,6 +1,7 @@
 class Controller < Sinatra::Base
 
   set :views, 'views'
+  use Rack::MethodOverride
 
   get '/' do
     @name = params[:name]
