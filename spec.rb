@@ -10,6 +10,7 @@ require 'capybara/dsl'
 RSpec.configure do |c|
   c.include Capybara::DSL
   c.before do
+    Page.destroy_all
     Capybara.reset_sessions!
   end
 end
