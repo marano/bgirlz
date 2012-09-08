@@ -3,6 +3,7 @@ require 'rake'
 task :default => :test
 
 task :console do
+  ENV['RACK_ENV'] = 'development'
   require_relative 'bgirlz'
   Pry.start
 end
