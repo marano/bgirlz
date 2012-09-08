@@ -43,6 +43,24 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.text.should == 'oi!'
   end
 
+  it 'should be able to import website from link' do
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    fill_in 'html', :with => 'Coé'
+    click_button 'Publish my website'
+
+    visit '/'
+    fill_in 'name', :with => 'Augusta'
+    host = Capybara.current_session.driver.rack_server.host
+    port = Capybara.current_session.driver.rack_server.port
+    fill_in 'link', :with => "http://#{host}:#{port}#{Page.first.relative_pretty_link_to_self}"
+    click_button 'Publish my website'
+
+    page.text.should == 'Coé'
+    visit Page.first.relative_link_to_self
+    page.text.should == 'Coé'
+  end
+
   it 'should display my page at list page' do
     visit '/'
     fill_in 'name', :with => 'Joana'
