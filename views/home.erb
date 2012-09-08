@@ -3,6 +3,9 @@
     <title>black girlz html publisher</title>
     <link href='/home.css' media='all' rel='stylesheet' />
     <link href='http://fonts.googleapis.com/css?family=Vidaloka' rel='stylesheet' type='text/css'>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+    <script src="/home.js"></script>
   </head>
   <body>
     <div id='main_container'>
@@ -13,7 +16,7 @@
         <div><label>Middle Initial</label> <input type='text' name='middle_initial' value='<%= @name %>'/></div>
         <div><label>Last Name</label> <input type='text' name='last_name' value='<%= @name %>'/></div>
         <div><label>Event Code</label> <input type='text' name='event' value='<%= @event %>'/></div>
-        <div id='my_page'>
+        <div>
           <h3>My page</h3>
           <div id='file_column'>
             <label>File</label> <input type='file' name='page' />

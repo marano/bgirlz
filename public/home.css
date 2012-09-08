@@ -1,32 +1,20 @@
 body {
   font-family: 'Times New Roman', serif;
-  text-align: center;
-}
-
-#my_page {
-  margin-left: auto;
-  margin-right: auto;
-  width: 594px;
 }
 
 #plugins {
-  clear: both;
   padding-top: 10px;
 }
 
 #file_column, #or_column, #html_column, #textarea_column {
-  float: left;
 }
 
 #html_column {
-  margin-left: 80px;
 }
 
 #textarea_column {
-  margin-left: 3px;
 }
 
 #submit {
-  clear: both;
   padding-top: 50px;
 }

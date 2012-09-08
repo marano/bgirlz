@@ -3,8 +3,15 @@ class Controller < Sinatra::Base
   set :views, 'views'
   use Rack::MethodOverride
 
+  get '/previous_events' do
+    Page.all.map { |p| p.event }.compact.to_json
+  end
+
   get '/' do
     @name = params[:name]
+    @middle_initial = params[:middle_initial]
+    @last_name = params[:last_name]
+    @event = params[:event]
     erb :home
   end
 

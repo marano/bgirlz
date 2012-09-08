@@ -5,19 +5,34 @@
     <link href='/list.css' media='all' rel='stylesheet' />
   </head>
   <body>
-    <div>
-      <ul>
+    <table>
+      <tr>
+        <td></td>
+        <td>Event</td>
+        <td>Name</td>
+        <td>Link</td>
+      <tr/>
       <% @pages.each do |page| %>
-        <li>
-        <form id='delete_page_<%= page.salt %>_<%= URI.encode(page.name) %>' action="<%= page.relative_link_to_self %>" method='post'>
-            <input type='hidden' name='_method' value='delete'/>
-            <a href='#' class='delete'>delete</a>
-          </form>
-          <%= page.name %> at <a href="<%= page.relative_link_to_self %>"><%= page.relative_pretty_link_to_self %></a>
-        </li>
+        <tr>
+          <td>
+            <form id='delete_page_<%= page.salt %>_<%= URI.encode(page.name) %>' action="<%= page.relative_link_to_self %>" method='post'>
+              <input type='hidden' name='_method' value='delete'/>
+              <a href='#' class='delete'>delete</a>
+            </form>
+          </td>
+          <td>
+            <%= page.event %>
+          </td>
+          <td>
+            <%= page.name %> <%= page.middle_initial %> <%= page.last_name %>
+          </td>
+          <td>
+            <a href="<%= page.relative_link_to_self %>"><%= page.relative_pretty_link_to_self %></a>
+          </td>
+        </tr>
       <% end %>
-      </ul>
-    </div>
+    </table>
+
     <script>
       $(function () {
         $('.delete').click(function (e) {

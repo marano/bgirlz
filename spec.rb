@@ -82,4 +82,23 @@ describe 'Black Girls Code Website Publisher', :js => true do
     visit Page.first.relative_link_to_self
     page.text.should == 'oi!'
   end
+
+  pending 'should show auto previous inputed event codes on autocomplete' do
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    fill_in 'event', :with => 'Event1'
+    fill_in 'html', :with => 'oi!'
+    click_button 'Publish my website'
+
+    visit '/'
+    fill_in 'name', :with => 'Paula'
+    fill_in 'event', :with => 'Event2'
+    fill_in 'html', :with => 'hi there!'
+    click_button 'Publish my website'
+
+    visit '/'
+    fill_in 'event', :with => 'Event'
+
+    page.should have_css('.ui-menu-item')
+  end
 end
