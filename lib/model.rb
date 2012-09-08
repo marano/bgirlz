@@ -4,6 +4,8 @@ class Page
   include MongoMapper::Document
 
   key :name, String
+  key :middle_initial, String
+  key :last_name, String
   key :content, String
   key :salt, String
   key :enable_comments, Boolean
@@ -12,6 +14,10 @@ class Page
 
   def self.find_by_name_and_salt(name, salt)
     where(:name => name, :salt => salt).first
+  end
+
+  def self.find_by_full_name(name, middle_initial, last_name)
+    where(:name => name, :middle_initial => middle_initial, :last_name => last_name).first
   end
 
   def link_to_self(request)
@@ -23,11 +29,19 @@ class Page
   end
 
   def relative_link_to_self
-    "/#{@salt}/#{URI::encode(@name)}"
+    if @salt
+      "/#{@salt}/#{URI::encode(@name)}"
+    else
+      "/#{URI::encode(@name)}/#{URI::encode(@middle_initial)}/#{URI::encode(@last_name)}"
+    end
   end
 
   def relative_pretty_link_to_self
-    "/#{@salt}/#{@name}"
+    if @salt
+      "/#{@salt}/#{@name}"
+    else
+      "/#{@name}/#{@middle_initial}/#{@last_name}"
+    end
   end
 
   def patched_html(add_to_header, add_to_body)
@@ -65,7 +79,9 @@ class Page
   end
 
   def create_salt
-    @salt = '%.3i' % (rand * 999)
+    if @middle_initial.blank? ||  @last_name.blank?
+      @salt = '%.3i' % (rand * 999)
+    end
   end
 
   def validate
