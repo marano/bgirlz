@@ -101,4 +101,17 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     page.should have_css('.ui-menu-item')
   end
+
+  it 'should display previous entered information on validation error' do
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    fill_in 'middle_initial', :with => 'Silva'
+    fill_in 'last_name', :with => 'Sauro'
+    fill_in 'event', :with => 'Event1'
+    click_button 'Publish my website'
+    page.find_field('name').value.should == 'Joana'
+    page.find_field('middle_initial').value.should == 'Silva'
+    page.find_field('last_name').value.should == 'Sauro'
+    page.find_field('event').value.should == 'Event1'
+  end
 end
