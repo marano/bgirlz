@@ -6,6 +6,7 @@ class Page
   key :name, String
   key :middle_initial, String
   key :last_name, String
+  key :event, String
   key :content, String
   key :salt, String
   key :enable_comments, Boolean
@@ -16,8 +17,8 @@ class Page
     where(:name => name, :salt => salt).first
   end
 
-  def self.find_by_full_name(name, middle_initial, last_name)
-    where(:name => name, :middle_initial => middle_initial, :last_name => last_name).first
+  def self.find_by_full_name_and_event(name, middle_initial, last_name, event)
+    where(name: name, middle_initial: middle_initial, last_name: last_name, event: event).first
   end
 
   def link_to_self(request)
@@ -32,7 +33,7 @@ class Page
     if @salt
       "/#{@salt}/#{URI::encode(@name)}"
     else
-      "/#{URI::encode(@name)}/#{URI::encode(@middle_initial)}/#{URI::encode(@last_name)}"
+      "/#{URI::encode(@event)}/#{URI::encode(@name)}/#{URI::encode(@middle_initial)}/#{URI::encode(@last_name)}"
     end
   end
 
@@ -40,7 +41,7 @@ class Page
     if @salt
       "/#{@salt}/#{@name}"
     else
-      "/#{@name}/#{@middle_initial}/#{@last_name}"
+      "/#{@event}/#{@name}/#{@middle_initial}/#{@last_name}"
     end
   end
 
