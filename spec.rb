@@ -26,6 +26,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     page.text.should == 'oi!'
+    visit Page.first.relative_link_to_self
+    page.text.should == 'oi!'
   end
 
   it 'should allow me to publish my website using a file' do
@@ -36,6 +38,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page_file.flush
     attach_file('page', page_file.path)
     click_button 'Publish my website'
+    page.text.should == 'oi!'
+    visit Page.first.relative_link_to_self
     page.text.should == 'oi!'
   end
 
