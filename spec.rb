@@ -224,6 +224,9 @@ describe 'Black Girls Code Website Publisher', :js => true do
   it 'should display page preview on list' do
     visit '/'
     fill_in 'name', :with => 'Joana'
+    fill_in 'middle_initial', :with => 'S'
+    fill_in 'last_name', :with => 'Sauro'
+    fill_in 'event', :with => 'SuperSaturday'
     page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
