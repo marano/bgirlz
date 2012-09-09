@@ -25,9 +25,19 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'name', :with => 'Joana'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
-    page.text.should == 'oi!'
+    page.should have_content 'oi!'
     visit Page.first.relative_link_to_self
-    page.text.should == 'oi!'
+    page.should have_content 'oi!'
+  end
+
+  it 'should display info bar when after page is uploaded' do
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    fill_in 'html', :with => 'oi!'
+    click_button 'Publish my website'
+    page.should have_css('#info_panel')
+    visit Page.first.relative_link_to_self
+    page.should_not have_css('#info_panel')
   end
 
   it 'should allow me to publish my website using a file' do
@@ -38,9 +48,9 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page_file.flush
     attach_file('page', page_file.path)
     click_button 'Publish my website'
-    page.text.should == 'oi!'
+    page.should have_content 'oi!'
     visit Page.first.relative_link_to_self
-    page.text.should == 'oi!'
+    page.should have_content 'oi!'
   end
 
   it 'should be able to import website from link' do

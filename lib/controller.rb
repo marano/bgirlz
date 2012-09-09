@@ -4,6 +4,7 @@ require 'openssl'
 class Controller < Sinatra::Base
 
   set :views, 'views'
+  set :public_folder, 'public'
   use Rack::MethodOverride
 
   get '/previous_events' do
