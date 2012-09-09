@@ -6,4 +6,24 @@ $(function () {
     }
     e.preventDefault();
   });
+
+  $('#filter select').change(function () {
+    var filterEvent = $('#filter select option:selected').val();
+    $('.page').each(function (index, page) {
+      if (!filterEvent) {
+        $(page).show();
+        return;
+      }
+      var pageEvent = $(page).data('page-event');
+      if (!pageEvent) {
+        $(page).hide();
+        return;
+      }
+      if (filterEvent == pageEvent) {
+        $(page).show();
+      } else {
+        $(page).hide();
+      }
+    });
+  });
 });

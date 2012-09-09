@@ -1,26 +1,39 @@
 %script{:src => "/list.js"}
 %link{:href => "/list.css", :media => "all", :rel => "stylesheet"}
 
-%table.table.table-condensed
-  %thead
-    %tr
-      %th
-      %th Event
-      %th Name
-      %th Link
-  %tbody
-    - @pages.each do |page|
-      %tr
-        %td
-          %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
-            %input{:name => "_method", :type => "hidden", :value => "delete"}
-            %a.delete{:href => "#"}
-              %i.icon-trash
-        %td
-          = page.event
-        %td
-          = page.name
-          = page.middle_initial
-          = page.last_name
-        %td
-          %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
+.container
+  .row
+    #filter.span12
+      %form#form-inline{:action => '/list', :method => 'GET'}
+        %label{:for => 'filter-select'} Filter by Event
+        %select#filter-select
+          %option
+          - @previous_events.each do |event|
+            %option{:value => event}
+              = event
+
+  .row
+    .span12
+      %table.table.table-condensed
+        %thead
+          %tr
+            %th
+            %th Event
+            %th Name
+            %th Link
+        %tbody
+          - @pages.each do |page|
+            %tr.page{:'data-page-event' => page.event}
+              %td
+                %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
+                  %input{:name => "_method", :type => "hidden", :value => "delete"}
+                  %a.delete{:href => "#"}
+                    %i.icon-trash
+              %td
+                = page.event
+              %td
+                = page.name
+                = page.middle_initial
+                = page.last_name
+              %td
+                %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self

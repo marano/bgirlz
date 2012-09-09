@@ -7,8 +7,12 @@ class Controller < Sinatra::Base
   set :public_folder, 'public'
   use Rack::MethodOverride
 
+  def previous_events
+    Page.all.select { |p| !p.event.blank? }.map(&:event).uniq
+  end
+
   get '/previous_events' do
-    Page.all.map { |p| p.event }.compact.to_json
+    previous_events.to_json
   end
 
   get '/' do
@@ -69,6 +73,7 @@ class Controller < Sinatra::Base
 
   get '/list' do
     @pages = Page.all
+    @previous_events = previous_events
     haml :list
   end
 

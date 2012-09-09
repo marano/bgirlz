@@ -180,6 +180,34 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_css('.ui-menu-item')
   end
 
+  it 'should be able to filter list by events' do
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    fill_in 'event', :with => 'Event1'
+    page.click_link 'HTML'
+    fill_in 'html', :with => 'oi!'
+    click_button 'Publish my website'
+
+    visit '/'
+    fill_in 'name', :with => 'Paula'
+    fill_in 'event', :with => 'Event2'
+    page.click_link 'HTML'
+    fill_in 'html', :with => 'hi there!'
+    click_button 'Publish my website'
+
+    visit '/list'
+    page.should have_content 'Joana'
+    page.should have_content 'Paula'
+
+    page.select 'Event1', :from => 'Filter by Event'
+    page.find("td:contains('Joana')").should be_visible
+    page.find("td:contains('Paula')").should_not be_visible
+
+    page.select 'Event2', :from => 'Filter by Event'
+    page.find("td:contains('Joana')").should_not be_visible
+    page.find("td:contains('Paula')").should be_visible
+  end
+
   it 'should display previous entered information on validation error' do
     visit '/'
     fill_in 'name', :with => 'Joana'
