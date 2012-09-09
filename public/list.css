@@ -14,3 +14,15 @@ form {
 .on-preview {
   background: yellow;
 }
+
+.btn {
+  padding: 4px 8px;
+}
+
+.event {
+  font-size: 10px;
+}
+
+.link {
+  font-size: 10px;
+}

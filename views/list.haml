@@ -27,16 +27,17 @@
               %td
                 %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
                   %input{:name => "_method", :type => "hidden", :value => "delete"}
-                  %a.delete{:href => "#"}
+                  %a.btn.delete{:href => "#"}
                     %i.icon-trash
-              %td
+              %td.event
                 = page.event
-              %td
+              %td.name
                 = page.full_name
-              %td
+              %td.link
                 %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
               %td
-                %a.btn.preview-btn{:href => '#'} Preview
+                %a.preview-link.btn.preview-btn{:href => '#'}
+                  %i.icon-eye-open
     .span3
       %h4 Preview
       %h6 Event

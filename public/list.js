@@ -60,6 +60,9 @@ $(function () {
     });
   });
 
+  $('.delete').tooltip({placement: 'left', title: 'Trash it'});
+  $('.preview-link').tooltip({placement: 'left', title: 'Preview'});
+
   function getParentRow(element) {
     if (element.tagName == 'TR') {
       return $(element);
