@@ -4,6 +4,7 @@ gem 'sinatra'
 gem 'bson_ext'
 gem 'mongo_mapper'
 gem 'nokogiri'
+gem 'haml'
 
 group :development do
   gem 'pry'

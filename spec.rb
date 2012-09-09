@@ -23,6 +23,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
   it 'should allow me to publish my website' do
     visit '/'
     fill_in 'name', :with => 'Joana'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     page.should have_content 'oi!'
@@ -33,6 +34,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
   it 'should display info bar when page is uploaded' do
     visit '/'
     fill_in 'name', :with => 'Joana'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     page.should have_css('#info_panel')
@@ -46,6 +48,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'middle_initial', :with => 'Silva'
     fill_in 'last_name', :with => 'Sauro'
     fill_in 'event', :with => 'Event1'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     page.should have_css('#info_panel')
@@ -59,6 +62,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page_file = Tempfile.new('mypage.html')
     page_file.write 'oi!'
     page_file.flush
+    page.click_link 'File'
     attach_file('page', page_file.path)
     click_button 'Publish my website'
     page.should have_css('#info_panel')
@@ -71,6 +75,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
   it 'should be able to import website from link' do
     visit '/'
     fill_in 'name', :with => 'Joana'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'Coé'
     click_button 'Publish my website'
     page.should have_css('#info_panel')
@@ -79,6 +84,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'name', :with => 'Augusta'
     host = Capybara.current_session.driver.rack_server.host
     port = Capybara.current_session.driver.rack_server.port
+    page.click_link 'Link'
     fill_in 'link', :with => "http://#{host}:#{port}#{Page.first.relative_pretty_link_to_self}"
     click_button 'Publish my website'
 
@@ -92,6 +98,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
   it 'should display my page at list page' do
     visit '/'
     fill_in 'name', :with => 'Joana'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     visit '/list'
@@ -102,6 +109,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
   it 'should be able to delete page from list page' do
     visit '/'
     fill_in 'name', :with => 'Joana'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     visit '/list'
@@ -122,6 +130,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'middle_initial', :with => 'Silva'
     fill_in 'last_name', :with => 'Sauro'
     fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     @page = Page.first
@@ -140,6 +149,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'middle_initial', :with => 'Silva'
     fill_in 'last_name', :with => 'Sauro'
     fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     page.should have_css('#info_panel')
@@ -153,12 +163,14 @@ describe 'Black Girls Code Website Publisher', :js => true do
     visit '/'
     fill_in 'name', :with => 'Joana'
     fill_in 'event', :with => 'Event1'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
 
     visit '/'
     fill_in 'name', :with => 'Paula'
     fill_in 'event', :with => 'Event2'
+    page.click_link 'HTML'
     fill_in 'html', :with => 'hi there!'
     click_button 'Publish my website'
 

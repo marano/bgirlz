@@ -1,0 +1,63 @@
+%script{:src => "/home.js"}
+%link{:href => "/home.css", :media => "all", :rel => "stylesheet"}
+
+.container
+  .row
+    .hero-unit
+      %h1 black girlz code webpage publisher
+      %h2 Upload your website here
+
+  %form.form-horizontal{:action => "/upload", :enctype => "multipart/form-data", :method => "POST"}
+    .row
+      .span6
+        %h3 Studant Info
+
+        .control-group
+          %label.control-label First Name
+          .controls
+            %input.input-big{:name => "name", :type => "text", :value => @name}
+        .control-group
+          %label.control-label Middle Initial
+          .controls
+            %input.input-big{:name => "middle_initial", :type => "text", :value => @middle_initial}
+        .control-group
+          %label.control-label Last Name
+          .controls
+            %input.input-big{:name => "last_name", :type => "text", :value => @last_name}
+        .control-group
+          %label.control-label Event
+          .controls
+            %input.input-big{:name => "event", :type => "text", :value => @event}
+
+      .span6
+        %h3 Webpage
+
+        %ul.nav.nav-tabs
+          %li.active
+            %a{"data-toggle" => "tab", :href => "#link"} Link
+          %li
+            %a{"data-toggle" => "tab", :href => "#file"} File
+          %li
+            %a{"data-toggle" => "tab", :href => "#html"} HTML
+
+        #webpage-content.tab-content
+          #link.tab-pane.active
+            %label Paste your site URL here
+            %input.input-xlarge{:name => "link", :type => "text"}
+          #file.tab-pane
+            %label Select a file in your computer
+            %input{:name => "page", :type => "file"}
+          #html.tab-pane
+            %label Paste your HTML source code here
+            %textarea{:name => "html", :rows => "5"}
+
+        .control-group
+          %label.control-label Facebook comments
+          .controls
+            %input#enable_comments{:name => "enable_comments", :type => "checkbox"}
+
+    .row
+      .span12
+        .control-group
+          .controls
+            %input.btn.btn-primary.pull-right{:type => "submit", :value => "Publish my website"}

@@ -16,7 +16,7 @@ class Controller < Sinatra::Base
     @middle_initial = params[:middle_initial]
     @last_name = params[:last_name]
     @event = params[:event]
-    erb :home
+    haml :home
   end
 
   post '/upload' do
