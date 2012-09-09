@@ -69,7 +69,7 @@ class Controller < Sinatra::Base
 
   get '/list' do
     @pages = Page.all
-    erb :list
+    haml :list
   end
 
   get '/:salt/:name' do
