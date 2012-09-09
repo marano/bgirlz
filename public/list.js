@@ -15,7 +15,7 @@ $(function () {
     event.preventDefault();
 
     $('html, body').stop().animate({
-      scrollTop: 0
+      scrollTop: 124
     }, 800);
 
     var row = getParentRow(event.target);
