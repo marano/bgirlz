@@ -30,9 +30,22 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_content 'oi!'
   end
 
-  it 'should display info bar when after page is uploaded' do
+  it 'should display info bar when page is uploaded' do
     visit '/'
     fill_in 'name', :with => 'Joana'
+    fill_in 'html', :with => 'oi!'
+    click_button 'Publish my website'
+    page.should have_css('#info_panel')
+    visit Page.first.relative_link_to_self
+    page.should_not have_css('#info_panel')
+  end
+
+  it 'should display info bar when page is uploaded for new page url format' do
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    fill_in 'middle_initial', :with => 'Silva'
+    fill_in 'last_name', :with => 'Sauro'
+    fill_in 'event', :with => 'Event1'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     page.should have_css('#info_panel')
@@ -48,8 +61,10 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page_file.flush
     attach_file('page', page_file.path)
     click_button 'Publish my website'
+    page.should have_css('#info_panel')
     page.should have_content 'oi!'
     visit Page.first.relative_link_to_self
+    page.should_not have_css('#info_panel')
     page.should have_content 'oi!'
   end
 
@@ -58,6 +73,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'name', :with => 'Joana'
     fill_in 'html', :with => 'Coé'
     click_button 'Publish my website'
+    page.should have_css('#info_panel')
 
     visit '/'
     fill_in 'name', :with => 'Augusta'
@@ -66,9 +82,11 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'link', :with => "http://#{host}:#{port}#{Page.first.relative_pretty_link_to_self}"
     click_button 'Publish my website'
 
-    page.text.should == 'Coé'
+    page.should have_css('#info_panel')
+    page.should have_content 'Coé'
     visit Page.first.relative_link_to_self
-    page.text.should == 'Coé'
+    page.should_not have_css('#info_panel')
+    page.should have_content 'Coé'
   end
 
   it 'should display my page at list page' do
@@ -124,9 +142,11 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
-    page.text.should == 'oi!'
+    page.should have_css('#info_panel')
+    page.should have_content 'oi!'
     visit Page.first.relative_link_to_self
-    page.text.should == 'oi!'
+    page.should_not have_css('#info_panel')
+    page.should have_content 'oi!'
   end
 
   pending 'should autocomplete event code with previous inputed values' do

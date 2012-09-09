@@ -135,4 +135,18 @@ class Controller < Sinatra::Base
     end
   end
 
+  get '/:event/:name/:middle_initial/:last_name/panel' do
+    name = params[:name]
+    middle_initial = params[:middle_initial]
+    last_name = params[:last_name]
+    event = params[:event]
+    @page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
+    if @page.nil?
+      status 404
+      "404 Not found"
+    else
+      erb :_page_info_panel
+    end
+  end
+
 end

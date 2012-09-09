@@ -45,6 +45,14 @@ class Page
     end
   end
 
+  def relative_panel_path
+    if @salt
+      "/#{@salt}/#{URI::encode(@name)}/panel"
+    else
+      "/#{URI::encode(@event)}/#{URI::encode(@name)}/#{URI::encode(@middle_initial)}/#{URI::encode(@last_name)}/panel"
+    end
+  end
+
   def patched_html(add_to_header, add_to_body)
     add_to_header_fragment = Nokogiri::HTML::DocumentFragment.parse add_to_header
     add_to_body_fragment = Nokogiri::HTML::DocumentFragment.parse add_to_body
@@ -86,6 +94,10 @@ class Page
   end
 
   def validate
-    raise "validation error" if Page.find_by_name_and_salt(@name, @salt)
+    if @salt
+      raise "validation error" if Page.find_by_name_and_salt(@name, @salt)
+    else
+      raise "validation error" if Page.find_by_full_name_and_event(@name, @middle_initial, @last_name, @event)
+    end
   end
 end
