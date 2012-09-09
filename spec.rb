@@ -88,6 +88,24 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_content('404 Not found')
   end
 
+  it 'should be able to delete page with new url format from list page' do
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    fill_in 'middle_initial', :with => 'Silva'
+    fill_in 'last_name', :with => 'Sauro'
+    fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
+    fill_in 'html', :with => 'oi!'
+    click_button 'Publish my website'
+    @page = Page.first
+    visit '/list'
+    page.evaluate_script('window.confirm = function() { return true; }')
+    page.find('.delete').click
+    page.should_not have_content(@page.name)
+    page.should_not have_link(@page.relative_link_to_self)
+    visit @page.relative_link_to_self
+    page.should have_content('404 Not found')
+  end
+
   it 'should allow me to publish my website and inform middle, last name and event' do
     visit '/'
     fill_in 'name', :with => 'Joana'
