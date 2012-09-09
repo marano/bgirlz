@@ -27,7 +27,7 @@ class Controller < Sinatra::Base
     @page = params[:page]
     @enable_comments = params[:enable_comments]
     @html = params[:html]
-    if @name.blank? || (@link.nil? && @page.nil? && @html.blank?)
+    if @name.blank? || (@link.blank? && @page.blank? && @html.blank?)
       redirect "/?#{@name.blank? ? '' : '&name=' + @name }#{@middle_initial.blank? ? '' : '&middle_initial=' + @middle_initial }#{@last_name.blank? ? '' : '&last_name=' + @last_name }#{@event.blank? ? '' : '&event=' + @event }"
       return
     end
