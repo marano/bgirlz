@@ -236,6 +236,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     visit '/list'
     page.find('.preview-link').click
+    page.find('#preview-date').text.should == Date.today.strftime("%m/%d/%Y")
     page.find('#preview-event').text.should == @page.event
     page.find('#preview-name').text.should == @page.full_name.strip
     page.find('#preview-link').text.should == @page.relative_pretty_link_to_self

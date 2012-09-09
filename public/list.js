@@ -19,6 +19,7 @@ $(function () {
     }, 800);
 
     var row = getParentRow(event.target);
+    var date = row.data('page-date');
     var event = row.data('page-event');
     var name = row.data('page-name');
     var url = row.data('page-url');
@@ -32,7 +33,8 @@ $(function () {
 
     $('#preview').hide();
     $('#loading').show();
-    $('#preview-event').text(event);
+    fillInfoField('#preview-date', date);
+    fillInfoField('#preview-event', event);
     $('#preview-name').text(name);
     $('#preview-link').empty().append($('<a>', {href: url}).text(prettyUrl));
 
@@ -52,6 +54,14 @@ $(function () {
     $('#filter-select').val(event);
     filterSelectOnChange();
   });
+
+  function fillInfoField(field, info) {
+    if (info) {
+      $(field).text(info);
+    } else {
+      $(field).text('-');
+    }
+  }
 
   function filterSelectOnChange() {
     var filterEvent = $('#filter select option:selected').val();
