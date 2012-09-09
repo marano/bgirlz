@@ -3,9 +3,10 @@
 
 .container
   .row
-    .hero-unit
-      %h1 black girlz code webpage publisher
-      %h2 Upload your website here
+    .span12
+      .hero-unit
+        %h1 black girlz code webpage publisher
+        %h2 Upload your website here
 
   %form.form-horizontal{:action => "/upload", :enctype => "multipart/form-data", :method => "POST"}
     .row
