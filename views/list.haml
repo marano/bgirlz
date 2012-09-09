@@ -1,13 +1,13 @@
 %script{:src => "/list.js"}
 %link{:href => "/list.css", :media => "all", :rel => "stylesheet"}
 
-%table.table
+%table.table.table-condensed
   %thead
     %tr
-      %td
-      %td Event
-      %td Name
-      %td Link
+      %th
+      %th Event
+      %th Name
+      %th Link
   %tbody
     - @pages.each do |page|
       %tr
