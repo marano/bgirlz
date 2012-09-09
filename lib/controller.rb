@@ -43,8 +43,22 @@ class Controller < Sinatra::Base
     else
       content = @html
     end
-    new_page = Page.create!(:name => @name, :middle_initial => @middle_initial, :last_name => @last_name, :event => @event, :content => content, :enable_comments => @enable_comments == 'on')
-    redirect new_page.link_to_self(request) + '?first_time=true'
+
+    page_data = {name: @name, middle_initial: @middle_initial, last_name: @last_name, event: @event, :content => content, :enable_comments => @enable_comments == 'on'}
+
+    if !@name.blank? && !@middle_initial.blank? && !@last_name.blank? && !@event.blank?
+      exitstent_page = Page.find_by_full_name_and_event(@name, @middle_initial, @last_name, @event)
+      if exitstent_page.nil?
+        uploaded_page = Page.create! page_data
+      else
+        exitstent_page.update_attributes! page_data
+        uploaded_page = exitstent_page
+      end
+    else
+      uploaded_page = Page.create! page_data
+    end
+
+    redirect uploaded_page.link_to_self(request) + '?first_time=true'
   end
 
   def content_from_link(link)

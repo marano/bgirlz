@@ -162,6 +162,32 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_content 'oi!'
   end
 
+  it 'should allow me to update my website when I provide the same information' do
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    fill_in 'middle_initial', :with => 'Silva'
+    fill_in 'last_name', :with => 'Sauro'
+    fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
+    page.click_link 'HTML'
+    fill_in 'html', :with => 'oi!'
+    click_button 'Publish my website'
+
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    fill_in 'middle_initial', :with => 'Silva'
+    fill_in 'last_name', :with => 'Sauro'
+    fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
+    page.click_link 'HTML'
+    fill_in 'html', :with => 'Updated!'
+    click_button 'Publish my website'
+
+    page.should have_css('#info_panel')
+    page.should have_content 'Updated!'
+    visit Page.first.relative_link_to_self
+    page.should_not have_css('#info_panel')
+    page.should have_content 'Updated!'
+  end
+
   pending 'should autocomplete event code with previous inputed values' do
     visit '/'
     fill_in 'name', :with => 'Joana'
