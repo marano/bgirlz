@@ -7,25 +7,7 @@ $(function () {
     e.preventDefault();
   });
 
-  $('#filter select').change(function () {
-    var filterEvent = $('#filter select option:selected').val();
-    $('.page').each(function (index, page) {
-      if (!filterEvent) {
-        $(page).show();
-        return;
-      }
-      var pageEvent = $(page).data('page-event');
-      if (!pageEvent) {
-        $(page).hide();
-        return;
-      }
-      if (filterEvent == pageEvent) {
-        $(page).show();
-      } else {
-        $(page).hide();
-      }
-    });
-  });
+  $('#filter select').change(filterSelectOnChange);
 
   var currentPreviewUrl = null;
 
@@ -62,6 +44,34 @@ $(function () {
 
   $('.delete').tooltip({placement: 'left', title: 'Trash it'});
   $('.preview-link').tooltip({placement: 'left', title: 'Preview'});
+
+  $('.event-link').click(function (event) {
+    event.preventDefault();
+    var row = getParentRow(event.target);
+    var event = row.data('page-event');
+    $('#filter-select').val(event);
+    filterSelectOnChange();
+  });
+
+  function filterSelectOnChange() {
+    var filterEvent = $('#filter select option:selected').val();
+    $('.page').each(function (index, page) {
+      if (!filterEvent) {
+        $(page).show();
+        return;
+      }
+      var pageEvent = $(page).data('page-event');
+      if (!pageEvent) {
+        $(page).hide();
+        return;
+      }
+      if (filterEvent == pageEvent) {
+        $(page).show();
+      } else {
+        $(page).hide();
+      }
+    });
+  }
 
   function getParentRow(element) {
     if (element.tagName == 'TR') {

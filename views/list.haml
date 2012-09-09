@@ -7,7 +7,7 @@
       %form#form-inline{:action => '/list', :method => 'GET'}
         %label{:for => 'filter-select'} Filter by Event
         %select#filter-select
-          %option
+          %option{:value => ''} All Events
           - @previous_events.each do |event|
             %option{:value => event}
               = event
@@ -30,7 +30,8 @@
                   %a.btn.delete{:href => "#"}
                     %i.icon-trash
               %td.event
-                = page.event
+                %a.event-link{:href => '#'}
+                  = page.event
               %td.name
                 = page.full_name
               %td.link
