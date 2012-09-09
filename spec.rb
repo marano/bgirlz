@@ -220,4 +220,16 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find_field('last_name').value.should == 'Sauro'
     page.find_field('event').value.should == 'Event1'
   end
+
+  it 'should display page preview on list' do
+    visit '/'
+    fill_in 'name', :with => 'Joana'
+    page.click_link 'HTML'
+    fill_in 'html', :with => 'oi!'
+    click_button 'Publish my website'
+
+    visit '/list'
+    click_link 'Preview'
+    page.should have_content 'oi!'
+  end
 end

@@ -26,4 +26,39 @@ $(function () {
       }
     });
   });
+
+  var currentPreviewUrl = null;
+
+  $('.preview-btn').click(function (event) {
+    event.preventDefault();
+
+    $('html, body').stop().animate({
+      scrollTop: 0
+    }, 800);
+
+    var row = getParentRow(event.target);
+    var url = row.data('page-url');
+    if (currentPreviewUrl == url) {
+      return;
+    }
+    currentPreviewUrl = url;
+    $('.on-preview').removeClass('on-preview');
+    row.addClass('on-preview');
+
+    $('#preview').hide();
+    $('#loading').show();
+
+    $('#preview').load(url, function () {
+      $('#loading').hide();
+      $('#preview').show();
+    });
+  });
+
+  function getParentRow(element) {
+    if (element.tagName == 'TR') {
+      return $(element);
+    } else {
+      return getParentRow(element.parentElement);
+    }
+  }
 });

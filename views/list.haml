@@ -13,8 +13,8 @@
               = event
 
   .row
-    .span12
-      %table.table.table-condensed
+    .span9
+      %table.table.table-condensed.table-hover
         %thead
           %tr
             %th
@@ -23,7 +23,7 @@
             %th Link
         %tbody
           - @pages.each do |page|
-            %tr.page{:'data-page-event' => page.event}
+            %tr.page{:'data-page-event' => page.event, :'data-page-url' => page.relative_link_to_self}
               %td
                 %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
                   %input{:name => "_method", :type => "hidden", :value => "delete"}
@@ -37,3 +37,12 @@
                 = page.last_name
               %td
                 %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
+              %td
+                %a.btn.preview-btn{:href => '#'} Preview
+    .span3
+      %h4 Preview
+      %hr
+      #loading.hide
+        .progress.progress-striped.active
+          .bar{:style => 'width: 100%'}
+      #preview
