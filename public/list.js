@@ -46,7 +46,7 @@ $(function () {
 
   $('.delete').tooltip({placement: 'left', title: 'Trash it'});
   $('.preview-link').tooltip({placement: 'left', title: 'Preview'});
-  $('#enable-delete').tooltip({placement: 'left', title: 'Show delete buttons'});
+  $('#enable-delete').tooltip({placement: 'top', title: 'Show delete buttons'});
 
   $('.event-link').click(function (event) {
     event.preventDefault();
