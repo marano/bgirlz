@@ -37,7 +37,10 @@ $(function () {
     }, 800);
 
     var row = getParentRow(event.target);
+    var event = row.data('page-event');
+    var name = row.data('page-name');
     var url = row.data('page-url');
+    var prettyUrl = row.data('page-pretty-url');
     if (currentPreviewUrl == url) {
       return;
     }
@@ -47,6 +50,9 @@ $(function () {
 
     $('#preview').hide();
     $('#loading').show();
+    $('#preview-event').text(event);
+    $('#preview-name').text(name);
+    $('#preview-link').empty().append($('<a>', {href: url}).text(prettyUrl));
 
     $('#preview').load(url, function () {
       $('#loading').hide();

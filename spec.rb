@@ -228,8 +228,13 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
 
+    @page = Page.first
+
     visit '/list'
     click_link 'Preview'
-    page.should have_content 'oi!'
+    page.find('#preview-event').text.should == @page.event
+    page.find('#preview-name').text.should == @page.full_name.strip
+    page.find('#preview-link').text.should == @page.relative_pretty_link_to_self
+    page.find('#preview').text.should == 'oi!'
   end
 end

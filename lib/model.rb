@@ -21,6 +21,10 @@ class Page
     where(name: name, middle_initial: middle_initial, last_name: last_name, event: event).first
   end
 
+  def full_name
+    "#{@name} #{@middle_initial} #{@last_name}"
+  end
+
   def link_to_self(request)
     "http://#{request.host_with_port}#{relative_link_to_self}"
   end

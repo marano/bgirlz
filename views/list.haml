@@ -23,7 +23,7 @@
             %th Link
         %tbody
           - @pages.each do |page|
-            %tr.page{:'data-page-event' => page.event, :'data-page-url' => page.relative_link_to_self}
+            %tr.page{:'data-page-event' => page.event, :'data-page-url' => page.relative_link_to_self, :'data-page-pretty-url' => page.relative_pretty_link_to_self, :'data-page-name' => page.full_name}
               %td
                 %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
                   %input{:name => "_method", :type => "hidden", :value => "delete"}
@@ -32,15 +32,19 @@
               %td
                 = page.event
               %td
-                = page.name
-                = page.middle_initial
-                = page.last_name
+                = page.full_name
               %td
                 %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
               %td
                 %a.btn.preview-btn{:href => '#'} Preview
     .span3
       %h4 Preview
+      %h6 Event
+      #preview-event -
+      %h6 Name
+      #preview-name -
+      %h6 Link
+      #preview-link -
       %hr
       #loading.hide
         .progress.progress-striped.active
