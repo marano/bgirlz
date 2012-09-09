@@ -93,8 +93,8 @@ class Controller < Sinatra::Base
       status 404
       "404 Not found"
     else
-      add_to_header = erb :_page_header
-      add_to_body = erb :_comments
+      add_to_header = erb :_page_header, :layout => false
+      add_to_body = erb :_comments, :layout => false
       page.patched_html add_to_header, add_to_body
     end
   end
@@ -131,7 +131,7 @@ class Controller < Sinatra::Base
       status 404
       "404 Not found"
     else
-      erb :_page_info_panel
+      erb :_page_info_panel, :layout => false
     end
   end
 
@@ -145,7 +145,7 @@ class Controller < Sinatra::Base
       status 404
       "404 Not found"
     else
-      erb :_page_info_panel
+      erb :_page_info_panel, :layout => false
     end
   end
 

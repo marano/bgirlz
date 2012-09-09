@@ -109,7 +109,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_content(@page.name)
     page.should have_link(@page.relative_link_to_self)
     page.evaluate_script('window.confirm = function() { return true; }')
-    page.find('.delete').click
+    page.find('.delete .icon-trash').click
     page.should_not have_content(@page.name)
     page.should_not have_link(@page.relative_link_to_self)
     visit @page.relative_link_to_self
@@ -127,7 +127,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page = Page.first
     visit '/list'
     page.evaluate_script('window.confirm = function() { return true; }')
-    page.find('.delete').click
+    page.find('.delete .icon-trash').click
     page.should_not have_content(@page.name)
     page.should_not have_link(@page.relative_link_to_self)
     visit @page.relative_link_to_self
