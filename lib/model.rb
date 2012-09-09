@@ -10,6 +10,7 @@ class Page
   key :content, String
   key :salt, String
   key :enable_comments, Boolean
+  timestamps!
 
   before_create :remove_double_quote, :create_salt, :validate
 
@@ -19,6 +20,10 @@ class Page
 
   def self.find_by_full_name_and_event(name, middle_initial, last_name, event)
     where(name: name, middle_initial: middle_initial, last_name: last_name, event: event).first
+  end
+
+  def formatted_created_at
+    created_at.strftime("%m/%d/%Y") unless created_at.nil?
   end
 
   def full_name

@@ -19,10 +19,6 @@ form {
   padding: 4px 8px;
 }
 
-.event {
-  font-size: 10px;
-}
-
-.link {
+.date, .event, .link {
   font-size: 10px;
 }

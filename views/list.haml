@@ -18,6 +18,7 @@
         %thead
           %tr
             %th
+            %th Upload Date
             %th Event
             %th Name
             %th Link
@@ -29,6 +30,8 @@
                   %input{:name => "_method", :type => "hidden", :value => "delete"}
                   %a.btn.delete{:href => "#"}
                     %i.icon-trash
+              %td.date
+                = page.formatted_created_at
               %td.event
                 %a.event-link{:href => '#'}
                   = page.event

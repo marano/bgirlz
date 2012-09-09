@@ -102,7 +102,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
     visit '/list'
-    page.should have_content('Joana')
+    page.find('.date').text.should == Date.today.strftime("%m/%d/%Y")
+    page.find('.name').text.should == 'Joana'
     page.should have_link(Page.first.relative_link_to_self)
   end
 
@@ -234,7 +235,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page = Page.first
 
     visit '/list'
-    click_link 'Preview'
+    page.find('.preview-link').click
     page.find('#preview-event').text.should == @page.event
     page.find('#preview-name').text.should == @page.full_name.strip
     page.find('#preview-link').text.should == @page.relative_pretty_link_to_self
