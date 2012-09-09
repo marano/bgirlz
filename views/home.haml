@@ -14,21 +14,21 @@
         %h3 Student Info
 
         .control-group
-          %label.control-label First Name
+          %label.control-label{:for => 'name'} First Name
           .controls
-            %input.input-big{:name => "name", :type => "text", :value => @name}
+            %input#name.input-big{:name => "name", :type => "text", :value => @name}
         .control-group
-          %label.control-label Middle Initial
+          %label.control-label{:for => 'middle-initial'} Middle Initial
           .controls
-            %input.input-big{:name => "middle_initial", :type => "text", :value => @middle_initial}
+            %input#middle-initial.input-big{:name => "middle_initial", :type => "text", :value => @middle_initial}
         .control-group
-          %label.control-label Last Name
+          %label.control-label{:for => 'last-name'} Last Name
           .controls
-            %input.input-big{:name => "last_name", :type => "text", :value => @last_name}
+            %input#last-name.input-big{:name => "last_name", :type => "text", :value => @last_name}
         .control-group
-          %label.control-label Event
+          %label.control-label{:for => 'event'} Event
           .controls
-            %input.input-big{:name => "event", :type => "text", :autocomplete => 'off', :value => @event}
+            %input#event.input-big{:name => "event", :type => "text", :autocomplete => 'off', :value => @event}
 
       .span6
         %h3 Webpage
@@ -43,17 +43,17 @@
 
         #webpage-content.tab-content
           #link.tab-pane.active
-            %label Paste your site URL here
-            %input.input-xlarge{:name => "link", :type => "text"}
+            %label{:for => 'link'} Paste your site URL here
+            %input#link.input-xlarge{:name => "link", :type => "text"}
           #file.tab-pane
-            %label Select a file in your computer
-            %input{:name => "page", :type => "file"}
+            %label{:for => 'page'} Select a file in your computer
+            %input#page{:name => "page", :type => "file"}
           #html.tab-pane
-            %label Paste your HTML source code here
-            %textarea{:name => "html", :rows => "5"}
+            %label{:for => 'html'} Paste your HTML source code here
+            %textarea#html{:name => "html", :rows => "5"}
 
         .control-group
-          %label.control-label Facebook comments
+          %label.control-label{:for => 'enable_comments'} Facebook comments
           .controls
             %input#enable_comments{:name => "enable_comments", :type => "checkbox"}
 
