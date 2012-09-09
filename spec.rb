@@ -119,7 +119,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.text.should == 'oi!'
   end
 
-  pending 'should show auto previous inputed event codes on autocomplete' do
+  pending 'should autocomplete event code with previous inputed values' do
     visit '/'
     fill_in 'name', :with => 'Joana'
     fill_in 'event', :with => 'Event1'
