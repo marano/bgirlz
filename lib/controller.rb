@@ -77,19 +77,15 @@ class Controller < Sinatra::Base
     haml :list
   end
 
-  get '/:salt/:name' do
+  get %r{^/(\w+)/(\w+)_(\w+)_(\w+)$} do |event, name, middle_initial, last_name|
     @first_time = params[:first_time]
-    @page = Page.find_by_name_and_salt(params[:name], params[:salt])
+    @page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
     show_page(@page)
   end
 
-  get '/:event/:name/:middle_initial/:last_name' do
+  get '/:salt/:name' do
     @first_time = params[:first_time]
-    name = params[:name]
-    middle_initial = params[:middle_initial]
-    last_name = params[:last_name]
-    event = params[:event]
-    @page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
+    @page = Page.find_by_name_and_salt(params[:name], params[:salt])
     show_page(@page)
   end
 
@@ -104,8 +100,8 @@ class Controller < Sinatra::Base
     end
   end
 
-  delete '/:salt/:name' do
-    @page = Page.find_by_name_and_salt(params[:name], params[:salt])
+  delete %r{^/(\w+)/(\w+)_(\w+)_(\w+)$} do |event, name, middle_initial, last_name|
+    @page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
     if @page.nil?
       status 404
       "404 Not found"
@@ -115,12 +111,8 @@ class Controller < Sinatra::Base
     redirect '/list'
   end
 
-  delete '/:event/:name/:middle_initial/:last_name' do
-    name = params[:name]
-    middle_initial = params[:middle_initial]
-    last_name = params[:last_name]
-    event = params[:event]
-    @page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
+  delete '/:salt/:name' do
+    @page = Page.find_by_name_and_salt(params[:name], params[:salt])
     if @page.nil?
       status 404
       "404 Not found"

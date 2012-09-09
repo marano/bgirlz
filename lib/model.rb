@@ -42,7 +42,7 @@ class Page
     if @salt
       "/#{@salt}/#{URI::encode(@name)}"
     else
-      "/#{URI::encode(@event)}/#{URI::encode(@name)}/#{URI::encode(@middle_initial)}/#{URI::encode(@last_name)}"
+      "/#{URI::encode(@event)}/#{URI::encode(@name)}_#{URI::encode(@middle_initial)}_#{URI::encode(@last_name)}"
     end
   end
 
@@ -50,7 +50,7 @@ class Page
     if @salt
       "/#{@salt}/#{@name}"
     else
-      "/#{@event}/#{@name}/#{@middle_initial}/#{@last_name}"
+      "/#{@event}/#{@name}_#{@middle_initial}_#{@last_name}"
     end
   end
 
