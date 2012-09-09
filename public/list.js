@@ -46,6 +46,7 @@ $(function () {
 
   $('.delete').tooltip({placement: 'left', title: 'Trash it'});
   $('.preview-link').tooltip({placement: 'left', title: 'Preview'});
+  $('#enable-delete').tooltip({placement: 'left', title: 'Show delete buttons'});
 
   $('.event-link').click(function (event) {
     event.preventDefault();
@@ -53,6 +54,12 @@ $(function () {
     var event = row.data('page-event');
     $('#filter-select').val(event);
     filterSelectOnChange();
+  });
+
+  $('#enable-delete').click(function (event) {
+    event.preventDefault();
+    $('#enable-delete').hide();
+    $('.delete').show();
   });
 
   function fillInfoField(field, info) {

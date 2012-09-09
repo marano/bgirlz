@@ -18,6 +18,8 @@
         %thead
           %tr
             %th
+              %a#enable-delete.btn{:href => "#"}
+                %i.icon-trash
             %th Upload Date
             %th Event
             %th Name
@@ -28,7 +30,7 @@
               %td
                 %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
                   %input{:name => "_method", :type => "hidden", :value => "delete"}
-                  %a.btn.delete{:href => "#"}
+                  %a.btn.delete.hide{:href => "#"}
                     %i.icon-trash
               %td.date
                 = page.formatted_created_at
