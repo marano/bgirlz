@@ -13,6 +13,10 @@ $(function () {
     var page_panel_path = $('meta[name=page_panel_path]')[0].content;
     $.get(page_panel_path, function (panel) {
       $('body').prepend($(panel));
+      $('#close').click(function (event) {
+        event.preventDefault();
+        $('#info_panel').hide();
+      });
     });
     var origin = window.location.origin;
     var pathname = window.location.pathname;

@@ -37,7 +37,9 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
-    page.should have_css('#info_panel')
+    page.find('#info_panel').should be_visible
+    page.click_link 'close'
+    page.find('#info_panel').should_not be_visible
     visit Page.first.relative_link_to_self
     page.should_not have_css('#info_panel')
   end
@@ -51,7 +53,9 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.click_link 'HTML'
     fill_in 'html', :with => 'oi!'
     click_button 'Publish my website'
-    page.should have_css('#info_panel')
+    page.find('#info_panel').should be_visible
+    page.click_link 'close'
+    page.find('#info_panel').should_not be_visible
     visit Page.first.relative_link_to_self
     page.should_not have_css('#info_panel')
   end
