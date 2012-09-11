@@ -4,9 +4,9 @@
 .container
   .row
     .span12
-      .hero-unit
-        %h1 black girlz code webpage publisher
-        %h2 Upload your website here
+      #title-panel.hero-unit
+        %img{src: '/logo.png'}
+        %h1#title webpage publisher
 
   %form.form-horizontal{:action => "/upload", :enctype => "multipart/form-data", :method => "POST"}
     .row

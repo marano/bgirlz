@@ -1,3 +1,21 @@
 #webpage-content {
   margin-bottom: 30px;
 }
+
+#title-panel {
+  background-color: #202020;
+  margin: 0;
+  padding: 20px;
+  height: 167px;
+}
+
+#title {
+  top: 48px;
+  position: relative;
+  color: rgb(233,233,233);
+}
+
+#title-panel img {
+  width: 450px;
+  float: left;
+}
