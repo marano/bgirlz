@@ -1,8 +1,8 @@
 %script{:src => "/list.js"}
 %link{:href => "/list.css", :media => "all", :rel => "stylesheet"}
 
-.container
-  .row
+.container-fluid
+  .row-fluid
     #filter.span12
       %form#form-inline{:action => '/list', :method => 'GET'}
         %label{:for => 'filter-select'} Filter by Event
@@ -12,7 +12,7 @@
             %option{:value => event}
               = event
 
-  .row
+  .row-fluid
     .span9
       %table.table.table-condensed.table-hover
         %thead
