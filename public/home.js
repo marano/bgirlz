@@ -18,7 +18,7 @@ $(function () {
   }
 
   function validateInput(event) {
-    if (event.charCode == 13) {
+    if (event.charCode == 13 || event.keyCode == 9) {
       return true;
     }
     var key = event.keyCode || event.which;
