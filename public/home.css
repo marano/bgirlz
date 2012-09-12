@@ -10,7 +10,8 @@
 }
 
 #title {
-  top: 48px;
+  font-size: 50px;
+  top: 54px;
   position: relative;
   color: rgb(233,233,233);
 }
