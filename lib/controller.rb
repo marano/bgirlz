@@ -137,6 +137,16 @@ class Controller < Sinatra::Base
     end
   end
 
+  get '/:first/:last/featured' do
+    @page = resolve_page_from_path
+    if @page.nil?
+      status 404
+      "404 Not found"
+    else
+      haml :_featured, :layout => false
+    end
+  end
+
   delete '/:first/:last' do
     @page = resolve_page_from_path
     if @page.nil?

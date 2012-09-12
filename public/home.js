@@ -18,16 +18,21 @@ $(function () {
   }
 
   $.getJSON('/featured_pages', function (links) {
+    var totalLinks = links.length;
+    var linksCount = 0;
     $(links).each(function (index, link) {
-      var item = $('<div>');
-      item.addClass('item');
-      var content = $('<iframe>', {src: link});
-      content.load(function () { autoResize(content[0]); });
-      item.append(content);
-      $('.carousel-inner').append(item);
+      $.get(link, function (response) {
+        response = $(response);
+        var iframe = response.find('iframe');
+        iframe.load(function () { autoResize(iframe[0]); });
+        $('.carousel-inner').append(response);
+        linksCount = linksCount + 1;
+        if (linksCount == totalLinks) {
+          $('#slide').carousel();
+          $('#slide').show();
+        }
+      });
     });
-    $('#slide').carousel();
-    $('#slide').show();
   });
 
   function autoResize(iframe) {

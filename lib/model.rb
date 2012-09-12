@@ -23,7 +23,7 @@ class Page
   end
 
   def self.random_page_links_list
-    all_links = Page.all.map(&:relative_link_to_content)
+    all_links = Page.all.map(&:relative_link_to_featured)
     links = []
     count = all_links.size
     5.times do |i|
@@ -61,6 +61,10 @@ class Page
 
   def relative_link_to_content
     "#{relative_link_to_self}/content"
+  end
+
+  def relative_link_to_featured
+    "#{relative_link_to_self}/featured"
   end
 
   def relative_pretty_link_to_self
