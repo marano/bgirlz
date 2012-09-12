@@ -21,7 +21,9 @@ $(function () {
     $(links).each(function (index, link) {
       var item = $('<div>');
       item.addClass('item');
-      var content = $('<iframe>', {src: link});
+      var iFrameId = 'slide' + index;
+      var resizeCall = 'autoResize("' + iFrameId + '");';
+      var content = $('<iframe>', {id: iFrameId, src: link, onLoad: resizeCall});
       item.append(content);
       $('.carousel-inner').append(item);
     });
@@ -46,3 +48,11 @@ $(function () {
     }
   }
 });
+
+function autoResize(id) {
+  var newheight = document.getElementById(id).contentWindow.document.body.scrollHeight;
+  var newwidth = document.getElementById(id).contentWindow.document.body.scrollWidth;
+
+  document.getElementById(id).height = (newheight) + "px";
+  document.getElementById(id).width = (newwidth) + "px";
+}
