@@ -2,6 +2,10 @@
   margin-bottom: 30px;
 }
 
+.container {
+  height: 1660px;
+}
+
 #title-panel {
   background-color: #202020;
   margin: 0;
