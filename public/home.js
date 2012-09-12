@@ -21,15 +21,22 @@ $(function () {
     $(links).each(function (index, link) {
       var item = $('<div>');
       item.addClass('item');
-      var iFrameId = 'slide' + index;
-      var resizeCall = 'autoResize("' + iFrameId + '");';
-      var content = $('<iframe>', {id: iFrameId, src: link, onLoad: resizeCall});
+      var content = $('<iframe>', {src: link});
+      content.load(function () { autoResize(content[0]); });
       item.append(content);
       $('.carousel-inner').append(item);
     });
     $('#slide').carousel();
     $('#slide').show();
   });
+
+  function autoResize(iframe) {
+    var newheight = iframe.contentWindow.document.body.scrollHeight;
+    var newwidth = iframe.contentWindow.document.body.scrollWidth;
+
+    iframe.height = (newheight) + "px";
+    iframe.width = (newwidth) + "px";
+  }
 
   function validateInput(event) {
     if (event.charCode == 13 || event.charCode == 0) {
@@ -48,11 +55,3 @@ $(function () {
     }
   }
 });
-
-function autoResize(id) {
-  var newheight = document.getElementById(id).contentWindow.document.body.scrollHeight;
-  var newwidth = document.getElementById(id).contentWindow.document.body.scrollWidth;
-
-  document.getElementById(id).height = (newheight) + "px";
-  document.getElementById(id).width = (newwidth) + "px";
-}
