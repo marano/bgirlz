@@ -18,22 +18,15 @@ $(function () {
   }
 
   $.getJSON('/featured_pages', function (links) {
-    var totalLinksCount = links.length;
-    var linksCount = 0;
     $(links).each(function (index, link) {
       var item = $('<div>');
       item.addClass('item');
-      var content = $('<div>');
+      var content = $('<iframe>', {src: link});
       item.append(content);
-      content.load(link, function () {
-        linksCount = linksCount + 1;
-        $('.carousel-inner').append(item);
-        if (linksCount == totalLinksCount) {
-          $('#slide').carousel();
-          $('#slide').show();
-        }
-      });
+      $('.carousel-inner').append(item);
     });
+    $('#slide').carousel();
+    $('#slide').show();
   });
 
   function validateInput(event) {
