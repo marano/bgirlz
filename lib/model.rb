@@ -58,7 +58,7 @@ class Page
     if @salt
       "/#{@salt}/#{URI::encode(@name)}/panel"
     else
-      "/#{URI::encode(@event)}/#{URI::encode(@name)}/#{URI::encode(@middle_initial)}/#{URI::encode(@last_name)}/panel"
+      "/#{URI::encode(@event)}/#{URI::encode(@name)}_#{URI::encode(@middle_initial)}_#{URI::encode(@last_name)}/panel"
     end
   end
 

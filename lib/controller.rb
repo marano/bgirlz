@@ -130,22 +130,8 @@ class Controller < Sinatra::Base
     redirect '/list'
   end
 
-  get '/:salt/:name/panel' do
-    @page = Page.find_by_name_and_salt(params[:name], params[:salt])
-    if @page.nil?
-      status 404
-      "404 Not found"
-    else
-      erb :_page_info_panel, :layout => false
-    end
-  end
-
-  get '/:event/:name/:middle_initial/:last_name/panel' do
-    name = params[:name]
-    middle_initial = params[:middle_initial]
-    last_name = params[:last_name]
-    event = params[:event]
-    @page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
+  get '/:first/:last/panel' do
+    @page = resolve_page_from_path
     if @page.nil?
       status 404
       "404 Not found"
