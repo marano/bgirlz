@@ -7,6 +7,9 @@
   margin: 0;
   padding: 20px;
   height: 167px;
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #title {
@@ -14,6 +17,7 @@
   top: 54px;
   position: relative;
   color: rgb(233,233,233);
+  left: -28px;
 }
 
 #title-panel img {
@@ -23,6 +27,11 @@
 
 #form {
   margin-top: 36px;
+  width: 900px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 900px;
 }
 
 #slide {
@@ -30,8 +39,8 @@
   height: 600px;
   padding-top: 40px;
   padding-bottom: 40px;
-  padding-left: 90px;
-  padding-right: 90px;
+  padding-left: 67px;
+  padding-right: 564px;
   margin-left: auto;
   margin-right: auto;
   text-align: left;
@@ -39,8 +48,54 @@
 
 #featured-pages {
   position: relative;
+  width: 700px;
+  margin-left: 400px;
+  margin-bottom: 10px;
+  top: 650px;
 }
 
 #slide iframe {
   border: 0;
+}
+
+#menu {
+  float: left;
+  width: 240px;
+  margin-left: 0;
+  margin-right: ;
+}
+
+#student-info {
+  position: absolute;
+  margin-left: 340px;
+  margin-top: -15px;
+  width: 400px;
+}
+
+#webpage {
+  position: absolute;
+  margin-left: 340px;
+  margin-top: 242px;
+  width: 400px;
+}
+
+#webpage .controls {
+  margin-left: 0 !important;
+}
+
+#student-info label {
+  width: 87px !important;
+}
+
+.controls {
+  margin-left: 100px !important;
+}
+
+label[for='enable_comments']{
+  text-align: left !important;
+  width: 142px !important;
+}
+
+.carousel-inner {
+  width: 559px;
 }

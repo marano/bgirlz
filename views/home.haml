@@ -2,15 +2,24 @@
 %link{:href => "/home.css", :media => "all", :rel => "stylesheet"}
 
 .container
-  .row
-    .span12
-      #title-panel.hero-unit
-        %img{src: '/logo.png'}
-        %h1#title webpage publisher
+  #title-panel.hero-unit
+    %img{src: '/logo.png'}
+    %h1#title webpage publisher
 
   %form.form-horizontal{:action => "/upload", :enctype => "multipart/form-data", :method => "POST"}
-    #form.row
-      .span6
+    #form
+      #menu{'data-spy' => 'affix'}
+        %ul.nav.nav-list
+          %li
+            %a{href: '#student-info'}
+              %i.icon-chevron-right
+              %span Publish Page
+          %li.divider
+          %li
+            %a{href: '#featured-pages'}
+              %i.icon-chevron-right
+              %span Featured Pages
+      #student-info
         %h3 Student Info
 
         .control-group
@@ -30,7 +39,7 @@
           .controls
             %input#event.input-big{:name => "event", :type => "text", :autocomplete => 'off', :value => @event}
 
-      .span6
+      #webpage
         %h3 Webpage
 
         %ul.nav.nav-tabs
@@ -57,17 +66,14 @@
           .controls
             %input#enable_comments{:name => "enable_comments", :type => "checkbox"}
 
-    .row
-      .span12
         .control-group
           .controls
-            %input.btn.btn-primary.pull-right{:type => "submit", :value => "Publish my website"}
+            %input.btn.btn-primary{:type => "submit", :value => "Publish my website"}
 
-  #featured-pages.row
-    .span12
-      %h2
-        Featured Pages
-      #slide.carousel.slide.well.hide
-        .carousel-inner
-        %a.carousel-control.left{:href => '#slide', :'data-slide' => 'prev'} &lsaquo;
-        %a.carousel-control.right{:href => '#slide', :'data-slide' => 'next'} &rsaquo;
+  #featured-pages
+    %h2
+      Featured Pages
+    #slide.carousel.slide.well.hide
+      .carousel-inner
+      %a.carousel-control.left{:href => '#slide', :'data-slide' => 'prev'} &lsaquo;
+      %a.carousel-control.right{:href => '#slide', :'data-slide' => 'next'} &rsaquo;
