@@ -10,5 +10,5 @@
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     %link{:href => "/bootstrap/css/bootstrap-responsive.min.css", :rel => "stylesheet"}
     = erb :_analytics, layout: false
-  %body{:'data-spy' => 'scroll', :target => '.nav', :'data-offset' => 2}
+  %body
     = yield
