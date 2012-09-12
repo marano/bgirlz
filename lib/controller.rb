@@ -32,10 +32,12 @@ class Controller < Sinatra::Base
     @page = params[:page]
     @enable_comments = params[:enable_comments]
     @html = params[:html]
+
     if @name.blank? || (@link.blank? && @page.blank? && @html.blank?)
       redirect "/?#{@name.blank? ? '' : '&name=' + @name }#{@middle_initial.blank? ? '' : '&middle_initial=' + @middle_initial }#{@last_name.blank? ? '' : '&last_name=' + @last_name }#{@event.blank? ? '' : '&event=' + @event }"
       return
     end
+
     if !@link.blank?
       content = content_from_link(@link)
     elsif !@page.blank?
@@ -139,5 +141,4 @@ class Controller < Sinatra::Base
       erb :_page_info_panel, :layout => false
     end
   end
-
 end
