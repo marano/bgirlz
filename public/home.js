@@ -11,6 +11,8 @@ $(function () {
 
   $('#menu').affix();
 
+  $('.nav').scrollspy({offset: 10});
+
   $.getJSON('/previous_events', function (events) {
     $('input[name=event]').typeahead({source: events});
   });

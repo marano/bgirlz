@@ -11,16 +11,16 @@
       #menu{'data-spy' => 'affix'}
         %ul.nav.nav-list
           %li
-            %a{href: '#student-info'}
+            %a{href: '#student-info-title'}
               %i.icon-chevron-right
               %span Publish Page
           %li.divider
           %li
-            %a{href: '#featured-pages'}
+            %a{href: '#featured-pages-title'}
               %i.icon-chevron-right
               %span Featured Pages
       #student-info
-        %h3 Student Info
+        %h3#student-info-title Student Info
 
         .control-group
           %label.control-label{:for => 'name'} First Name
@@ -71,8 +71,7 @@
             %input.btn.btn-primary{:type => "submit", :value => "Publish my website"}
 
   #featured-pages
-    %h2
-      Featured Pages
+    %h2#featured-pages-title Featured Pages
     #slide.carousel.slide.well.hide
       .carousel-inner
       %a.carousel-control.left{:href => '#slide', :'data-slide' => 'prev'} &lsaquo;
