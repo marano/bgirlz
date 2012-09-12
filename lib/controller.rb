@@ -91,42 +91,36 @@ class Controller < Sinatra::Base
     haml :list
   end
 
-  get %r{^/(\w+)/(\w+)_(\w+)_(\w+)$} do |event, name, middle_initial, last_name|
-    @first_time = params[:first_time]
-    @page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
-    show_page(@page)
+  def resolve_page_from_path
+    if params[:first] =~ /\A[0-9]{3}\z/
+      salt = params[:first]
+      name = params[:last]
+      return Page.find_by_name_and_salt(name, salt)
+    else
+      event = params[:first]
+      name_parts = params[:last].split('_')
+      name = name_parts[0]
+      middle_initial = name_parts[1]
+      last_name = name_parts[2]
+      return Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
+    end
   end
 
-  get '/:salt/:name' do
+  get '/:first/:last' do
     @first_time = params[:first_time]
-    @page = Page.find_by_name_and_salt(params[:name], params[:salt])
-    show_page(@page)
-  end
-
-  def show_page(page)
-    if page.nil?
+    @page = resolve_page_from_path
+    if @page.nil?
       status 404
       "404 Not found"
     else
       add_to_header = erb :_page_header, :layout => false
       add_to_body = erb :_comments, :layout => false
-      page.patched_html add_to_header, add_to_body
+      @page.patched_html add_to_header, add_to_body
     end
   end
 
-  delete %r{^/(\w+)/(\w+)_(\w+)_(\w+)$} do |event, name, middle_initial, last_name|
-    @page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
-    if @page.nil?
-      status 404
-      "404 Not found"
-    else
-      @page.delete
-    end
-    redirect '/list'
-  end
-
-  delete '/:salt/:name' do
-    @page = Page.find_by_name_and_salt(params[:name], params[:salt])
+  delete '/:first/:last' do
+    @page = resolve_page_from_path
     if @page.nil?
       status 404
       "404 Not found"
