@@ -9,6 +9,8 @@ $(function () {
   addTooltip('#last-name');
   addTooltip('#event');
 
+  $('#featured-pages').css('top', $(window).height());
+
   $.getJSON('/previous_events', function (events) {
     $('input[name=event]').typeahead({source: events});
   });

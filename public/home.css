@@ -37,6 +37,10 @@
   text-align: left;
 }
 
+#featured-pages {
+  position: relative;
+}
+
 #slide iframe {
   border: 0;
 }
