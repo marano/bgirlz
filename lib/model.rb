@@ -22,6 +22,19 @@ class Page
     where(name: name, middle_initial: middle_initial, last_name: last_name, event: event).first
   end
 
+  def self.random_page_links_list
+    all_links = Page.all.map(&:relative_link_to_content)
+    links = []
+    count = all_links.size
+    5.times do |i|
+      index = rand(count - i)
+      link = all_links[index]
+      links << link
+      all_links.delete(link)
+    end
+    return links
+  end
+
   def formatted_created_at
     created_at.strftime("%m/%d/%Y") unless created_at.nil?
   end

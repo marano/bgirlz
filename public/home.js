@@ -17,6 +17,25 @@ $(function () {
     $(element).tooltip({delay: {show: 800}, placement: 'right', title: 'Only letters and numbers are allowed. Space and underline are not allowed.'});
   }
 
+  $.getJSON('/featured_pages', function (links) {
+    var totalLinksCount = links.length;
+    var linksCount = 0;
+    $(links).each(function (index, link) {
+      var item = $('<div>');
+      item.addClass('item');
+      var content = $('<div>');
+      item.append(content);
+      content.load(link, function () {
+        linksCount = linksCount + 1;
+        $('.carousel-inner').append(item);
+        if (linksCount == totalLinksCount) {
+          $('#slide').carousel();
+          $('#slide').show();
+        }
+      });
+    });
+  });
+
   function validateInput(event) {
     if (event.charCode == 13 || event.charCode == 0) {
       return true;

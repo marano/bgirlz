@@ -62,3 +62,9 @@
         .control-group
           .controls
             %input.btn.btn-primary.pull-right{:type => "submit", :value => "Publish my website"}
+  .row
+    .span12
+      #slide.carousel.slide.well.hide
+        .carousel-inner
+        %a.carousel-control.left{:href => '#slide', :'data-slide' => 'prev'} &lsaquo;
+        %a.carousel-control.right{:href => '#slide', :'data-slide' => 'next'} &rsaquo;

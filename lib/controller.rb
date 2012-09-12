@@ -15,6 +15,10 @@ class Controller < Sinatra::Base
     previous_events.to_json
   end
 
+  get '/featured_pages' do
+    Page.random_page_links_list.to_json
+  end
+
   get '/' do
     @name = params[:name]
     @middle_initial = params[:middle_initial]
