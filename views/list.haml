@@ -26,7 +26,7 @@
             %th Link
         %tbody
           - @pages.each do |page|
-            %tr.page{:'data-page-event' => page.event, :'data-page-url' => page.relative_link_to_self, :'data-page-pretty-url' => page.relative_pretty_link_to_self, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.full_name}
+            %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.full_name}
               %td
                 %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
                   %input{:name => "_method", :type => "hidden", :value => "delete"}

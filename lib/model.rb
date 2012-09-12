@@ -46,6 +46,10 @@ class Page
     end
   end
 
+  def relative_link_to_content
+    "#{relative_link_to_self}/content"
+  end
+
   def relative_pretty_link_to_self
     if @salt
       "/#{@salt}/#{@name}"

@@ -9,7 +9,7 @@ $(function () {
 
   $('#filter select').change(filterSelectOnChange);
 
-  var currentPreviewUrl = null;
+  var currentPreviewPath = null;
 
   $('.preview-btn').click(function (event) {
     event.preventDefault();
@@ -22,12 +22,13 @@ $(function () {
     var date = row.data('page-date');
     var event = row.data('page-event');
     var name = row.data('page-name');
-    var url = row.data('page-url');
-    var prettyUrl = row.data('page-pretty-url');
-    if (currentPreviewUrl == url) {
+    var path = row.data('page-path');
+    var contentPath = row.data('page-content-path');
+    var prettyUrl = row.data('page-pretty-path');
+    if (currentPreviewPath == path) {
       return;
     }
-    currentPreviewUrl = url;
+    currentPreviewPath = path;
     $('.on-preview').removeClass('on-preview');
     row.addClass('on-preview');
 
@@ -36,9 +37,9 @@ $(function () {
     fillInfoField('#preview-date', date);
     fillInfoField('#preview-event', event);
     $('#preview-name').text(name);
-    $('#preview-link').empty().append($('<a>', {href: url}).text(prettyUrl));
+    $('#preview-link').empty().append($('<a>', {href: path}).text(prettyUrl));
 
-    $('#preview').load(url, function () {
+    $('#preview').load(contentPath, function () {
       $('#loading').hide();
       $('#preview').show();
     });

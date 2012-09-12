@@ -121,6 +121,18 @@ class Controller < Sinatra::Base
     end
   end
 
+  get '/:first/:last/content' do
+    @page = resolve_page_from_path
+    if @page.nil?
+      status 404
+      "404 Not found"
+    else
+      add_to_header = erb :_page_header, :layout => false
+      add_to_body = erb :_comments, :layout => false
+      @page.content
+    end
+  end
+
   delete '/:first/:last' do
     @page = resolve_page_from_path
     if @page.nil?
