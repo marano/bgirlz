@@ -25,81 +25,64 @@ def upload_page(params)
   fill_in 'middle_initial', :with => params[:middle_initial]
   fill_in 'last_name', :with => params[:last_name]
   fill_in 'event', :with => params[:event]
-  page.click_link 'HTML'
-  fill_in 'html', :with => params[:html]
+  if params[:html]
+    page.click_link 'HTML'
+    fill_in 'html', :with => params[:html]
+  end
+  if params[:link]
+    page.click_link 'Link'
+    fill_in 'link', :with => params[:link]
+  end
+  if params[:page]
+    page.click_link 'File'
+    attach_file('page', params[:page])
+  end
   click_button 'Publish my website'
   Page.where(:name => params[:name]).first
 end
 
+def assert_upload_is_ok(uploaded_page)
+  page.should have_content uploaded_page.content
+  page.find('#info_panel').should be_visible
+  page.click_link 'close'
+  page.find('#info_panel').should_not be_visible
+  visit uploaded_page.relative_link_to_self
+  page.should have_content uploaded_page.content
+  page.should_not have_css('#info_panel')
+end
+
 describe 'Black Girls Code Website Publisher', :js => true do
-  it 'should allow me to publish my website' do
-    @page = upload_page(:name => 'Joana',
-                        :html => 'oi!')
-    page.should have_content @page.content
-    visit @page.relative_link_to_self
-    page.should have_content @page.content
-  end
 
-  it 'should display info bar when page is uploaded' do
-    @page = upload_page(:name => 'Joana',
-                        :html => 'oi!')
-    page.find('#info_panel').should be_visible
-    page.click_link 'close'
-    page.find('#info_panel').should_not be_visible
-    visit @page.relative_link_to_self
-    page.should_not have_css('#info_panel')
-  end
+  it 'should allow me to publish my website and show me info bar' do
+    @page = upload_page(:name => 'Cecilia',
+                        :html => 'Eaí Bob!')
 
-  it 'should display info bar when page is uploaded for new page url format' do
-    @page = upload_page(:name => 'Joana',
-                        :middle_initial => 'Silva',
-                        :last_name => 'Sauro',
-                        :event => 'Event1',
-                        :html => 'oi!')
-    page.find('#info_panel').should be_visible
-    page.click_link 'close'
-    page.find('#info_panel').should_not be_visible
-    visit @page.relative_link_to_self
-    page.should_not have_css('#info_panel')
+    assert_upload_is_ok(@page)
   end
 
   it 'should allow me to publish my website using a file' do
-    visit '/'
-    fill_in 'name', :with => 'Joana'
     page_file = Tempfile.new('mypage.html')
     page_file.write 'oi!'
     page_file.flush
-    page.click_link 'File'
-    attach_file('page', page_file.path)
-    click_button 'Publish my website'
-    page.should have_css('#info_panel')
-    page.should have_content 'oi!'
-    visit Page.first.relative_link_to_self
-    page.should_not have_css('#info_panel')
-    page.should have_content 'oi!'
+
+    @page = upload_page(:name => 'Cecilia',
+                        :page => page_file.path)
+
+    assert_upload_is_ok(@page)
   end
 
   it 'should be able to import website from link' do
-    visit '/'
-    fill_in 'name', :with => 'Joana'
-    page.click_link 'HTML'
-    fill_in 'html', :with => 'Coé'
-    click_button 'Publish my website'
-    page.should have_css('#info_panel')
+    @page = upload_page(:name => 'Joana',
+                        :html => 'oi!')
 
-    visit '/'
-    fill_in 'name', :with => 'Augusta'
     host = Capybara.current_session.driver.rack_server.host
     port = Capybara.current_session.driver.rack_server.port
-    page.click_link 'Link'
-    fill_in 'link', :with => "http://#{host}:#{port}#{Page.first.relative_pretty_link_to_self}"
-    click_button 'Publish my website'
+    link = "http://#{host}:#{port}#{Page.first.relative_pretty_link_to_self}/content"
 
-    page.should have_css('#info_panel')
-    page.should have_content 'Coé'
-    visit Page.first.relative_link_to_self
-    page.should_not have_css('#info_panel')
-    page.should have_content 'Coé'
+    @page = upload_page(:name => 'Augusta',
+                        :link => link)
+
+    assert_upload_is_ok(@page)
   end
 
   it 'should display my page at list page' do
@@ -127,15 +110,11 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should be able to delete page with new url format from list page' do
-    visit '/'
-    fill_in 'name', :with => 'Joana'
-    fill_in 'middle_initial', :with => 'Silva'
-    fill_in 'last_name', :with => 'Sauro'
-    fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
-    page.click_link 'HTML'
-    fill_in 'html', :with => 'oi!'
-    click_button 'Publish my website'
-    @page = Page.first
+    @page = upload_page(:name => 'Joana',
+                        :middle_initial => 'Silva',
+                        :last_name => 'Sauro',
+                        :event => 'Event1',
+                        :html => 'oi!')
     visit '/list'
     page.evaluate_script('window.confirm = function() { return true; }')
     page.find('#enable-delete .icon-trash').click
@@ -146,46 +125,27 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_content('404 Not found')
   end
 
-  it 'should allow me to publish my website and inform middle, last name and event' do
-    visit '/'
-    fill_in 'name', :with => 'Joana'
-    fill_in 'middle_initial', :with => 'Silva'
-    fill_in 'last_name', :with => 'Sauro'
-    fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
-    page.click_link 'HTML'
-    fill_in 'html', :with => 'oi!'
-    click_button 'Publish my website'
-    page.should have_css('#info_panel')
-    page.should have_content 'oi!'
-    visit Page.first.relative_link_to_self
-    page.should_not have_css('#info_panel')
-    page.should have_content 'oi!'
+  it 'should allow me to publish my website and inform middle, last name and event and show me info bar' do
+    @page = upload_page(:name => 'Joana',
+                        :middle_initial => 'Silva',
+                        :last_name => 'Sauro',
+                        :event => 'Event1',
+                        :html => 'oi!')
+    assert_upload_is_ok(@page)
   end
 
   it 'should allow me to update my website when I provide the same information' do
-    visit '/'
-    fill_in 'name', :with => 'Joana'
-    fill_in 'middle_initial', :with => 'Silva'
-    fill_in 'last_name', :with => 'Sauro'
-    fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
-    page.click_link 'HTML'
-    fill_in 'html', :with => 'oi!'
-    click_button 'Publish my website'
-
-    visit '/'
-    fill_in 'name', :with => 'Joana'
-    fill_in 'middle_initial', :with => 'Silva'
-    fill_in 'last_name', :with => 'Sauro'
-    fill_in 'event', :with => 'BlackGirlsCodeSanFrancisco912837657894'
-    page.click_link 'HTML'
-    fill_in 'html', :with => 'Updated!'
-    click_button 'Publish my website'
-
-    page.should have_css('#info_panel')
-    page.should have_content 'Updated!'
-    visit Page.first.relative_link_to_self
-    page.should_not have_css('#info_panel')
-    page.should have_content 'Updated!'
+    upload_page(:name => 'Joana',
+                :middle_initial => 'Silva',
+                :last_name => 'Sauro',
+                :event => 'Event1',
+                :html => 'oi!')
+    @page = upload_page(:name => 'Joana',
+                        :middle_initial => 'Silva',
+                        :last_name => 'Sauro',
+                        :event => 'Event1',
+                        :html => 'Updated brow!')
+    assert_upload_is_ok(@page)
   end
 
   pending 'should autocomplete event code with previous inputed values' do
@@ -222,15 +182,16 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should display previous entered information on validation error' do
-    @page = upload_page(:name => 'Joana',
-                        :middle_initial => 'Silva',
-                        :last_name => 'Sauro',
-                        :event => 'Event1',
-                        :html => '')
-    page.find_field('name').value.should == 'Joana'
-    page.find_field('middle_initial').value.should == 'Silva'
-    page.find_field('last_name').value.should == 'Sauro'
-    page.find_field('event').value.should == 'Event1'
+    params = { :name => 'Joana',
+               :middle_initial => 'Silva',
+               :last_name => 'Sauro',
+               :event => 'Event1',
+               :html => '' }
+    upload_page(params)
+    page.find_field('name').value.should == params[:name]
+    page.find_field('middle_initial').value.should == params[:middle_initial]
+    page.find_field('last_name').value.should == params[:last_name]
+    page.find_field('event').value.should == params[:event]
   end
 
   it 'should display page preview on list' do
@@ -245,7 +206,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find('#preview-event').text.should == @page.event
     page.find('#preview-name').text.should == @page.full_name.strip
     page.find('#preview-link').text.should == @page.relative_pretty_link_to_self
-    page.find('#preview').text.should == 'oi!'
+    page.find('#preview').text.should == @page.content
   end
 
   it 'should let me star pages' do
