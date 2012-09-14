@@ -3,76 +3,78 @@
 
 .container
   #title-panel.hero-unit
-    %img{src: '/logo.png'}
-    %h1#title webpage publisher
+    #title-panel-content
+      %img{src: '/logo.png'}
+      %h1#title webpage publisher
+  #menu{'data-spy' => 'affix'}
+    %ul#menu-nav.nav.nav-list
+      %li
+        %a{href: '#student-info'}
+          %i.icon-chevron-right
+          %span Publish Page
+      %li.divider
+      %li
+        %a{href: '#featured-pages'}
+          %i.icon-chevron-right
+          %span Featured Pages
+  #content
+    %form.form-horizontal{:action => "/upload", :enctype => "multipart/form-data", :method => "POST"}
 
-  %form.form-horizontal{:action => "/upload", :enctype => "multipart/form-data", :method => "POST"}
-    #form
-      #menu{'data-spy' => 'affix'}
-        %ul.nav.nav-list
-          %li
-            %a{href: '#student-info-title'}
-              %i.icon-chevron-right
-              %span Publish Page
-          %li.divider
-          %li
-            %a{href: '#featured-pages-title'}
-              %i.icon-chevron-right
-              %span Featured Pages
-      #student-info
-        %h3#student-info-title Student Info
+      #form
+        #student-info
+          %h3#student-info-title Student Info
 
-        .control-group
-          %label.control-label{:for => 'name'} First Name
-          .controls
-            %input#name.input-big{:name => "name", :type => "text", :value => @name}
-        .control-group
-          %label.control-label{:for => 'middle-initial'} Middle Initial
-          .controls
-            %input#middle-initial.input-big{:name => "middle_initial", :type => "text", :value => @middle_initial}
-        .control-group
-          %label.control-label{:for => 'last-name'} Last Name
-          .controls
-            %input#last-name.input-big{:name => "last_name", :type => "text", :value => @last_name}
-        .control-group
-          %label.control-label{:for => 'event'} Event
-          .controls
-            %input#event.input-big{:name => "event", :type => "text", :autocomplete => 'off', :value => @event}
+          .control-group
+            %label.control-label{:for => 'name'} First Name
+            .controls
+              %input#name.input-big{:name => "name", :type => "text", :value => @name}
+          .control-group
+            %label.control-label{:for => 'middle-initial'} Middle Initial
+            .controls
+              %input#middle-initial.input-big{:name => "middle_initial", :type => "text", :value => @middle_initial}
+          .control-group
+            %label.control-label{:for => 'last-name'} Last Name
+            .controls
+              %input#last-name.input-big{:name => "last_name", :type => "text", :value => @last_name}
+          .control-group
+            %label.control-label{:for => 'event'} Event
+            .controls
+              %input#event.input-big{:name => "event", :type => "text", :autocomplete => 'off', :value => @event}
 
-      #webpage
-        %h3 Webpage
+        #webpage
+          %h3 Webpage
 
-        %ul.nav.nav-tabs
-          %li.active
-            %a{"data-toggle" => "tab", :href => "#link"} Link
-          %li
-            %a{"data-toggle" => "tab", :href => "#file"} File
-          %li
-            %a{"data-toggle" => "tab", :href => "#html"} HTML
+          %ul.nav.nav-tabs
+            %li.active
+              %a{"data-toggle" => "tab", :href => "#link"} Link
+            %li
+              %a{"data-toggle" => "tab", :href => "#file"} File
+            %li
+              %a{"data-toggle" => "tab", :href => "#html"} HTML
 
-        #webpage-content.tab-content
-          #link.tab-pane.active
-            %label{:for => 'link'} Paste your site URL here
-            %input#link.input-xlarge{:name => "link", :type => "text"}
-          #file.tab-pane
-            %label{:for => 'page'} Select a file in your computer
-            %input#page{:name => "page", :type => "file"}
-          #html.tab-pane
-            %label{:for => 'html'} Paste your HTML source code here
-            %textarea#html{:name => "html", :rows => "5"}
+          #webpage-content.tab-content
+            #link.tab-pane.active
+              %label{:for => 'link'} Paste your site URL here
+              %input#link.input-xlarge{:name => "link", :type => "text"}
+            #file.tab-pane
+              %label{:for => 'page'} Select a file in your computer
+              %input#page{:name => "page", :type => "file"}
+            #html.tab-pane
+              %label{:for => 'html'} Paste your HTML source code here
+              %textarea#html{:name => "html", :rows => "5"}
 
-        .control-group
-          %label.control-label{:for => 'enable_comments'} Facebook comments
-          .controls
-            %input#enable_comments{:name => "enable_comments", :type => "checkbox"}
+          .control-group
+            %label.control-label{:for => 'enable_comments'} Facebook comments
+            .controls
+              %input#enable_comments{:name => "enable_comments", :type => "checkbox"}
 
-        .control-group
-          .controls
-            %input.btn.btn-primary{:type => "submit", :value => "Publish my website"}
+          .control-group
+            .controls
+              %input.btn.btn-primary{:type => "submit", :value => "Publish my website"}
 
-  #featured-pages
-    %h2#featured-pages-title Featured Pages
-    #slide.carousel.slide.well.hide
-      .carousel-inner
-      %a.carousel-control.left{:href => '#slide', :'data-slide' => 'prev'} &lsaquo;
-      %a.carousel-control.right{:href => '#slide', :'data-slide' => 'next'} &rsaquo;
+    #featured-pages
+      %h2 Featured Pages
+      #slide.carousel.slide.well
+        .carousel-inner.hide
+        %a.carousel-control.left{:href => '#slide', :'data-slide' => 'prev'} &lsaquo;
+        %a.carousel-control.right{:href => '#slide', :'data-slide' => 'next'} &rsaquo;

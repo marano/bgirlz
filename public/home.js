@@ -9,10 +9,6 @@ $(function () {
   addTooltip('#last-name');
   addTooltip('#event');
 
-  $('#menu').affix();
-
-  $('.nav').scrollspy({offset: 10});
-
   $.getJSON('/previous_events', function (events) {
     $('input[name=event]').typeahead({source: events});
   });
@@ -33,7 +29,7 @@ $(function () {
         linksCount = linksCount + 1;
         if (linksCount == totalLinks) {
           $('#slide').carousel();
-          $('#slide').show();
+          $('.carousel-inner').show();
         }
       });
     });

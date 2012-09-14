@@ -3,22 +3,42 @@
 }
 
 .container {
-  height: 1660px;
+  width: 900px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 20px !important;
+}
+
+#content {
+  width: 700px;
+  margin-left: 200px;
+}
+
+#menu {
+  float: left;
+  width: 170px;
+  margin-top: 35px;
+  position: fixed;
 }
 
 #title-panel {
   background-color: #202020;
   margin: 0;
   padding: 20px;
-  height: 167px;
+  height: 120px;
   width: 900px;
   margin-left: auto;
   margin-right: auto;
 }
 
+#title-panel-content {
+  position: relative;
+  margin-top: -30px;
+}
+
 #title {
-  font-size: 50px;
-  top: 54px;
+  font-size: 48px;
+  top: 66px;
   position: relative;
   color: rgb(233,233,233);
   left: -28px;
@@ -31,11 +51,6 @@
 
 #form {
   margin-top: 36px;
-  width: 900px;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  width: 900px;
 }
 
 #slide {
@@ -51,36 +66,24 @@
 }
 
 #featured-pages {
-  position: relative;
-  width: 700px;
-  margin-left: 400px;
   margin-bottom: 10px;
-  top: 650px;
+  margin-top: 140px;
+  padding-top: 20px;
 }
 
 #slide iframe {
   border: 0;
 }
 
-#menu {
-  float: left;
-  width: 240px;
-  margin-left: 0;
-  margin-right: ;
-}
-
 #student-info {
-  position: absolute;
-  margin-left: 340px;
-  margin-top: -15px;
+  margin-left: 100px;
   width: 400px;
 }
 
 #webpage {
-  position: absolute;
-  margin-left: 340px;
-  margin-top: 242px;
+  margin-left: 100px;
   width: 400px;
+  margin-top: 40px;
 }
 
 #webpage .controls {
