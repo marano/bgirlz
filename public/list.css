@@ -22,3 +22,7 @@ form {
 .date, .event, .link {
   font-size: 10px;
 }
+
+.star-it {
+  opacity: 0.5;
+}
