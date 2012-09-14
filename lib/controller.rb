@@ -16,7 +16,7 @@ class Controller < Sinatra::Base
   end
 
   get '/featured_pages' do
-    Page.random_page_links_list.to_json
+    Page.featured_pages_links_list.to_json
   end
 
   get '/' do
