@@ -24,7 +24,7 @@ class Page
   end
 
   def self.featured_pages_links_list
-    Page.where(:favorite => true).map(&:relative_link_to_featured).randomize
+    Page.where(:favorite => true).map(&:relative_link_to_featured).randomize.slice(0..10)
   end
 
   def formatted_created_at
