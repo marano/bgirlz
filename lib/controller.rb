@@ -93,7 +93,6 @@ class Controller < Sinatra::Base
 
   get '/list' do
     @pages = Page.all
-    @pages.sort_by!(&:created_at)
     @previous_events = previous_events
     haml :list
   end
