@@ -42,6 +42,13 @@ def upload_page(params)
 end
 
 def assert_upload_is_ok(uploaded_page)
+  host = Capybara.current_session.driver.rack_server.host
+  port = Capybara.current_session.driver.rack_server.port
+  link = "http://#{host}:#{port}#{uploaded_page.relative_link_to_self}"
+  pretty_link = "http://#{host}:#{port}#{uploaded_page.relative_pretty_link_to_self}"
+  page.should have_content pretty_link
+  page.should have_link link
+
   page.should have_content uploaded_page.content
   page.find('#info_panel').should be_visible
   page.click_link 'close'
