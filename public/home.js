@@ -17,20 +17,28 @@ $(function () {
     $(element).tooltip({delay: {show: 800}, placement: 'right', title: 'Only letters and numbers are allowed. Space and underline are not allowed.'});
   }
 
+  $('#slide').carousel();
+  $('#slide').carousel('pause');
   $.getJSON('/featured_pages', function (links) {
     var totalLinks = links.length;
     var linksCount = 0;
     $(links).each(function (index, link) {
+      $('.bar').css('width', '20%');
       $.get(link, function (response) {
         response = $(response);
         var iframe = response.find('iframe');
-        iframe.load(function () { autoResize(iframe[0]); });
+        iframe.load(function () {
+          autoResize(iframe[0]);
+          linksCount = linksCount + 1;
+          $('.bar').css('width', ((linksCount / totalLinks * 100) + 20) + '%');
+          if (linksCount == totalLinks) {
+            $('#loading').hide();
+            $('.carousel-inner').show();
+            $('#slide').carousel('cycle');
+            $('#slide').carousel('next');
+          }
+        });
         $('.carousel-inner').append(response);
-        linksCount = linksCount + 1;
-        if (linksCount == totalLinks) {
-          $('#slide').carousel();
-          $('.carousel-inner').show();
-        }
       });
     });
   });

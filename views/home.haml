@@ -75,6 +75,9 @@
     #featured-pages
       %h2 Featured Pages
       #slide.carousel.slide.well
+        #loading
+          .progress.progress-striped.active
+            .bar{:style => 'width: 0'}
         .carousel-inner.hide
         %a.carousel-control.left{:href => '#slide', :'data-slide' => 'prev'} &lsaquo;
         %a.carousel-control.right{:href => '#slide', :'data-slide' => 'next'} &rsaquo;

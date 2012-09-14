@@ -106,3 +106,7 @@ label[for='enable_comments']{
 .carousel-inner {
   width: 559px;
 }
+
+#loading .progress {
+  width: 559px;
+}
