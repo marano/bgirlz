@@ -9,6 +9,23 @@ $(function () {
   addTooltip('#last-name');
   addTooltip('#event');
 
+  $('#menu a').click(function (event) {
+    event.preventDefault();
+    var link = getParentLink(event.target);
+    var element = $(link.attr('href'));
+    var top;
+
+    if (element.length > 0) {
+      top = element.offset().top;
+    } else {
+      top = 0;
+    }
+
+    $('html, body').animate({
+      scrollTop: top
+    }, 800);
+  });
+
   $.getJSON('/previous_events', function (events) {
     $('input[name=event]').typeahead({source: events});
   });
@@ -65,6 +82,14 @@ $(function () {
       setTimeout(function () {
         $(event.target).tooltip('hide');
       }, 3000);
+    }
+  }
+
+  function getParentLink(element) {
+    if (element.tagName == 'A') {
+      return $(element);
+    } else {
+      return getParentLink(element.parentElement);
     }
   }
 });
