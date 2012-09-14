@@ -10,6 +10,7 @@ class Page
   key :content, String
   key :salt, String
   key :enable_comments, Boolean
+  key :favorite, Boolean
   timestamps!
 
   before_create :remove_double_quote, :create_salt, :validate
@@ -67,6 +68,14 @@ class Page
     "#{relative_link_to_self}/featured"
   end
 
+  def relative_link_to_favorite
+    "#{relative_link_to_self}/favorite"
+  end
+
+  def relative_link_to_unfavorite
+    "#{relative_link_to_self}/unfavorite"
+  end
+
   def relative_pretty_link_to_self
     if @salt
       "/#{@salt}/#{@name}"
@@ -81,6 +90,16 @@ class Page
     else
       "/#{URI::encode(@event)}/#{URI::encode(@name)}_#{URI::encode(@middle_initial)}_#{URI::encode(@last_name)}/panel"
     end
+  end
+
+  def favorite!
+    @favorite = true
+    save!
+  end
+
+  def unfavorite!
+    @favorite = false
+    save!
   end
 
   def patched_html(add_to_header, add_to_body)

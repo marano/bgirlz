@@ -26,7 +26,7 @@
             %th Link
         %tbody
           - @pages.each do |page|
-            %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.full_name}
+            %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.full_name, :'data-favorite-path' => page.relative_link_to_favorite, :'data-unfavorite-path' => page.relative_link_to_unfavorite}
               %td
                 %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
                   %input{:name => "_method", :type => "hidden", :value => "delete"}
@@ -41,6 +41,17 @@
                 = page.full_name
               %td.link
                 %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
+              %td
+                - if page.favorite
+                  %a.star-it.hide{:href => '#'}
+                    %i.icon-star-empty
+                  %a.starred{:href => '#'}
+                    %i.icon-star
+                -else
+                  %a.star-it{:href => '#'}
+                    %i.icon-star-empty
+                  %a.starred.hide{:href => '#'}
+                    %i.icon-star
               %td
                 %a.preview-link.btn.preview-btn{:href => '#'}
                   %i.icon-eye-open

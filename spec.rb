@@ -216,6 +216,24 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find('#preview').text.should == @page.content
   end
 
-  it 'should let me star pages' do
+  it 'should let me favorite and unfavorite pages' do
+    @page = upload_page(:name => 'Joana',
+                        :html => 'oi!')
+    visit '/list'
+    page.find('.star-it').click
+    page.find('.star-it').should_not be_visible
+    page.find('.starred').should be_visible
+
+    visit '/list'
+    page.find('.star-it').should_not be_visible
+    page.find('.starred').should be_visible
+
+    page.find('.starred').click
+    page.find('.starred').should_not be_visible
+    page.find('.star-it').should be_visible
+
+    visit '/list'
+    page.find('.starred').should_not be_visible
+    page.find('.star-it').should be_visible
   end
 end

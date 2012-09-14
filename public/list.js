@@ -11,6 +11,32 @@ $(function () {
 
   var currentPreviewPath = null;
 
+  $('.star-it').click(function (event) {
+    event.preventDefault();
+    var row = getParentRow(event.target);
+    var path = row.data('favorite-path');
+    row.find('.star-it').hide();
+    row.find('.starred').show();
+    $.ajax({
+      url: path,
+      type: 'PUT',
+      success: function () {}
+    });
+  });
+
+  $('.starred').click(function (event) {
+    event.preventDefault();
+    var row = getParentRow(event.target);
+    var path = row.data('unfavorite-path');
+    row.find('.starred').hide();
+    row.find('.star-it').show();
+    $.ajax({
+      url: path,
+      type: 'PUT',
+      success: function () {}
+    });
+  });
+
   $('.preview-btn').click(function (event) {
     event.preventDefault();
 

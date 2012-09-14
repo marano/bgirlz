@@ -147,6 +147,28 @@ class Controller < Sinatra::Base
     end
   end
 
+  put '/:first/:last/favorite' do
+    @page = resolve_page_from_path
+    if @page.nil?
+      status 404
+      "404 Not found"
+    else
+      @page.favorite!
+      status 200
+    end
+  end
+
+  put '/:first/:last/unfavorite' do
+    @page = resolve_page_from_path
+    if @page.nil?
+      status 404
+      "404 Not found"
+    else
+      @page.unfavorite!
+      status 200
+    end
+  end
+
   delete '/:first/:last' do
     @page = resolve_page_from_path
     if @page.nil?
