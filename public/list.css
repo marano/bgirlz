@@ -26,6 +26,10 @@ th {
   zoom: 50%;
 }
 
+.delete {
+  margin-top: -5px;
+}
+
 .preview-link {
   margin-top: -5px;
 }
