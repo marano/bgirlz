@@ -239,14 +239,14 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should slideshow featured pages' do
-    @joanas_page = upload_page(:name => 'Joana',
-                               :html => 'oi!')
+    @page = upload_page(:name => 'Joana',
+                        :html => 'oi!')
 
     visit '/list'
     page.find('.star-it').click
 
     visit '/'
     page.should have_css '.carousel-inner iframe'
-    page.evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @joanas_page.content
+    page.evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
   end
 end
