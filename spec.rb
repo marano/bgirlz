@@ -237,4 +237,16 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find('.starred').should_not be_visible
     page.find('.star-it').should be_visible
   end
+
+  it 'should slideshow featured pages' do
+    @joanas_page = upload_page(:name => 'Joana',
+                               :html => 'oi!')
+
+    visit '/list'
+    page.find('.star-it').click
+
+    visit '/'
+    page.should have_css '.carousel-inner iframe'
+    page.evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @joanas_page.content
+  end
 end
