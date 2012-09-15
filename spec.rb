@@ -155,7 +155,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
-  pending 'should autocomplete event code with previous inputed values' do
+  it 'should autocomplete event code with previous inputed values' do
     upload_page(:name => 'Joana',
                 :event => 'Event1',
                 :html => 'oi!')
@@ -164,7 +164,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
                 :html => 'hi there!')
     visit '/'
     fill_in 'event', :with => 'Event'
-    page.should have_css('.ui-menu-item')
+    page.all('.typeahead li').first.text.should == 'Event1'
+    page.all('.typeahead li').last.text.should == 'Event2'
   end
 
   it 'should be able to filter list by events' do

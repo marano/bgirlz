@@ -13,7 +13,7 @@ class Page
   key :favorite, Boolean
   timestamps!
 
-  before_create :remove_double_quote, :create_salt, :validate
+  before_create :create_salt, :validate
 
   def self.find_by_name_and_salt(name, salt)
     where(:name => name, :salt => salt).first
@@ -122,10 +122,6 @@ class Page
   end
 
   private
-
-  def remove_double_quote
-    @name = @name.gsub('"', "'")
-  end
 
   def create_salt
     if @middle_initial.blank? ||  @last_name.blank?
