@@ -13,6 +13,7 @@ $(function () {
 
   $('.star-it').click(function (event) {
     event.preventDefault();
+    $('.star-it').tooltip('hide');
     var row = getParentRow(event.target);
     var path = row.data('favorite-path');
     row.find('.star-it').hide();
@@ -26,6 +27,7 @@ $(function () {
 
   $('.starred').click(function (event) {
     event.preventDefault();
+    $('.starred').tooltip('hide');
     var row = getParentRow(event.target);
     var path = row.data('unfavorite-path');
     row.find('.starred').hide();
@@ -81,9 +83,11 @@ $(function () {
     });
   });
 
-  $('.delete').tooltip({placement: 'left', title: 'Trash it'});
-  $('.preview-link').tooltip({placement: 'left', title: 'Preview'});
-  $('#enable-delete').tooltip({placement: 'top', title: 'Show delete buttons'});
+  $('.delete').tooltip({placement: 'right', title: 'Trash it'});
+  $('.preview-link').tooltip({placement: 'right', title: 'Preview'});
+  $('.starred').tooltip({placement: 'left', title: 'Unstar it'});
+  $('.star-it').tooltip({placement: 'left', title: 'Star it'});
+  $('#enable-delete').tooltip({placement: 'right', title: 'Show delete buttons'});
 
   $('.event-link').click(function (event) {
     event.preventDefault();
