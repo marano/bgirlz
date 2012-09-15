@@ -124,7 +124,7 @@ class Page
   private
 
   def create_salt
-    if @middle_initial.blank? ||  @last_name.blank?
+    if @middle_initial.blank? ||  @last_name.blank? || @event.blank?
       @salt = '%.3i' % (rand * 999)
     end
   end

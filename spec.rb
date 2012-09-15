@@ -167,6 +167,15 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
+  it 'should work if I input all fields except for event' do
+    @page = upload_page(:name => 'Joana',
+                        :middle_initial => 'Silva',
+                        :last_name => 'Sauro',
+                        :event => '',
+                        :html => 'oi!')
+    assert_upload_is_ok(@page)
+  end
+
   it 'should allow me to update my website when I provide the same information' do
     upload_page(:name => 'Joana',
                 :middle_initial => 'Silva',
