@@ -43,11 +43,11 @@ $(function () {
     var row = getParentRow(event.target);
     var topOffset = row.offset().top;
 
-    $('#preview-container').css('top', topOffset);
+    $('#preview-container').animate({'top': topOffset});
 
     $('html, body').stop().animate({
       scrollTop: topOffset
-    }, 800);
+    }, 200);
 
     var date = row.data('page-date');
     var event = row.data('page-event');
@@ -77,7 +77,7 @@ $(function () {
 
       $('html, body').stop().animate({
         scrollTop: topOffset
-      }, 800);
+      }, 200);
     });
   });
 
