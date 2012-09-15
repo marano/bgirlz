@@ -40,11 +40,15 @@ $(function () {
   $('.preview-btn').click(function (event) {
     event.preventDefault();
 
+    var row = getParentRow(event.target);
+    var topOffset = row.offset().top;
+
+    $('#preview-container').css('top', topOffset);
+
     $('html, body').stop().animate({
-      scrollTop: 124
+      scrollTop: topOffset
     }, 800);
 
-    var row = getParentRow(event.target);
     var date = row.data('page-date');
     var event = row.data('page-event');
     var name = row.data('page-name');
@@ -57,6 +61,7 @@ $(function () {
     currentPreviewPath = path;
     $('.on-preview').removeClass('on-preview');
     row.addClass('on-preview');
+    $('#preview-container').show();
 
     $('#preview').hide();
     $('#loading').show();
@@ -68,6 +73,11 @@ $(function () {
     $('#preview').load(contentPath, function () {
       $('#loading').hide();
       $('#preview').show();
+      var topOffset = row.offset().top;
+
+      $('html, body').stop().animate({
+        scrollTop: topOffset
+      }, 800);
     });
   });
 
