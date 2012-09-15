@@ -5,9 +5,9 @@ gem 'bson_ext'
 gem 'mongo_mapper'
 gem 'nokogiri'
 gem 'haml'
+gem 'pry'
 
 group :development do
-  gem 'pry'
   gem 'shotgun'
 end
 
