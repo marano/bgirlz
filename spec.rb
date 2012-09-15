@@ -17,14 +17,21 @@ end
 
 Capybara.app = Controller
 
-Capybara.current_driver = :selenium
+if ENV['headless'] =~ /false/
+  Capybara.current_driver = :selenium
+  Capybara.javascript_driver = :selenium
+else
+  Headless.new.start
+  Capybara.current_driver = :webkit
+  Capybara.javascript_driver = :webkit
+end
 
-def upload_page(params)
+def upload_page(params, success = true)
   visit '/'
-  fill_in 'name', :with => params[:name]
-  fill_in 'middle_initial', :with => params[:middle_initial]
-  fill_in 'last_name', :with => params[:last_name]
-  fill_in 'event', :with => params[:event]
+  fill_in 'name', :with => params[:name] if params[:name]
+  fill_in 'middle_initial', :with => params[:middle_initial] if params[:middle_initial]
+  fill_in 'last_name', :with => params[:last_name] if params[:last_name]
+  fill_in 'event', :with => params[:event] if params[:event]
   if params[:html]
     page.click_link 'HTML'
     fill_in 'html', :with => params[:html]
@@ -37,15 +44,36 @@ def upload_page(params)
     page.click_link 'File'
     attach_file('page', params[:page])
   end
+
   click_button 'Publish my website'
-  Page.where(:name => params[:name]).first
+
+  if (success)
+    page.should have_css('#info_panel')
+    return Page.where(:name => params[:name]).first
+  end
+end
+
+def url
+  if Capybara.current_session.driver.class == Capybara::Driver::Webkit
+    host = URI(Capybara.current_session.driver.browser.url).host
+    port = URI(Capybara.current_session.driver.browser.url).port
+  else
+    host = Capybara.current_session.driver.rack_server.host
+    port = Capybara.current_session.driver.rack_server.port
+  end
+  "http://#{host}:#{port}"
 end
 
 def assert_upload_is_ok(uploaded_page)
-  host = Capybara.current_session.driver.rack_server.host
-  port = Capybara.current_session.driver.rack_server.port
-  link = "http://#{host}:#{port}#{uploaded_page.relative_link_to_self}"
-  pretty_link = "http://#{host}:#{port}#{uploaded_page.relative_pretty_link_to_self}"
+  if Capybara.current_session.driver.class == Capybara::Driver::Webkit
+    host = URI(Capybara.current_session.driver.browser.url).host
+    port = URI(Capybara.current_session.driver.browser.url).port
+  else
+    host = Capybara.current_session.driver.rack_server.host
+    port = Capybara.current_session.driver.rack_server.port
+  end
+  link = "#{url}#{uploaded_page.relative_link_to_self}"
+  pretty_link = "#{url}#{uploaded_page.relative_pretty_link_to_self}"
   page.should have_content pretty_link
   page.should have_link link
 
@@ -82,9 +110,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page = upload_page(:name => 'Joana',
                         :html => 'oi!')
 
-    host = Capybara.current_session.driver.rack_server.host
-    port = Capybara.current_session.driver.rack_server.port
-    link = "http://#{host}:#{port}#{Page.first.relative_pretty_link_to_self}/content"
+    link = "#{url}#{Page.first.relative_pretty_link_to_self}/content"
 
     @page = upload_page(:name => 'Augusta',
                         :link => link)
@@ -195,7 +221,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
                :last_name => 'Sauro',
                :event => 'Event1',
                :html => '' }
-    upload_page(params)
+    upload_page(params, false)
     page.find_field('name').value.should == params[:name]
     page.find_field('middle_initial').value.should == params[:middle_initial]
     page.find_field('last_name').value.should == params[:last_name]

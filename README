@@ -1,5 +1,12 @@
 Test:
-rake test
+
+rake
+
+or
+
+headless=false rake
+
 
 Run:
+
 rake server
