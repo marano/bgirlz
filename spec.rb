@@ -26,7 +26,9 @@ else
   Capybara.javascript_driver = :webkit
 end
 
-def upload_page(params, success = true)
+include LinkOpener
+
+def upload_page_and_assert_data_was_saved(params, success = true)
   visit '/'
   fill_in 'name', :with => params[:name] if params[:name]
   fill_in 'middle_initial', :with => params[:middle_initial] if params[:middle_initial]
@@ -49,7 +51,20 @@ def upload_page(params, success = true)
 
   if (success)
     page.should have_css('#info_panel')
-    return Page.where(:name => params[:name]).first
+    uploadedPage = Page.where(:name => params[:name]).first
+    uploadedPage.name.should == params[:name].to_s
+    uploadedPage.middle_initial.should == params[:middle_initial].to_s
+    uploadedPage.last_name.should == params[:last_name].to_s
+    if params[:html]
+      uploadedPage.content.should == params[:html]
+    end
+    if params[:link]
+      uploadedPage.content.should == content_from_link(params[:link])
+    end
+    if params[:page]
+      uploadedPage.content.should == File.read(params[:page])
+    end
+    return uploadedPage
   end
 end
 
@@ -89,8 +104,8 @@ end
 describe 'Black Girls Code Website Publisher', :js => true do
 
   it 'should allow me to publish my website and show me info bar' do
-    @page = upload_page(:name => 'Cecilia',
-                        :html => 'Eaí Bob!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Cecilia',
+                                                  :html => 'Eaí Bob!')
 
     assert_upload_is_ok(@page)
   end
@@ -100,27 +115,27 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page_file.write 'oi!'
     page_file.flush
 
-    @page = upload_page(:name => 'Cecilia',
-                        :page => page_file.path)
+    @page = upload_page_and_assert_data_was_saved(:name => 'Cecilia',
+                                                  :page => page_file.path)
 
     assert_upload_is_ok(@page)
   end
 
   it 'should be able to import website from link' do
-    @page = upload_page(:name => 'Joana',
-                        :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :html => 'oi!')
 
     link = "#{url}#{Page.first.relative_pretty_link_to_self}/content"
 
-    @page = upload_page(:name => 'Augusta',
-                        :link => link)
+    @page = upload_page_and_assert_data_was_saved(:name => 'Augusta',
+                                                  :link => link)
 
     assert_upload_is_ok(@page)
   end
 
   it 'should display my page at list page' do
-    @page = upload_page(:name => 'Joana',
-                        :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :html => 'oi!')
     visit '/list'
     page.find('.date').text.should == @page.created_at.strftime("%m/%d/%Y")
     page.find('.name').text.should == @page.name
@@ -128,8 +143,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should be able to delete page from list page' do
-    @page = upload_page(:name => 'Joana',
-                        :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :html => 'oi!')
     visit '/list'
     page.should have_content(@page.name)
     page.should have_link(@page.relative_link_to_self)
@@ -143,11 +158,11 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should be able to delete page with new url format from list page' do
-    @page = upload_page(:name => 'Joana',
-                        :middle_initial => 'Silva',
-                        :last_name => 'Sauro',
-                        :event => 'Event1',
-                        :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :middle_initial => 'Silva',
+                                                  :last_name => 'Sauro',
+                                                  :event => 'Event1',
+                                                  :html => 'oi!')
     visit '/list'
     page.evaluate_script('window.confirm = function() { return true; }')
     page.find('#enable-delete .icon-trash').click
@@ -159,44 +174,44 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should allow me to publish my website and inform middle, last name and event and show me info bar' do
-    @page = upload_page(:name => 'Joana',
-                        :middle_initial => 'Silva',
-                        :last_name => 'Sauro',
-                        :event => 'Event1',
-                        :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :middle_initial => 'Silva',
+                                                  :last_name => 'Sauro',
+                                                  :event => 'Event1',
+                                                  :html => 'oi!')
     assert_upload_is_ok(@page)
   end
 
   it 'should work if I input all fields except for event' do
-    @page = upload_page(:name => 'Joana',
-                        :middle_initial => 'Silva',
-                        :last_name => 'Sauro',
-                        :event => '',
-                        :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :middle_initial => 'Silva',
+                                                  :last_name => 'Sauro',
+                                                  :event => '',
+                                                  :html => 'oi!')
     assert_upload_is_ok(@page)
   end
 
   it 'should allow me to update my website when I provide the same information' do
-    upload_page(:name => 'Joana',
-                :middle_initial => 'Silva',
-                :last_name => 'Sauro',
-                :event => 'Event1',
-                :html => 'oi!')
-    @page = upload_page(:name => 'Joana',
-                        :middle_initial => 'Silva',
-                        :last_name => 'Sauro',
-                        :event => 'Event1',
-                        :html => 'Updated brow!')
+    upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                          :middle_initial => 'Silva',
+                                          :last_name => 'Sauro',
+                                          :event => 'Event1',
+                                          :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :middle_initial => 'Silva',
+                                                  :last_name => 'Sauro',
+                                                  :event => 'Event1',
+                                                  :html => 'Updated brow!')
     assert_upload_is_ok(@page)
   end
 
   it 'should autocomplete event code with previous inputed values' do
-    upload_page(:name => 'Joana',
-                :event => 'Event1',
-                :html => 'oi!')
-    upload_page(:name => 'Paula',
-                :event => 'Event2',
-                :html => 'hi there!')
+    upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                          :event => 'Event1',
+                                          :html => 'oi!')
+    upload_page_and_assert_data_was_saved(:name => 'Paula',
+                                          :event => 'Event2',
+                                          :html => 'hi there!')
     visit '/'
     fill_in 'event', :with => 'Event'
     page.all('.typeahead li').first.text.should == 'Event1'
@@ -204,12 +219,12 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should be able to filter list by events' do
-    upload_page(:name => 'Joana',
-                :event => 'Event1',
-                :html => 'oi!')
-    upload_page(:name => 'Paula',
-                :event => 'Event2',
-                :html => 'hi there!')
+    upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                          :event => 'Event1',
+                                          :html => 'oi!')
+    upload_page_and_assert_data_was_saved(:name => 'Paula',
+                                          :event => 'Event2',
+                                          :html => 'hi there!')
 
     visit '/list'
     page.should have_content 'Joana'
@@ -230,7 +245,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
                :last_name => 'Sauro',
                :event => 'Event1',
                :html => '' }
-    upload_page(params, false)
+    upload_page_and_assert_data_was_saved(params, false)
     page.find_field('name').value.should == params[:name]
     page.find_field('middle_initial').value.should == params[:middle_initial]
     page.find_field('last_name').value.should == params[:last_name]
@@ -238,11 +253,11 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should display page preview on list' do
-    @page = upload_page(:name => 'Joana',
-                        :middle_initial => 'Silva',
-                        :last_name => 'Sauro',
-                        :event => 'Event1',
-                        :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :middle_initial => 'Silva',
+                                                  :last_name => 'Sauro',
+                                                  :event => 'Event1',
+                                                  :html => 'oi!')
     visit '/list'
     page.find('.preview-link').click
     page.find('#preview-date').text.should == @page.created_at.strftime("%m/%d/%Y")
@@ -253,8 +268,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should let me favorite and unfavorite pages' do
-    @page = upload_page(:name => 'Joana',
-                        :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :html => 'oi!')
     visit '/list'
     page.find('.star-it').click
     page.find('.star-it').should_not be_visible
@@ -274,8 +289,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'should slideshow featured pages' do
-    @page = upload_page(:name => 'Joana',
-                        :html => 'oi!')
+    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                  :html => 'oi!')
 
     visit '/list'
     page.find('.star-it').click
