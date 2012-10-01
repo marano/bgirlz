@@ -71,6 +71,14 @@
   padding-top: 20px;
 }
 
+#featured-pages-title {
+  float: left;
+}
+
+#student-name {
+  margin-top: 18px;
+}
+
 #slide iframe {
   border: 0;
 }
