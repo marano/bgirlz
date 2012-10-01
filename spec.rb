@@ -103,14 +103,14 @@ end
 
 describe 'Black Girls Code Website Publisher', :js => true do
 
-  it 'should allow me to publish my website and show me info bar' do
+  it 'publishes my website and show me info bar with site address' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Cecilia',
                                                   :html => 'Eaí Bob!')
 
     assert_upload_is_ok(@page)
   end
 
-  it 'should allow me to publish my website using a file' do
+  it 'allows me to publish my website using a file' do
     page_file = Tempfile.new('mypage.html')
     page_file.write 'oi!'
     page_file.flush
@@ -121,7 +121,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
-  it 'should be able to import website from link' do
+  it 'imports website from link' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :html => 'oi!')
 
@@ -133,7 +133,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
-  it 'should display my page at list page' do
+  it 'shows my page at list page' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :html => 'oi!')
     visit '/list'
@@ -142,7 +142,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_link(@page.relative_link_to_self)
   end
 
-  it 'should be able to delete page from list page' do
+  it 'deletes a page from pages list' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :html => 'oi!')
     visit '/list'
@@ -157,7 +157,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_content('404 Not found')
   end
 
-  it 'should be able to delete page with new url format from list page' do
+  it 'deletes a page with new url format from pages list' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :middle_initial => 'Silva',
                                                   :last_name => 'Sauro',
@@ -173,7 +173,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_content('404 Not found')
   end
 
-  it 'should allow me to publish my website and inform middle, last name and event and show me info bar' do
+  it 'publishes my website and inform middle, last name and event and show me info bar' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :middle_initial => 'Silva',
                                                   :last_name => 'Sauro',
@@ -182,7 +182,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
-  it 'should work if I input all fields except for event' do
+  it 'works if I input all fields except for event' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :middle_initial => 'Silva',
                                                   :last_name => 'Sauro',
@@ -191,7 +191,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
-  it 'should allow me to update my website when I provide the same information' do
+  it 'updates my website when I provide the same student information' do
     upload_page_and_assert_data_was_saved(:name => 'Joana',
                                           :middle_initial => 'Silva',
                                           :last_name => 'Sauro',
@@ -205,7 +205,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
-  it 'should autocomplete event code with previous inputed values' do
+  it 'autocompletes event code with previous informed values' do
     upload_page_and_assert_data_was_saved(:name => 'Joana',
                                           :event => 'Event1',
                                           :html => 'oi!')
@@ -218,7 +218,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.all('.typeahead li').last.text.should == 'Event2'
   end
 
-  it 'should be able to filter list by events' do
+  it 'filters list by events' do
     upload_page_and_assert_data_was_saved(:name => 'Joana',
                                           :event => 'Event1',
                                           :html => 'oi!')
@@ -239,7 +239,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find("td:contains('Paula')").should be_visible
   end
 
-  it 'should display previous entered information on validation error' do
+  it 'shows previous entered information on validation error' do
     params = { :name => 'Joana',
                :middle_initial => 'Silva',
                :last_name => 'Sauro',
@@ -252,7 +252,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find_field('event').value.should == params[:event]
   end
 
-  it 'should display page preview on list' do
+  it 'shows page preview on list' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :middle_initial => 'Silva',
                                                   :last_name => 'Sauro',
@@ -267,7 +267,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find('#preview').text.should == @page.content
   end
 
-  it 'should let me favorite and unfavorite pages' do
+  it 'favorite and unfavorite pages' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :html => 'oi!')
     visit '/list'
@@ -288,7 +288,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find('.star-it').should be_visible
   end
 
-  it 'should slideshow featured pages' do
+  it 'shows fancy slideshow with featured pages' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :html => 'oi!')
 
