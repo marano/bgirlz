@@ -80,95 +80,70 @@ class Controller < Sinatra::Base
   end
 
   def resolve_page_from_path
-    if params[:first] =~ /\A[0-9]{3}\z/
+    page = if params[:first] =~ /\A[0-9]{3}\z/
       salt = params[:first]
       name = params[:last]
-      return Page.find_by_name_and_salt(name, salt)
+      Page.find_by_name_and_salt(name, salt)
     else
       event = params[:first]
       name_parts = params[:last].split('_')
       name = name_parts[0]
       middle_initial = name_parts[1]
       last_name = name_parts[2]
-      return Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
+      Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
     end
+
+    if page.nil?
+      raise Sinatra::NotFound
+    end
+
+    return page
+  end
+
+  not_found do
+    "404 Not found"
   end
 
   get '/:first/:last' do
     @first_time = params[:first_time]
     @page = resolve_page_from_path
-    if @page.nil?
-      status 404
-      "404 Not found"
-    else
-      add_to_header = erb :_page_header, :layout => false
-      add_to_body = erb :_comments, :layout => false
-      @page.patched_html add_to_header, add_to_body
-    end
+    add_to_header = erb :_page_header, :layout => false
+    add_to_body = erb :_comments, :layout => false
+    @page.patched_html add_to_header, add_to_body
   end
 
   get '/:first/:last/content' do
     @page = resolve_page_from_path
-    if @page.nil?
-      status 404
-      "404 Not found"
-    else
-      add_to_header = erb :_page_header, :layout => false
-      add_to_body = erb :_comments, :layout => false
-      @page.content
-    end
+    add_to_header = erb :_page_header, :layout => false
+    add_to_body = erb :_comments, :layout => false
+    @page.content
   end
 
   get '/:first/:last/featured' do
     @page = resolve_page_from_path
-    if @page.nil?
-      status 404
-      "404 Not found"
-    else
-      haml :_featured, :layout => false
-    end
+    haml :_featured, :layout => false
   end
 
   put '/:first/:last/favorite' do
     @page = resolve_page_from_path
-    if @page.nil?
-      status 404
-      "404 Not found"
-    else
-      @page.favorite!
-      status 200
-    end
+    @page.favorite!
+    status 200
   end
 
   put '/:first/:last/unfavorite' do
     @page = resolve_page_from_path
-    if @page.nil?
-      status 404
-      "404 Not found"
-    else
-      @page.unfavorite!
-      status 200
-    end
+    @page.unfavorite!
+    status 200
   end
 
   delete '/:first/:last' do
     @page = resolve_page_from_path
-    if @page.nil?
-      status 404
-      "404 Not found"
-    else
-      @page.delete
-    end
+    @page.delete
     redirect '/list'
   end
 
   get '/:first/:last/panel' do
     @page = resolve_page_from_path
-    if @page.nil?
-      status 404
-      "404 Not found"
-    else
-      erb :_page_info_panel, :layout => false
-    end
+    erb :_page_info_panel, :layout => false
   end
 end
