@@ -31,32 +31,32 @@ class Controller < Sinatra::Base
   end
 
   post '/upload' do
-    @name = params[:name]
-    @middle_initial = params[:middle_initial]
-    @last_name = params[:last_name]
-    @event = params[:event]
-    @link = params[:link]
-    @page = params[:page]
-    @enable_comments = params[:enable_comments]
-    @html = params[:html]
+    name = params[:name]
+    middle_initial = params[:middle_initial]
+    last_name = params[:last_name]
+    event = params[:event]
+    link = params[:link]
+    page = params[:page]
+    enable_comments = params[:enable_comments]
+    html = params[:html]
 
-    if @name.blank? || (@link.blank? && @page.blank? && @html.blank?)
-      redirect "/?#{@name.blank? ? '' : '&name=' + @name }#{@middle_initial.blank? ? '' : '&middle_initial=' + @middle_initial }#{@last_name.blank? ? '' : '&last_name=' + @last_name }#{@event.blank? ? '' : '&event=' + @event }"
+    if name.blank? || (link.blank? && page.blank? && html.blank?)
+      redirect "/?#{name.blank? ? '' : '&name=' + name }#{middle_initial.blank? ? '' : '&middle_initial=' + middle_initial }#{last_name.blank? ? '' : '&last_name=' + last_name }#{event.blank? ? '' : '&event=' + event }"
       return
     end
 
-    if !@link.blank?
-      content = content_from_link(@link)
-    elsif !@page.blank?
-      content = File.read @page[:tempfile].path
+    if !link.blank?
+      content = content_from_link(link)
+    elsif !page.blank?
+      content = File.read page[:tempfile].path
     else
-      content = @html
+      content = html
     end
 
-    page_data = {name: @name, middle_initial: @middle_initial, last_name: @last_name, event: @event, :content => content, :enable_comments => @enable_comments == 'on'}
+    page_data = {name: name, middle_initial: middle_initial, last_name: last_name, event: event, :content => content, :enable_comments => enable_comments == 'on'}
 
-    if !@name.blank? && !@middle_initial.blank? && !@last_name.blank? && !@event.blank?
-      exitstent_page = Page.find_by_full_name_and_event(@name, @middle_initial, @last_name, @event)
+    if !name.blank? && !middle_initial.blank? && !last_name.blank? && !event.blank?
+      exitstent_page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
       if exitstent_page.nil?
         uploaded_page = Page.create! page_data
       else
@@ -125,20 +125,17 @@ class Controller < Sinatra::Base
   end
 
   put '/:first/:last/favorite' do
-    @page = resolve_page_from_path
-    @page.favorite!
+    resolve_page_from_path.favorite!
     status 200
   end
 
   put '/:first/:last/unfavorite' do
-    @page = resolve_page_from_path
-    @page.unfavorite!
+    resolve_page_from_path.unfavorite!
     status 200
   end
 
   delete '/:first/:last' do
-    @page = resolve_page_from_path
-    @page.delete
+    resolve_page_from_path.delete
     redirect '/list'
   end
 
