@@ -38,13 +38,13 @@ $(function () {
   $('#slide').carousel('pause');
 
   $('#slide').on('slid', function () {
-    $('#student-name').animate({opacity: '0'}, 300, function () {
+    $('#student-name').animate({opacity: '0'}, 80, function () {
       var name = $('.carousel-inner .active').data('page-name');
       if(!$('#student-name').is(':visible')) {
         $('#student-name').show();
       }
       $('#student-name span').text(name);
-      $('#student-name').animate({opacity: '1'}, 300);
+      $('#student-name').animate({opacity: '1'}, 200);
     });
   });
 
