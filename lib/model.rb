@@ -32,7 +32,16 @@ class Page
   end
 
   def full_name
-    "#{@name} #{@middle_initial} #{@last_name}"
+    if @middle_initial.blank?
+      batman = @name
+    else
+      batman = "#{@name} #{@middle_initial}"
+    end
+    if @last_name.blank?
+      return batman
+    else
+      return "#{@batman} #{@last_name}"
+    end
   end
 
   def link_to_self(request)
