@@ -14,47 +14,50 @@
 
   .row-fluid
     .span9
-      %table.table.table-condensed.table-hover
-        %thead
-          %tr
-            %th
-              %a#enable-delete.btn{:href => "#"}
-                %i.icon-trash
-            %th Upload Date
-            %th Event
-            %th Name
-            %th Link
-        %tbody
-          - @pages.each do |page|
-            %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.full_name, :'data-favorite-path' => page.relative_link_to_favorite, :'data-unfavorite-path' => page.relative_link_to_unfavorite}
-              %td
-                %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
-                  %input{:name => "_method", :type => "hidden", :value => "delete"}
-                  %a.btn.delete.hide{:href => "#"}
+      - @events_and_pages.each do |event, pages|
+        .event{'data-event' => event}
+          - if event == ''
+            %h4= escape_html '<event missing>'
+          - else
+            %h4= event
+          %table.table.table-condensed.table-hover
+            %thead
+              %tr
+                %th.delete_placeholder
+                  %a#enable-delete.btn{:href => "#"}
                     %i.icon-trash
-              %td.date
-                = page.formatted_created_at
-              %td.event
-                %a.event-link{:href => '#'}
-                  = page.event
-              %td.name
-                = page.full_name
-              %td.link
-                %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
-              %td
-                - if page.favorite
-                  %a.star-it.hide{:href => '#'}
-                    %i.icon-star-empty
-                  %a.starred{:href => '#'}
-                    %i.icon-star
-                -else
-                  %a.star-it{:href => '#'}
-                    %i.icon-star-empty
-                  %a.starred.hide{:href => '#'}
-                    %i.icon-star
-              %td
-                %a.preview-link.btn.preview-btn{:href => '#'}
-                  %i.icon-eye-open
+                %th.date Upload Date
+                %th.name Name
+                %th.link Link
+                %th.favorite
+            %tbody
+              - pages.each do |page|
+                %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.full_name, :'data-favorite-path' => page.relative_link_to_favorite, :'data-unfavorite-path' => page.relative_link_to_unfavorite}
+                  %td.delelte_placeholder
+                    %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
+                      %input{:name => "_method", :type => "hidden", :value => "delete"}
+                      %a.btn.delete.hide{:href => "#"}
+                        %i.icon-trash
+                  %td.date
+                    = page.formatted_created_at
+                  %td.name
+                    = page.full_name
+                  %td.link
+                    %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
+                  %td.favorite
+                    - if page.favorite
+                      %a.star-it.hide{:href => '#'}
+                        %i.icon-star-empty
+                      %a.starred{:href => '#'}
+                        %i.icon-star
+                    -else
+                      %a.star-it{:href => '#'}
+                        %i.icon-star-empty
+                      %a.starred.hide{:href => '#'}
+                        %i.icon-star
+                  %td.preview
+                    %a.preview-link.btn.preview-btn{:href => '#'}
+                      %i.icon-eye-open
     #preview-container.hide.span3
       %h3 Preview
       %h4 Student Info

@@ -6,7 +6,9 @@ class Controller < Sinatra::Base
 
   set :views, 'views'
   set :public_folder, 'public'
+
   use Rack::MethodOverride
+  include Rack::Utils
 
   include LinkOpener
 
@@ -70,8 +72,10 @@ class Controller < Sinatra::Base
   end
 
   get '/list' do
-    @pages = Page.all
     @previous_events = Page.previous_events
+    @events_and_pages = {}
+    @previous_events.each { |event| @events_and_pages[event] = Page.all(:event => event) }
+    @events_and_pages[''] = Page.all(:event => '')
     haml :list
   end
 

@@ -73,6 +73,20 @@ def assert_upload_is_ok(uploaded_page)
   page.should_not have_css('#info_panel')
 end
 
+def assert_uploaded_page_is_displayed_within_event(uploaded_page)
+  page.within ".event[data-event='#{uploaded_page.event}']" do
+    if uploaded_page.event.blank?
+      page.should have_css('h4', :text => '<event missing>')
+    else
+      page.should have_css('h4', :text => uploaded_page.event)
+    end
+    page.should have_css('td.name', :text => uploaded_page.name)
+    page.should have_css('td.date', :text => uploaded_page.formatted_created_at)
+    page.should have_css('td.link', :text => uploaded_page.relative_pretty_link_to_self)
+    page.should have_link uploaded_page.relative_link_to_self
+  end
+end
+
 describe 'Black Girls Code Website Publisher', :js => true do
 
   it 'publishes my website and show me info bar with site address' do
@@ -105,13 +119,28 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
-  it 'shows my page at list page' do
-    @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
-                                                  :html => 'oi!')
+  it 'shows my page at list page organized by event' do
+    @page1 = upload_page_and_assert_data_was_saved(:name => 'Joana',
+                                                   :html => 'oi!')
+
+    @page2 = upload_page_and_assert_data_was_saved(:name => 'Paula',
+                                                   :event => 'BGCChicago',
+                                                   :html => 'olá!')
+
+    @page3 = upload_page_and_assert_data_was_saved(:name => 'Jaqueline',
+                                                   :event => 'BGCChicago',
+                                                   :html => 'como vai?')
+
+    @page4 = upload_page_and_assert_data_was_saved(:name => 'Aloka',
+                                                   :event => 'BGCNY',
+                                                   :html => 'Eaí!')
+
     visit '/list'
-    page.find('.date').text.should == @page.created_at.strftime("%m/%d/%Y")
-    page.find('.name').text.should == @page.name
-    page.should have_link(@page.relative_link_to_self)
+
+    assert_uploaded_page_is_displayed_within_event(@page1)
+    assert_uploaded_page_is_displayed_within_event(@page2)
+    assert_uploaded_page_is_displayed_within_event(@page3)
+    assert_uploaded_page_is_displayed_within_event(@page4)
   end
 
   it 'deletes a page from pages list' do
