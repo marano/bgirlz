@@ -75,7 +75,7 @@ class Controller < Sinatra::Base
     @previous_events = Page.previous_events
     @events_and_pages = {}
     @previous_events.each { |event| @events_and_pages[event] = Page.all(:event => event) }
-    @events_and_pages[''] = Page.all(:event => '')
+    @events_and_pages[''] = Page.all(:event => '') + Page.all(:event => nil)
     haml :list
   end
 
