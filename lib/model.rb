@@ -27,6 +27,10 @@ class Page
     Page.where(:favorite => true).map(&:relative_link_to_featured).randomize.slice(0..10)
   end
 
+  def self.previous_events
+    Page.all.select { |p| !p.event.blank? }.map(&:event)
+  end
+
   def formatted_created_at
     created_at.strftime("%m/%d/%Y") unless created_at.nil?
   end

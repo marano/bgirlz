@@ -10,12 +10,8 @@ class Controller < Sinatra::Base
 
   include LinkOpener
 
-  def previous_events
-    Page.all.select { |p| !p.event.blank? }.map(&:event).uniq
-  end
-
   get '/previous_events' do
-    previous_events.to_json
+    Page.previous_events.to_json
   end
 
   get '/featured_pages' do
@@ -75,7 +71,7 @@ class Controller < Sinatra::Base
 
   get '/list' do
     @pages = Page.all
-    @previous_events = previous_events
+    @previous_events = Page.previous_events
     haml :list
   end
 
