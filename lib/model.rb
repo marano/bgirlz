@@ -28,7 +28,7 @@ class Page
   end
 
   def self.previous_events
-    Page.all.select { |p| !p.event.blank? }.map(&:event)
+    Page.all.select { |p| !p.event.blank? }.map(&:event).uniq
   end
 
   def formatted_created_at

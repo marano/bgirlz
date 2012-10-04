@@ -136,6 +136,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
   it 'autocompletes event code with previous informed values' do
     Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
+    Page.create!(:name => 'Marcela', :event => 'Event1', :content => 'ei!')
     Page.create!(:name => 'Paula', :event => 'Event2', :content => 'hi there!')
 
     visit '/'
@@ -144,6 +145,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     events = all('.typeahead li').map(&:text)
     
+    events.size.should == 2
+
     events.should include 'Event1'
     events.should include 'Event2'
   end
