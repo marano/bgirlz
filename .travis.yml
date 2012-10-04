@@ -2,4 +2,4 @@ language: ruby
 rvm:
   - 1.9.3
 services: mongodb
-after_script: deploy.sh
+after_script: "wget http://fourbongo.com:8080/job/bgirlz-deploy/build"
