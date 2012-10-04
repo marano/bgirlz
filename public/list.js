@@ -87,7 +87,7 @@ $(function () {
   $('.preview-link').tooltip({placement: 'right', title: 'Preview'});
   $('.starred').tooltip({placement: 'left', title: 'Unstar it'});
   $('.star-it').tooltip({placement: 'left', title: 'Star it'});
-  $('#enable-delete').tooltip({placement: 'right', title: 'Show delete buttons'});
+  $('.enable-delete').tooltip({placement: 'right', title: 'Show delete buttons'});
 
   $('.event-link').click(function (event) {
     event.preventDefault();
@@ -97,10 +97,11 @@ $(function () {
     filterSelectOnChange();
   });
 
-  $('#enable-delete').click(function (event) {
+  $('.enable-delete').click(function (event) {
     event.preventDefault();
-    $('#enable-delete').hide();
-    $('.delete').show();
+    var eventDiv = getEventDiv(event.target);
+    searchTreeFor('.enable-delete', eventDiv).hide();
+    searchTreeFor('.delete', eventDiv).show();
   });
 
   function fillInfoField(field, info) {
@@ -136,6 +137,23 @@ $(function () {
       return $(element);
     } else {
       return getParentRow(element.parentElement);
+    }
+  }
+
+  function getEventDiv(element) {
+    if (element.tagName == 'DIV') {
+      return $(element);
+    } else {
+      return getEventDiv(element.parentElement);
+    }
+  }
+
+  function searchTreeFor(target, tree) {
+    var result = tree.find(target);
+    if (result) {
+      return result;
+    } else {
+      return searchTreeFor(target.children(), tree)
     }
   }
 });

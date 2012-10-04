@@ -56,14 +56,35 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'deletes a page from pages list' do
-    @page = Page.create!(:name => 'Joana', :content => 'oi!')
+    @page1 = Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
+    @page2 = Page.create!(:name => 'Maria', :event => 'Event2', :content => 'oi!')
+    @page3 = Page.create!(:name => 'Paula', :content => 'oi!')
 
     visit '/list'
-    page.evaluate_script('window.confirm = function() { return true; }')
-    page.find('#enable-delete .icon-trash').click
-    page.find('.delete .icon-trash').click
-    page.should_not have_link(@page.relative_link_to_self)
-    visit @page.relative_link_to_self
+
+    within ".event[data-event='#{@page3.event}']" do
+      find('.enable-delete .icon-trash').click
+    end
+
+    within ".event[data-event='#{@page1.event}']" do
+      find('.enable-delete .icon-trash').should be_visible
+      page.find(".delete").should_not be_visible
+    end
+
+    within ".event[data-event='#{@page2.event}']" do
+      find('.enable-delete .icon-trash').should be_visible
+      page.find(".delete").should_not be_visible
+    end
+
+    within ".event[data-event='#{@page3.event}']" do
+      find('.enable-delete .icon-trash').should_not be_visible
+      page.find(".delete").should be_visible
+      page.find('.delete .icon-trash').click
+    end
+
+    page.should_not have_link(@page3.relative_link_to_self)
+
+    visit @page3.relative_link_to_self
     page.should have_content('404 Not found')
   end
 
@@ -71,9 +92,12 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page = Page.create!(:name => 'Joana', :middle_initial => 'Silva', :last_name => 'Sauro', :event => 'Event1', :content => 'oi!')
 
     visit '/list'
-    page.evaluate_script('window.confirm = function() { return true; }')
-    page.find('#enable-delete .icon-trash').click
-    page.find('.delete .icon-trash').click
+
+    within ".event[data-event='#{@page.event}']" do
+      find('.enable-delete .icon-trash').click
+      page.find('.delete .icon-trash').click
+    end
+
     page.should_not have_link(@page.relative_link_to_self)
     visit @page.relative_link_to_self
     page.should have_content('404 Not found')
