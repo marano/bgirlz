@@ -79,27 +79,6 @@ class Controller < Sinatra::Base
     haml :list
   end
 
-  def resolve_page_from_path
-    page = if params[:first] =~ /\A[0-9]{3}\z/
-      salt = params[:first]
-      name = params[:last]
-      Page.find_by_name_and_salt(name, salt)
-    else
-      event = params[:first]
-      name_parts = params[:last].split('_')
-      name = name_parts[0]
-      middle_initial = name_parts[1]
-      last_name = name_parts[2]
-      Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
-    end
-
-    if page.nil?
-      raise Sinatra::NotFound
-    end
-
-    return page
-  end
-
   not_found do
     "404 Not found"
   end
@@ -142,5 +121,36 @@ class Controller < Sinatra::Base
   get '/:first/:last/panel' do
     @page = resolve_page_from_path
     erb :_page_info_panel, :layout => false
+  end
+
+  private
+
+  def resolve_page_from_path
+    page = page_url_old_format? ? page_from_path_with_old_format : page_from_path_with_new_format
+
+    if page.nil?
+      raise Sinatra::NotFound
+    else
+      return page
+    end
+  end
+
+  def page_url_old_format?
+    params[:first] =~ /\A[0-9]{3}\z/
+  end
+
+  def page_from_path_with_old_format
+    salt = params[:first]
+    name = params[:last]
+    Page.find_by_name_and_salt(name, salt)
+  end
+
+  def page_from_path_with_new_format
+    event = params[:first]
+    name_parts = params[:last].split('_')
+    name = name_parts[0]
+    middle_initial = name_parts[1]
+    last_name = name_parts[2]
+    Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
   end
 end
