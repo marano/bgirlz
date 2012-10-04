@@ -18,3 +18,8 @@ h2. Running:
 <pre>
 $ rake server
 </pre>
+
+
+h2. Deploying:
+
+Just push. Green travis builds are push to heroku by jenkins.
