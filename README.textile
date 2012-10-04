@@ -1,14 +1,20 @@
-h1. Building !https://secure.travis-ci.org/marano/bgirlz.png(Build Status)!:http://travis-ci.org/marano/bgirlz
+h1. Black Girls Code webpage publisher
 
-h2. Test:
+h2. Testing !https://secure.travis-ci.org/marano/bgirlz.png(Build Status)!:http://travis-ci.org/marano/bgirlz
 
-rake
+<pre>
+$ rake
+</pre>
 
 or
 
-headless=false rake
+<pre>
+$ headless=false rake
+</pre>
 
 
-h3. Running:
+h2. Running:
 
-rake server
+<pre>
+$ rake server
+</pre>
