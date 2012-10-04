@@ -36,15 +36,15 @@ def upload_page_and_assert_data_was_saved(params, success = true)
   fill_in 'last_name', :with => params[:last_name] if params[:last_name]
   fill_in 'event', :with => params[:event] if params[:event]
   if params[:html]
-    page.click_link 'HTML'
+    click_link 'HTML'
     fill_in 'html', :with => params[:html]
   end
   if params[:link]
-    page.click_link 'Link'
+    click_link 'Link'
     fill_in 'link', :with => params[:link]
   end
   if params[:page]
-    page.click_link 'File'
+    click_link 'File'
     attach_file('page', params[:page])
   end
 
@@ -94,16 +94,16 @@ def assert_upload_is_ok(uploaded_page)
   page.should have_link link
 
   page.should have_content uploaded_page.content
-  page.find('#info_panel').should be_visible
-  page.click_link 'close'
-  page.find('#info_panel').should_not be_visible
+  find('#info_panel').should be_visible
+  click_link 'close'
+  find('#info_panel').should_not be_visible
   visit uploaded_page.relative_link_to_self
   page.should have_content uploaded_page.content
   page.should_not have_css('#info_panel')
 end
 
 def assert_uploaded_page_is_displayed_within_event(uploaded_page)
-  page.within ".event[data-event='#{uploaded_page.event}']" do
+  within ".event[data-event='#{uploaded_page.event}']" do
     if uploaded_page.event.blank?
       page.should have_css('h4', :text => '<event missing>')
     else

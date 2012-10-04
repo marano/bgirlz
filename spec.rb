@@ -73,18 +73,18 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     within ".event[data-event='#{@page1.event}']" do
       find('.enable-delete .icon-trash').should be_visible
-      page.find(".delete").should_not be_visible
+      find(".delete").should_not be_visible
     end
 
     within ".event[data-event='#{@page2.event}']" do
       find('.enable-delete .icon-trash').should be_visible
-      page.find(".delete").should_not be_visible
+      find(".delete").should_not be_visible
     end
 
     within ".event[data-event='#{@page3.event}']" do
       find('.enable-delete .icon-trash').should_not be_visible
-      page.find(".delete").should be_visible
-      page.find('.delete .icon-trash').click
+      find(".delete").should be_visible
+      find('.delete .icon-trash').click
     end
 
     page.should_not have_link(@page3.relative_link_to_self)
@@ -103,7 +103,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     within ".event[data-event='#{@page.event}']" do
       find('.enable-delete .icon-trash').click
-      page.find('.delete .icon-trash').click
+      find('.delete .icon-trash').click
     end
 
     page.should_not have_link(@page.relative_link_to_self)
@@ -141,8 +141,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
     visit '/'
 
     fill_in 'event', :with => 'Event'
-    page.all('.typeahead li').first.text.should == 'Event1'
-    page.all('.typeahead li').last.text.should == 'Event2'
+    all('.typeahead li').first.text.should == 'Event1'
+    all('.typeahead li').last.text.should == 'Event2'
   end
 
   it 'filters list by events' do
@@ -154,13 +154,13 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_content 'Joana'
     page.should have_content 'Paula'
 
-    page.select 'Event1', :from => 'Filter by Event'
-    page.find("td:contains('Joana')").should be_visible
-    page.find("td:contains('Paula')").should_not be_visible
+    select 'Event1', :from => 'Filter by Event'
+    find("td:contains('Joana')").should be_visible
+    find("td:contains('Paula')").should_not be_visible
 
-    page.select 'Event2', :from => 'Filter by Event'
-    page.find("td:contains('Joana')").should_not be_visible
-    page.find("td:contains('Paula')").should be_visible
+    select 'Event2', :from => 'Filter by Event'
+    find("td:contains('Joana')").should_not be_visible
+    find("td:contains('Paula')").should be_visible
   end
 
   it 'shows previous entered information on validation error' do
@@ -170,52 +170,52 @@ describe 'Black Girls Code Website Publisher', :js => true do
                :event => 'Event1',
                :html => '' }
     upload_page_and_assert_data_was_saved(params, false)
-    page.find_field('name').value.should == params[:name]
-    page.find_field('middle_initial').value.should == params[:middle_initial]
-    page.find_field('last_name').value.should == params[:last_name]
-    page.find_field('event').value.should == params[:event]
+    find_field('name').value.should == params[:name]
+    find_field('middle_initial').value.should == params[:middle_initial]
+    find_field('last_name').value.should == params[:last_name]
+    find_field('event').value.should == params[:event]
   end
 
   it 'shows page preview on list' do
     @page = Page.create(:name => 'Joana', :middle_initial => 'Silva', :last_name => 'Sauro', :event => 'Event1', :content => 'oi!')
     visit '/list'
-    page.find('.preview-link').click
-    page.find('#preview-date').text.should == @page.created_at.strftime("%m/%d/%Y")
-    page.find('#preview-event').text.should == @page.event
-    page.find('#preview-name').text.should == @page.full_name.strip
-    page.find('#preview-link').text.should == @page.relative_pretty_link_to_self
-    page.find('#preview').text.should == @page.content
+    find('.preview-link').click
+    find('#preview-date').text.should == @page.created_at.strftime("%m/%d/%Y")
+    find('#preview-event').text.should == @page.event
+    find('#preview-name').text.should == @page.full_name.strip
+    find('#preview-link').text.should == @page.relative_pretty_link_to_self
+    find('#preview').text.should == @page.content
   end
 
   it 'favorite and unfavorite pages' do
     @page = Page.create!(:name => 'Joana', :content => 'oi!')
 
     visit '/list'
-    page.find('.star-it').click
-    page.find('.star-it').should_not be_visible
-    page.find('.starred').should be_visible
+    find('.star-it').click
+    find('.star-it').should_not be_visible
+    find('.starred').should be_visible
 
     visit '/list'
-    page.find('.star-it').should_not be_visible
-    page.find('.starred').should be_visible
+    find('.star-it').should_not be_visible
+    find('.starred').should be_visible
 
-    page.find('.starred').click
-    page.find('.starred').should_not be_visible
-    page.find('.star-it').should be_visible
+    find('.starred').click
+    find('.starred').should_not be_visible
+    find('.star-it').should be_visible
 
     visit '/list'
-    page.find('.starred').should_not be_visible
-    page.find('.star-it').should be_visible
+    find('.starred').should_not be_visible
+    find('.star-it').should be_visible
   end
 
   it 'shows fancy slideshow with featured pages' do
     @page = Page.create!(:name => 'Joana', :content => 'oi!')
 
     visit '/list'
-    page.find('.star-it').click
+    find('.star-it').click
 
     visit '/'
     page.should have_css '.carousel-inner iframe'
-    page.evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
+    evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
   end
 end
