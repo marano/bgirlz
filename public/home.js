@@ -61,7 +61,7 @@ $(function () {
           linksCount = linksCount + 1;
           $('.bar').css('width', ((linksCount / totalLinks * 100) + 20) + '%');
           if (linksCount == totalLinks) {
-            $('#loading').hide();
+            $('#loading').animate({opacity: 0}, 500, function () { $('#loading').hide(); });
             $('.carousel-inner').show();
             $('#slide').carousel('cycle');
             $('#slide').carousel('next');
