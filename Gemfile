@@ -16,4 +16,5 @@ group :test do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'headless'
+  gem 'rake'
 end
