@@ -141,8 +141,11 @@ describe 'Black Girls Code Website Publisher', :js => true do
     visit '/'
 
     fill_in 'event', :with => 'Event'
-    all('.typeahead li').first.text.should == 'Event1'
-    all('.typeahead li').last.text.should == 'Event2'
+
+    events = all('.typeahead li').map(&:text)
+    
+    events.should include 'Event1'
+    events.should include 'Event2'
   end
 
   it 'filters list by events' do
