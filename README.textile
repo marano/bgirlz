@@ -1,6 +1,14 @@
 h1. Black Girls Code webpage publisher
 
-h2. Testing !https://secure.travis-ci.org/marano/bgirlz.png(Build Status)!:http://travis-ci.org/marano/bgirlz !https://codeclimate.com/badge.png(Code Climate)!:https://codeclimate.com/github/marano/bgirlz
+
+h2. Status
+
+h3. Build !https://secure.travis-ci.org/marano/bgirlz.png(Build Status)!:http://travis-ci.org/marano/bgirlz
+
+h3. Code !https://codeclimate.com/badge.png(Code Climate)!:https://codeclimate.com/github/marano/bgirlz
+
+
+h2. Testing
 
 <pre>
 $ rake
@@ -22,4 +30,4 @@ $ rake server
 
 h2. Deploying:
 
-Just push. Green travis builds are push to heroku by jenkins.
+Just push. Green travis builds are pushed to heroku by jenkins.
