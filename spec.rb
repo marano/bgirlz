@@ -62,6 +62,9 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     visit '/list'
 
+    assert_uploaded_page_is_displayed_within_event(@page1)
+    assert_uploaded_page_is_displayed_within_event(@page2)
+
     within ".event[data-event='#{@page3.event}']" do
       find('.enable-delete .icon-trash').click
     end
@@ -83,6 +86,9 @@ describe 'Black Girls Code Website Publisher', :js => true do
     end
 
     page.should_not have_link(@page3.relative_link_to_self)
+
+    assert_uploaded_page_is_displayed_within_event(@page1)
+    assert_uploaded_page_is_displayed_within_event(@page2)
 
     visit @page3.relative_link_to_self
     page.should have_content('404 Not found')
