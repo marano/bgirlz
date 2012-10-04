@@ -15,3 +15,7 @@ end
 task :test do
   sh 'rspec spec.rb'
 end
+
+task :deploy do
+  sh 'git push heroku'
+end
