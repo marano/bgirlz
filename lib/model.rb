@@ -44,7 +44,7 @@ class Page
     if @last_name.blank?
       return batman
     else
-      return "#{@batman} #{@last_name}"
+      return "#{batman} #{@last_name}"
     end
   end
 

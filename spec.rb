@@ -44,10 +44,10 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'shows my page at list page organized by event' do
-    @page1 = Page.create!(:name => 'Joana', :content => 'oi!')
+    @page1 = Page.create!(:name => 'Joana', :middle_initial => 'S', :content => 'oi!')
     @page2 = Page.create!(:name => 'Paula', :event => 'BGCChicago', :content => 'olá!')
     @page3 = Page.create!(:name => 'Jaqueline', :event => 'BGCChicago', :content => 'como vai?')
-    @page4 = Page.create!(:name => 'Aloka', :event => 'BGCNY', :content => 'Eaí!')
+    @page4 = Page.create!(:name => 'Aloka', :middle_initial => 'V', :last_name => 'Crazy', :event => 'BGCNY', :content => 'Eaí!')
 
     visit '/list'
 
