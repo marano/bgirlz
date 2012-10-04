@@ -17,5 +17,5 @@ task :test do
 end
 
 task :deploy do
-  sh 'git push heroku +master:master'
+  sh 'git push heroku'
 end
