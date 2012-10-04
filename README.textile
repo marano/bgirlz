@@ -1,0 +1,14 @@
+h1. Building !https://secure.travis-ci.org/marano/bgirlz.png(Build Status)!:http://travis-ci.org/marano/bgirlz
+
+h2. Test:
+
+rake
+
+or
+
+headless=false rake
+
+
+h3. Running:
+
+rake server
