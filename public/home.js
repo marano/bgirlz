@@ -62,7 +62,9 @@ $(function () {
           $('.bar').css('width', ((linksCount / totalLinks * 100) + 20) + '%');
           if (linksCount == totalLinks) {
             $('#loading').animate({opacity: 0}, 500, function () { $('#loading').hide(); });
+            $('.carousel-inner').css('opacity', 0);
             $('.carousel-inner').show();
+            $('.carousel-inner').animate({opacity: 1}, 2000);
             $('#slide').carousel('cycle');
             $('#slide').carousel('next');
           }
