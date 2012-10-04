@@ -17,6 +17,5 @@ task :test do
 end
 
 task :deploy do
-  sh 'git remote add heroku git@heroku.com:bgirlz.git'
   sh 'git push heroku +master:master'
 end
