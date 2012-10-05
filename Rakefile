@@ -23,5 +23,5 @@ task :trigger_deploy do
 end
 
 task :deploy do
-  sh 'git push heroku'
+  sh 'git push -f heroku'
 end
