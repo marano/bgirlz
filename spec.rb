@@ -144,7 +144,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     fill_in 'event', :with => 'Event'
 
     events = all('.typeahead li').map(&:text)
-    
+
     events.size.should == 2
 
     events.should include 'Event1'
