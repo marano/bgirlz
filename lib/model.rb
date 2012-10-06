@@ -15,6 +15,32 @@ class Page
 
   before_create :create_salt, :validate
 
+  def self.publish!(name, middle_initial, last_name, event, enable_comments, content)
+    return if invalid_page?(name, content)
+
+    page_data = {name: name, middle_initial: middle_initial, last_name: last_name, event: event, :content => content, :enable_comments => enable_comments == 'on'}
+
+    if new_url_format?(name, middle_initial, last_name, event)
+      existent_page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
+      if existent_page.nil?
+        return Page.create! page_data
+      else
+        existent_page.update_attributes! page_data
+        return existent_page
+      end
+    else
+      return Page.create! page_data
+    end
+  end
+
+  def self.invalid_page?(name, content)
+    name.blank? || content.blank?
+  end
+
+  def self.new_url_format?(name, middle_initial, last_name, event)
+    !name.blank? && !middle_initial.blank? && !last_name.blank? && !event.blank?
+  end
+
   def self.find_by_name_and_salt(name, salt)
     where(:name => name, :salt => salt).first
   end

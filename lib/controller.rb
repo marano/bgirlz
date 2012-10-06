@@ -36,26 +36,13 @@ class Controller < Sinatra::Base
     enable_comments = params[:enable_comments]
     content = content_from(params)
 
-    if invalid_page?(name, content)
+    uploaded_page = Page.publish!(name, middle_initial, last_name, event, enable_comments, content)
+
+    if uploaded_page.nil?
       redirect_home_with_input(name, middle_initial, last_name, event)
-      return
-    end
-
-    page_data = {name: name, middle_initial: middle_initial, last_name: last_name, event: event, :content => content, :enable_comments => enable_comments == 'on'}
-
-    if new_url_format?(name, middle_initial, last_name, event)
-      exitstent_page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
-      if exitstent_page.nil?
-        uploaded_page = Page.create! page_data
-      else
-        exitstent_page.update_attributes! page_data
-        uploaded_page = exitstent_page
-      end
     else
-      uploaded_page = Page.create! page_data
+      redirect uploaded_page.link_to_self(request) + '?first_time=true'
     end
-
-    redirect uploaded_page.link_to_self(request) + '?first_time=true'
   end
 
   get '/favicon.ico' do
@@ -115,16 +102,8 @@ class Controller < Sinatra::Base
 
   private
 
-  def new_url_format?(name, middle_initial, last_name, event)
-    !name.blank? && !middle_initial.blank? && !last_name.blank? && !event.blank?
-  end
-
   def redirect_home_with_input(name, middle_initial, last_name, event)
     redirect "/?#{name.blank? ? '' : '&name=' + name }#{middle_initial.blank? ? '' : '&middle_initial=' + middle_initial }#{last_name.blank? ? '' : '&last_name=' + last_name }#{event.blank? ? '' : '&event=' + event }"
-  end
-
-  def invalid_page?(name, content)
-    name.blank? || content.blank?
   end
 
   def content_from(params)
