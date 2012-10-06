@@ -33,27 +33,17 @@ class Controller < Sinatra::Base
     middle_initial = params[:middle_initial]
     last_name = params[:last_name]
     event = params[:event]
-    link = params[:link]
-    page = params[:page]
     enable_comments = params[:enable_comments]
-    html = params[:html]
+    content = content_from(params)
 
-    if name.blank? || (link.blank? && page.blank? && html.blank?)
-      redirect "/?#{name.blank? ? '' : '&name=' + name }#{middle_initial.blank? ? '' : '&middle_initial=' + middle_initial }#{last_name.blank? ? '' : '&last_name=' + last_name }#{event.blank? ? '' : '&event=' + event }"
+    if invalid_page?(name, content)
+      redirect_home_with_input(name, middle_initial, last_name, event)
       return
-    end
-
-    if !link.blank?
-      content = content_from_link(link)
-    elsif !page.blank?
-      content = File.read page[:tempfile].path
-    else
-      content = html
     end
 
     page_data = {name: name, middle_initial: middle_initial, last_name: last_name, event: event, :content => content, :enable_comments => enable_comments == 'on'}
 
-    if !name.blank? && !middle_initial.blank? && !last_name.blank? && !event.blank?
+    if new_url_format?(name, middle_initial, last_name, event)
       exitstent_page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
       if exitstent_page.nil?
         uploaded_page = Page.create! page_data
@@ -124,6 +114,27 @@ class Controller < Sinatra::Base
   end
 
   private
+
+  def new_url_format?(name, middle_initial, last_name, event)
+    !name.blank? && !middle_initial.blank? && !last_name.blank? && !event.blank?
+  end
+
+  def redirect_home_with_input(name, middle_initial, last_name, event)
+    redirect "/?#{name.blank? ? '' : '&name=' + name }#{middle_initial.blank? ? '' : '&middle_initial=' + middle_initial }#{last_name.blank? ? '' : '&last_name=' + last_name }#{event.blank? ? '' : '&event=' + event }"
+  end
+
+  def invalid_page?(name, content)
+    name.blank? || content.blank?
+  end
+
+  def content_from(params)
+    link = params[:link]
+    page = params[:page]
+    html = params[:html]
+    return content_from_link(link) unless link.blank?
+    return File.read(page[:tempfile].path) unless page.blank?
+    return html unless html.blank?
+  end
 
   def resolve_page_from_path
     page = page_url_old_format? ? page_from_path_with_old_format : page_from_path_with_new_format
