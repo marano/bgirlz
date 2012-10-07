@@ -246,7 +246,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
   end
 
-  it 'allow me to move page to another event' do
+  pending 'allow me to move page to another event' do
     @page1 = Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
     @page2 = Page.create!(:name => 'Claudia', :event => 'Event2', :content => 'hi!')
     @page3 = Page.create!(:name => 'Hyohana', :event => 'Event3', :content => 'hello!')
