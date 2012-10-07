@@ -7,6 +7,7 @@ gem 'nokogiri'
 gem 'haml'
 
 group :development do
+  gem 'debugger', :git => 'https://github.com/cldwalker/debugger.git'
   gem 'pry-nav'
   gem 'shotgun'
 end
