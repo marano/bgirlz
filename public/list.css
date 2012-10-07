@@ -100,3 +100,7 @@ tr {
 .hide {
   display: none !important;
 }
+
+.drag-cart-item {
+  background-color: white;
+}
