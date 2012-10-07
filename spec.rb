@@ -251,4 +251,20 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     assert_uploaded_page_is_displayed_within_event(@page1)
   end
+
+  it 'shows when page contains image content' do
+    @page_with_image = Page.create!(:name => 'Joana', :content => "meet me <img src='/me.jpg'/>!")
+    @page_with_video = Page.create!(:name => 'Ana', :content => "meet me <iframe src='http://www.youtube.com/embed/132' />!")
+    @page_with_music = Page.create!(:name => 'Cecilia', :content => "play this <iframe src='http://www.miniclip.com/games/soccer-stars/en/webgame.php' />!")
+    @page_with_stylesheet = Page.create!(:name => 'Aloka', :content => "im hipister <style>font-face: helvetica</style>")
+    @page_with_facebook_comments = Page.create!(:name => 'Maria', :enable_comments => true, :content => "quer falar do que?")
+
+    visit '/list'
+
+    page.find(".page[data-page-name=#{@page_with_image.name}]").should have_css 'i.has-image'
+    page.find(".page[data-page-name=#{@page_with_video.name}]").should have_css 'i.has-video'
+    page.find(".page[data-page-name=#{@page_with_music.name}]").should have_css 'i.has-music'
+    page.find(".page[data-page-name=#{@page_with_stylesheet.name}]").should have_css 'i.has-stylesheet'
+    page.find(".page[data-page-name=#{@page_with_facebook_comments.name}]").should have_css 'i.has-facebook-comments'
+  end
 end

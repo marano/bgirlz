@@ -29,6 +29,7 @@
                 %th.date Upload Date
                 %th.name Name
                 %th.link Link
+                %th.content Content
                 %th.favorite
             %tbody
               - pages.each do |page|
@@ -45,6 +46,17 @@
                     = page.full_name
                   %td.link
                     %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
+                  %td.content
+                    - if page.have_image?
+                      %i.icon-picture.has-image
+                    - if page.have_video?
+                      %i.icon-film.has-video
+                    - if page.have_music?
+                      %i.icon-music.has-music
+                    - if page.have_stylesheet?
+                      %i.icon-italic.has-stylesheet
+                    - if page.enable_comments
+                      %i.icon-comment.has-facebook-comments
                   %td.favorite
                     - if page.favorite
                       %a.star-it.hide{:href => '#'}

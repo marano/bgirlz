@@ -164,6 +164,22 @@ class Page
     doc.to_html
   end
 
+  def have_image?
+    @content.include? '<img'
+  end
+
+  def have_video?
+    @content.include? 'http://www.youtube.com/embed/'
+  end
+
+  def have_music?
+    @content.include? 'http://www.miniclip.com/games/soccer-stars/en/webgame.php' # yep we only have one page
+  end
+
+  def have_stylesheet?
+    @content.include? '<style>'
+  end
+
   private
 
   def create_salt

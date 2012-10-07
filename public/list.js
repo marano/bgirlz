@@ -85,10 +85,16 @@ $(function () {
 
   $('.delete').tooltip({placement: 'right', title: 'Trash it'});
   $('.preview-link').tooltip({placement: 'right', title: 'Preview'});
-  $('.starred').tooltip({placement: 'left', title: 'Unstar it'});
-  $('.star-it').tooltip({placement: 'left', title: 'Star it'});
+  $('.starred').tooltip({placement: 'bottom', title: 'Unstar it'});
+  $('.star-it').tooltip({placement: 'bottom', title: 'Star it'});
   $('.enable-delete').tooltip({placement: 'right', title: 'Show delete buttons'});
   $('.move-page').tooltip({placement: 'right', title: 'Move page to another event'});
+
+  $('.has-image').tooltip({placement: 'bottom', title: 'Image'});
+  $('.has-video').tooltip({placement: 'bottom', title: 'Video'});
+  $('.has-music').tooltip({placement: 'bottom', title: 'Music'});
+  $('.has-stylesheet').tooltip({placement: 'bottom', title: 'Stylesheet'});
+  $('.has-facebook-comments').tooltip({placement: 'bottom', title: 'Facebook Comments'});
 
   $('.event-link').click(function (event) {
     event.preventDefault();

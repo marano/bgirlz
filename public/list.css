@@ -51,13 +51,17 @@ th {
 }
 
 .name {
-  width: 33%;
+  width: 30%;
   font-size: 14px;
 }
 
 .link {
-  width: 36%;
+  width: 30%;
   font-size: 12px;
+}
+
+.content {
+  width: 9%;
 }
 
 .favorite {
@@ -75,4 +79,8 @@ th {
 .move-page {
   margin-left: 10px;
   cursor: move;
+}
+
+.content i {
+  cursor: help;
 }
