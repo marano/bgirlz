@@ -107,16 +107,16 @@ $(function () {
   });
 
 
-  makePageDraggable($('.page'));
+  $('.page').draggable({scope: 'events', handle: '.move-page', scrollSensitivity: 100, helper: function(event) {
+    return $('<div class="drag-cart-item"><table></table></div>').find('table').append($(event.target).closest('tr').clone()).end();
+  }});
 
   $('.event').droppable({scope: 'events', hoverClass: 'droppable-active', drop: function (event, ui) {
     $('.drag-cart-item').remove();
     var eventDiv = $(event.target);
     var pageMovedRow = $(ui.draggable);
     var movedToEvent = eventDiv.data('event');
-    pageMovedRow.remove();
     eventDiv.find('tbody').append(pageMovedRow);
-    makePageDraggable(pageMovedRow);
     var path = pageMovedRow.data('change-event-path');
     $.ajax({
       url: path,
@@ -125,12 +125,6 @@ $(function () {
       success: function () {}
     });
   }});
-
-  function makePageDraggable(pageElement) {
-    pageElement.draggable({scope: 'events', handle: '.move-page', scrollSensitivity: 100, helper: function(event) {
-      return $('<div class="drag-cart-item"><table></table></div>').find('table').append($(event.target).closest('tr').clone()).end();
-    }});
-  }
 
   function fillInfoField(field, info) {
     if (info) {
