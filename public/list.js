@@ -72,15 +72,18 @@ $(function () {
     $('#preview-name').text(name);
     $('#preview-link').empty().append($('<a>', {href: path}).text(prettyUrl));
 
-    $('#preview').load(contentPath, function () {
+    $('#preview').find('iframe').load(function () {
       $('#loading').addClass('hide');
+      $('#preview').find('iframe').contents().find('body').css('zoom', '50%')
       $('#preview').removeClass('hide');
+      autoResize($('#preview').find('iframe')[0]);
       var topOffset = row.offset().top;
 
       $('html, body').stop().animate({
         scrollTop: topOffset
       }, 200);
     });
+    $('#preview').find('iframe').attr('src', contentPath);
   });
 
   $('.delete').tooltip({placement: 'right', title: 'Trash it'});
@@ -199,5 +202,13 @@ $(function () {
     } else {
       return searchTreeFor(target.children(), tree)
     }
+  }
+
+  function autoResize(iframe) {
+    var newheight = iframe.contentWindow.document.body.scrollHeight;
+    var newwidth = iframe.contentWindow.document.body.scrollWidth;
+
+    iframe.height = (newheight) + "px";
+    iframe.width = (newwidth) + "px";
   }
 });

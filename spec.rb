@@ -193,7 +193,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     find('#preview-event').text.should == @page.event
     find('#preview-name').text.should == @page.full_name.strip
     find('#preview-link').text.should == @page.relative_pretty_link_to_self
-    find('#preview').text.should == @page.content
+    evaluate_script("$('#preview iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
   end
 
   it 'favorite and unfavorite pages' do
