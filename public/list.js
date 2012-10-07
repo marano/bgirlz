@@ -115,7 +115,12 @@ $(function () {
     $('.drag-cart-item').remove();
     var eventDiv = $(event.target);
     var pageMovedRow = $(ui.draggable);
+    var pageMovedRowOldEvent = pageMovedRow.data('page-event');
     var movedToEvent = eventDiv.data('event');
+    if (pageMovedRowOldEvent == movedToEvent) {
+      return;
+    }
+    pageMovedRow.data('page-event', movedToEvent);
     eventDiv.find('tbody').append(pageMovedRow);
     var path = pageMovedRow.data('change-event-path');
     $.ajax({
