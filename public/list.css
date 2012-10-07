@@ -25,6 +25,14 @@ tr {
   margin-top: -11px;
 }
 
+#preview-container span, #preview-container label {
+  display: inline-block;
+}
+
+#preview-container label {
+  font-weight: bold;
+}
+
 #preview iframe {
   border: 0;
   width: 100%;
