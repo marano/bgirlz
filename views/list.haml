@@ -23,7 +23,7 @@
           %table.table.table-condensed.table-hover
             %thead
               %tr
-                %th.delete_placeholder
+                %th.delete-placeholder
                   %a.enable-delete.btn{:href => "#"}
                     %i.icon-trash
                 %th.date Upload Date
@@ -31,11 +31,12 @@
                 %th.link Link
                 %th.content Content
                 %th.favorite
+                %th.preview
             %tbody
               - pages.each do |page|
                 %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.full_name, 'data-change-event-path' => page.relative_link_to_change_event, 'data-favorite-path' => page.relative_link_to_favorite, :'data-unfavorite-path' => page.relative_link_to_unfavorite}
-                  %td.delelte_placeholder
-                    %i.icon-move.move-page
+                  %td.delete-placeholder
+                    %i.icon-move.move-page.show-on-hover
                     %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
                       %input{:name => "_method", :type => "hidden", :value => "delete"}
                       %a.btn.delete.hide{:href => "#"}
@@ -61,17 +62,17 @@
                       %i.icon-exclamation-sign.has-html-errors
                   %td.favorite
                     - if page.favorite
-                      %a.star-it.hide{:href => '#'}
+                      %a.star-it.hide.show-on-hover{:href => '#'}
                         %i.icon-star-empty
                       %a.starred{:href => '#'}
                         %i.icon-star
                     -else
-                      %a.star-it{:href => '#'}
+                      %a.star-it.show-on-hover{:href => '#'}
                         %i.icon-star-empty
                       %a.starred.hide{:href => '#'}
                         %i.icon-star
                   %td.preview
-                    %a.preview-link.btn.preview-btn{:href => '#'}
+                    %a.preview-link.btn.preview-btn.show-on-hover{:href => '#'}
                       %i.icon-eye-open
     #preview-container.hide.span3
       %h3 Preview

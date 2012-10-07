@@ -16,8 +16,8 @@ $(function () {
     $('.star-it').tooltip('hide');
     var row = getParentRow(event.target);
     var path = row.data('favorite-path');
-    row.find('.star-it').hide();
-    row.find('.starred').show();
+    row.find('.star-it').addClass('hide');
+    row.find('.starred').removeClass('hide');
     $.ajax({
       url: path,
       type: 'PUT',
@@ -30,8 +30,8 @@ $(function () {
     $('.starred').tooltip('hide');
     var row = getParentRow(event.target);
     var path = row.data('unfavorite-path');
-    row.find('.starred').hide();
-    row.find('.star-it').show();
+    row.find('.starred').addClass('hide');
+    row.find('.star-it').removeClass('hide');
     $.ajax({
       url: path,
       type: 'PUT',
@@ -52,7 +52,7 @@ $(function () {
     }, 200);
 
     var date = row.data('page-date');
-    var event = row.data('page-event');
+    var eventName = row.data('page-event');
     var name = row.data('page-name');
     var path = row.data('page-path');
     var contentPath = row.data('page-content-path');
@@ -63,18 +63,18 @@ $(function () {
     currentPreviewPath = path;
     $('.on-preview').removeClass('on-preview');
     row.addClass('on-preview');
-    $('#preview-container').show();
+    $('#preview-container').removeClass('hide');
 
-    $('#preview').hide();
-    $('#loading').show();
+    $('#preview').addClass('hide');
+    $('#loading').removeClass('hide');
     fillInfoField('#preview-date', date);
-    fillInfoField('#preview-event', event);
+    fillInfoField('#preview-event', eventName);
     $('#preview-name').text(name);
     $('#preview-link').empty().append($('<a>', {href: path}).text(prettyUrl));
 
     $('#preview').load(contentPath, function () {
-      $('#loading').hide();
-      $('#preview').show();
+      $('#loading').addClass('hide');
+      $('#preview').removeClass('hide');
       var topOffset = row.offset().top;
 
       $('html, body').stop().animate({
@@ -109,8 +109,8 @@ $(function () {
     event.preventDefault();
     var eventDiv = getEventDiv(event.target);
     searchTreeFor('.enable-delete', eventDiv).hide();
-    searchTreeFor('.delete', eventDiv).show();
-    searchTreeFor('.move-page', eventDiv).hide();
+    searchTreeFor('.delete', eventDiv).removeClass('hide');
+    searchTreeFor('.move-page', eventDiv).addClass('hide');
   });
 
 
@@ -137,6 +137,16 @@ $(function () {
       success: function () {}
     });
   }});
+
+  $('.page').mouseenter(function (event) {
+    searchTreeFor('.show-on-hover', getParentRow(event.target)).each(function (index, element) {
+      $(element).addClass('hovering');
+    });
+  }).mouseleave(function (event) {
+    searchTreeFor('.show-on-hover', getParentRow(event.target)).each(function (index, element) {
+      $(element).removeClass('hovering');
+    });
+  });
 
   function fillInfoField(field, info) {
     if (info) {

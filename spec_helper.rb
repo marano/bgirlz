@@ -12,7 +12,6 @@ RSpec.configure do |c|
   c.before do
     Page.destroy_all
     Capybara.reset_sessions!
-    evaluate_script('window.confirm = function() { return true; }')
   end
 end
 

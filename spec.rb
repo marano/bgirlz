@@ -84,6 +84,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     within ".event[data-event='#{@page3.event}']" do
       find('.enable-delete .icon-trash').should_not be_visible
       find(".delete").should be_visible
+      evaluate_script('window.confirm = function() { return true; }')
       find('.delete .icon-trash').click
     end
 
@@ -103,6 +104,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     within ".event[data-event='#{@page.event}']" do
       find('.enable-delete .icon-trash').click
+      evaluate_script('window.confirm = function() { return true; }')
       find('.delete .icon-trash').click
     end
 
@@ -185,6 +187,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
   it 'shows page preview on list' do
     @page = Page.create(:name => 'Joana', :middle_initial => 'Silva', :last_name => 'Sauro', :event => 'Event1', :content => 'oi!')
     visit '/list'
+    page.execute_script("$('.page').trigger('mouseenter')")
     find('.preview-link').click
     find('#preview-date').text.should == @page.created_at.strftime("%m/%d/%Y")
     find('#preview-event').text.should == @page.event
@@ -197,19 +200,36 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page = Page.create!(:name => 'Joana', :content => 'oi!')
 
     visit '/list'
+    find('.star-it').should_not be_visible
+    find('.starred').should_not be_visible
+    page.execute_script("$('.page').trigger('mouseenter');")
+    find('.star-it').should be_visible
     find('.star-it').click
     find('.star-it').should_not be_visible
     find('.starred').should be_visible
 
+    page.execute_script("$('.page').trigger('mouseout');")
+    find('.star-it').should_not be_visible
+    find('.starred').should be_visible
+
     visit '/list'
+    find('.star-it').should_not be_visible
+    find('.starred').should be_visible
+    page.execute_script("$('.page').trigger('mouseenter');")
     find('.star-it').should_not be_visible
     find('.starred').should be_visible
 
     find('.starred').click
     find('.starred').should_not be_visible
     find('.star-it').should be_visible
+    page.execute_script("$('.page').trigger('mouseout');")
+    find('.starred').should_not be_visible
+    find('.star-it').should_not be_visible
 
     visit '/list'
+    find('.starred').should_not be_visible
+    find('.star-it').should_not be_visible
+    page.execute_script("$('.page').trigger('mouseenter');")
     find('.starred').should_not be_visible
     find('.star-it').should be_visible
   end
@@ -218,6 +238,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page = Page.create!(:name => 'Joana', :content => 'oi!')
 
     visit '/list'
+    page.execute_script("$('.page').trigger('mouseenter');")
     find('.star-it').click
 
     visit '/'
@@ -232,7 +253,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     visit '/list'
 
-    firs_event_div = page.find(".event[data-event=#{@page1.event}]")
+    first_event_div = page.find(".event[data-event=#{@page1.event}]")
     second_event_div = page.find(".event[data-event=#{@page2.event}]")
     third_event_div = page.find(".event[data-event=#{@page3.event}]")
 
@@ -241,7 +262,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find(page1_row_locator).find('.move-page').drag_to(second_event_div)
     page.find(page1_row_locator).find('.move-page').drag_to(third_event_div)
 
-    firs_event_div.should_not have_css page1_row_locator
+    first_event_div.should_not have_css page1_row_locator
     second_event_div.should_not have_css page1_row_locator
     third_event_div.should have_css page1_row_locator
 

@@ -9,8 +9,8 @@ td {
   padding-top: 10px !important;
 }
 
-th {
-  height: 30px !important;
+tr {
+  height: 40px !important;
 }
 
 #filter {
@@ -68,7 +68,11 @@ th {
   width: 4%;
 }
 
-.delete_placeholder, .preview {
+.delete-placeholder {
+  width: 6%;
+}
+
+.preview {
   width: 6%;
 }
 
@@ -83,4 +87,16 @@ th {
 
 .content i {
   cursor: help;
+}
+
+.show-on-hover {
+  display: none;
+}
+
+.hovering {
+  display: inline-block;
+}
+
+.hide {
+  display: none !important;
 }
