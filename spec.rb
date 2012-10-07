@@ -258,6 +258,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page_with_music = Page.create!(:name => 'Cecilia', :content => "play this <iframe src='http://www.miniclip.com/games/soccer-stars/en/webgame.php' />!")
     @page_with_stylesheet = Page.create!(:name => 'Aloka', :content => "im hipister <style>font-face: helvetica</style>")
     @page_with_facebook_comments = Page.create!(:name => 'Maria', :enable_comments => true, :content => "quer falar do que?")
+    @page_with_html_errors = Page.create!(:name => 'Augusta', :content => "here <a")
 
     visit '/list'
 
@@ -266,5 +267,6 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find(".page[data-page-name=#{@page_with_music.name}]").should have_css 'i.has-music'
     page.find(".page[data-page-name=#{@page_with_stylesheet.name}]").should have_css 'i.has-stylesheet'
     page.find(".page[data-page-name=#{@page_with_facebook_comments.name}]").should have_css 'i.has-facebook-comments'
+    page.find(".page[data-page-name=#{@page_with_html_errors.name}]").should have_css 'i.has-html-errors'
   end
 end

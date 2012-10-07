@@ -57,6 +57,8 @@
                       %i.icon-italic.has-stylesheet
                     - if page.enable_comments
                       %i.icon-comment.has-facebook-comments
+                    - if page.have_html_errors?
+                      %i.icon-exclamation-sign.has-html-errors
                   %td.favorite
                     - if page.favorite
                       %a.star-it.hide{:href => '#'}

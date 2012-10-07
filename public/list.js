@@ -95,6 +95,7 @@ $(function () {
   $('.has-music').tooltip({placement: 'bottom', title: 'Music'});
   $('.has-stylesheet').tooltip({placement: 'bottom', title: 'Stylesheet'});
   $('.has-facebook-comments').tooltip({placement: 'bottom', title: 'Facebook Comments'});
+  $('.has-html-errors').tooltip({placement: 'bottom', title: 'HTML problems'});
 
   $('.event-link').click(function (event) {
     event.preventDefault();

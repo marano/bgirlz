@@ -180,6 +180,10 @@ class Page
     @content.include? '<style>'
   end
 
+  def have_html_errors?
+    !Nokogiri::HTML(@content).errors.empty?
+  end
+
   private
 
   def create_salt
