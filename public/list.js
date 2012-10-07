@@ -74,7 +74,7 @@ $(function () {
 
     $('#preview').find('iframe').load(function () {
       $('#loading').addClass('hide');
-      $('#preview').find('iframe').contents().find('body').css('zoom', '50%')
+      $('#preview').find('iframe').contents().find('body').css('zoom', '70%')
       $('#preview').removeClass('hide');
       autoResize($('#preview').find('iframe')[0]);
       var topOffset = row.offset().top;

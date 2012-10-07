@@ -13,7 +13,7 @@
               = event
 
   .row-fluid
-    .span9
+    .span8
       - @events_and_pages.each do |event, pages|
         .event{'data-event' => event}
           - if event == ''
@@ -74,7 +74,7 @@
                   %td.preview
                     %a.preview-link.btn.preview-btn.show-on-hover{:href => '#'}
                       %i.icon-eye-open
-    #preview-container.hide.span3
+    #preview-container.hide.span4
       %h3 Preview
       %h4 Student Info
       %h6 Upload Date
