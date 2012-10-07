@@ -80,6 +80,13 @@ class Controller < Sinatra::Base
     haml :_featured, :layout => false
   end
 
+  put '/:first/:last/change_event' do
+    page = resolve_page_from_path
+    page.event = params[:event]
+    page.save!
+    status 200
+  end
+
   put '/:first/:last/favorite' do
     resolve_page_from_path.favorite!
     status 200

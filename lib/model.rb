@@ -98,6 +98,10 @@ class Page
     "#{relative_link_to_self}/featured"
   end
 
+  def relative_link_to_change_event
+    "#{relative_link_to_self}/change_event"
+  end
+
   def relative_link_to_favorite
     "#{relative_link_to_self}/favorite"
   end

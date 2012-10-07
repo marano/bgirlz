@@ -224,4 +224,31 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_css '.carousel-inner iframe'
     evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
   end
+
+  it 'allow me to move page to another event' do
+    @page1 = Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
+    @page2 = Page.create!(:name => 'Claudia', :event => 'Event2', :content => 'hi!')
+    @page3 = Page.create!(:name => 'Hyohana', :event => 'Event3', :content => 'hello!')
+
+    visit '/list'
+
+    firs_event_div = page.find(".event[data-event=#{@page1.event}]")
+    second_event_div = page.find(".event[data-event=#{@page2.event}]")
+    third_event_div = page.find(".event[data-event=#{@page3.event}]")
+
+    page1_row_locator = ".page[data-page-name=#{@page1.full_name}]"
+
+    page.find(page1_row_locator).find('.move-page').drag_to(second_event_div)
+    page.find(page1_row_locator).find('.move-page').drag_to(third_event_div)
+
+    firs_event_div.should_not have_css page1_row_locator
+    second_event_div.should_not have_css page1_row_locator
+    third_event_div.should have_css page1_row_locator
+
+    @page1.reload.event.should == @page3.event
+
+    visit '/list'
+
+    assert_uploaded_page_is_displayed_within_event(@page1)
+  end
 end

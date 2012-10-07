@@ -88,6 +88,7 @@ $(function () {
   $('.starred').tooltip({placement: 'left', title: 'Unstar it'});
   $('.star-it').tooltip({placement: 'left', title: 'Star it'});
   $('.enable-delete').tooltip({placement: 'right', title: 'Show delete buttons'});
+  $('.move-page').tooltip({placement: 'right', title: 'Move page to another event'});
 
   $('.event-link').click(function (event) {
     event.preventDefault();
@@ -102,7 +103,34 @@ $(function () {
     var eventDiv = getEventDiv(event.target);
     searchTreeFor('.enable-delete', eventDiv).hide();
     searchTreeFor('.delete', eventDiv).show();
+    searchTreeFor('.move-page', eventDiv).hide();
   });
+
+
+  makePageDraggable($('.page'));
+
+  $('.event').droppable({scope: 'events', hoverClass: 'droppable-active', drop: function (event, ui) {
+    $('.drag-cart-item').remove();
+    var eventDiv = $(event.target);
+    var pageMovedRow = $(ui.draggable);
+    var movedToEvent = eventDiv.data('event');
+    pageMovedRow.remove();
+    eventDiv.find('tbody').append(pageMovedRow);
+    makePageDraggable(pageMovedRow);
+    var path = pageMovedRow.data('change-event-path');
+    $.ajax({
+      url: path,
+      type: 'PUT',
+      data: { event: movedToEvent },
+      success: function () {}
+    });
+  }});
+
+  function makePageDraggable(pageElement) {
+    pageElement.draggable({scope: 'events', handle: '.move-page', scrollSensitivity: 100, helper: function(event) {
+      return $('<div class="drag-cart-item"><table></table></div>').find('table').append($(event.target).closest('tr').clone()).end();
+    }});
+  }
 
   function fillInfoField(field, info) {
     if (info) {
