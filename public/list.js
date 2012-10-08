@@ -170,7 +170,7 @@ $(function () {
     if(lastName == undefined) {
       lastName = ''
     }
-    var form = $("<form id='edit-form'><input id='name-input' type='text' value='" + name + "' /><input id='middle-initial-input' type='text' value='" + middleInitial + "' /><input id='last-name-input' type='text' value='" + lastName + "' /><input id='edit-submit' class='btn btn-primary' type='submit' value='Save' /></form>");
+    var form = $("<form id='edit-form'><input id='name-input' placeholder='First Name' type='text' value='" + name + "' /><input id='middle-initial-input' placeholder='Middle Initial' type='text' value='" + middleInitial + "' /><input id='last-name-input' placeholder='Last Name' type='text' value='" + lastName + "' /><input id='edit-submit' class='btn btn-primary' type='submit' value='Save' /></form>");
     row.find('.name-container').html(form);
 
     $('#edit-form').submit(function (e) {
