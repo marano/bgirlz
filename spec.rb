@@ -277,6 +277,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page_with_image = Page.create!(:name => 'Joana', :content => "meet me <img src='/me.jpg'/>!")
     @page_with_video = Page.create!(:name => 'Ana', :content => "meet me <iframe src='http://www.youtube.com/embed/132' />!")
     @page_with_music = Page.create!(:name => 'Cecilia', :content => "play this <iframe src='http://www.miniclip.com/games/soccer-stars/en/webgame.php' />!")
+    @page_with_music_2 = Page.create!(:name => 'Nina', :content => "<iframe frameborder='no' height='166' src='http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F36735760&amp;show_artwork=true' width='100%'></iframe>")
     @page_with_stylesheet = Page.create!(:name => 'Aloka', :content => "im hipister <style>font-face: helvetica</style>")
     @page_with_facebook_comments = Page.create!(:name => 'Maria', :enable_comments => true, :content => "quer falar do que?")
     @page_with_html_errors = Page.create!(:name => 'Augusta', :content => "here <a")
@@ -286,6 +287,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find(".page[data-page-name=#{@page_with_image.name}]").should have_css 'i.has-image'
     page.find(".page[data-page-name=#{@page_with_video.name}]").should have_css 'i.has-video'
     page.find(".page[data-page-name=#{@page_with_music.name}]").should have_css 'i.has-music'
+    page.find(".page[data-page-name=#{@page_with_music_2.name}]").should have_css 'i.has-music'
     page.find(".page[data-page-name=#{@page_with_stylesheet.name}]").should have_css 'i.has-stylesheet'
     page.find(".page[data-page-name=#{@page_with_facebook_comments.name}]").should have_css 'i.has-facebook-comments'
     page.find(".page[data-page-name=#{@page_with_html_errors.name}]").should have_css 'i.has-html-errors'

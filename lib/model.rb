@@ -173,7 +173,7 @@ class Page
   end
 
   def have_music?
-    @content.include? 'http://www.miniclip.com/games/soccer-stars/en/webgame.php' # yep we only have one page
+    @content.include?('http://www.miniclip.com/games/soccer-stars/en/webgame.php') || @content.include?('soundcloud.com/player')
   end
 
   def have_stylesheet?
