@@ -99,7 +99,7 @@ tr {
   cursor: help;
 }
 
-.show-on-hover {
+.show-on-hover, .show-on-header-hover {
   display: none;
 }
 

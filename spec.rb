@@ -67,22 +67,27 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_uploaded_page_is_displayed_within_event(@page1)
     assert_uploaded_page_is_displayed_within_event(@page2)
 
-    within ".event[data-event='#{@page3.event}']" do
+    event_3_div_locator = ".event[data-event='#{@page3.event}']"
+
+    within event_3_div_locator do
+      find('.enable-delete').should_not be_visible
+      page.execute_script("$(\"#{event_3_div_locator}\").find('thead').find('tr').trigger('mouseenter');")
+      find('.enable-delete').should be_visible
       find('.enable-delete .icon-trash').click
     end
 
     within ".event[data-event='#{@page1.event}']" do
-      find('.enable-delete .icon-trash').should be_visible
+      find('.enable-delete').should_not be_visible
       find(".delete").should_not be_visible
     end
 
     within ".event[data-event='#{@page2.event}']" do
-      find('.enable-delete .icon-trash').should be_visible
+      find('.enable-delete').should_not be_visible
       find(".delete").should_not be_visible
     end
 
-    within ".event[data-event='#{@page3.event}']" do
-      find('.enable-delete .icon-trash').should_not be_visible
+    within event_3_div_locator do
+      find('.enable-delete').should_not be_visible
       find(".delete").should be_visible
       evaluate_script('window.confirm = function() { return true; }')
       find('.delete .icon-trash').click

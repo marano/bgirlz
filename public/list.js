@@ -114,7 +114,7 @@ $(function () {
   $('.enable-delete').click(function (event) {
     event.preventDefault();
     var eventDiv = getEventDiv(event.target);
-    searchTreeFor('.enable-delete', eventDiv).hide();
+    searchTreeFor('.enable-delete', eventDiv).addClass('hide');
     searchTreeFor('.delete', eventDiv).removeClass('hide');
     searchTreeFor('.move-page', eventDiv).addClass('hide');
   });
@@ -143,6 +143,16 @@ $(function () {
       success: function () {}
     });
   }});
+
+  $('thead').mouseenter(function (event) {
+    searchTreeFor('.show-on-header-hover', getParentRow(event.target)).each(function (index, element) {
+      $(element).addClass('hovering');
+    });
+  }).mouseleave(function (event) {
+    searchTreeFor('.show-on-header-hover', getParentRow(event.target)).each(function (index, element) {
+      $(element).removeClass('hovering');
+    });
+  });
 
   $('.page').mouseenter(function (event) {
     searchTreeFor('.show-on-hover', getParentRow(event.target)).each(function (index, element) {
