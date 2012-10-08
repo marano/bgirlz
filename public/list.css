@@ -114,3 +114,7 @@ tr {
 .drag-cart-item {
   background-color: white;
 }
+
+.name input[type=text] {
+  width: 90%;
+}

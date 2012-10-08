@@ -34,7 +34,7 @@
                 %th.preview
             %tbody
               - pages.each do |page|
-                %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.full_name, 'data-change-event-path' => page.relative_link_to_change_event, 'data-favorite-path' => page.relative_link_to_favorite, :'data-unfavorite-path' => page.relative_link_to_unfavorite}
+                %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.name, 'data-page-middle-initial' => page.middle_initial, 'data-page-last-name' => page.last_name, 'data-change-event-path' => page.relative_link_to_change_event, 'data-update-name-path' => page.relative_link_to_update_name, 'data-favorite-path' => page.relative_link_to_favorite, :'data-unfavorite-path' => page.relative_link_to_unfavorite}
                   %td.delete-placeholder
                     %i.icon-move.move-page.show-on-hover
                     %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
@@ -44,7 +44,10 @@
                   %td.date
                     = page.formatted_created_at
                   %td.name
-                    = page.full_name
+                    %span.name-container
+                      = page.full_name
+                    %a.edit.show-on-hover{:href => '#'}
+                      %i.icon-edit
                   %td.link
                     %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
                   %td.content

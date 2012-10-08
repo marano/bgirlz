@@ -87,6 +87,15 @@ class Controller < Sinatra::Base
     status 200
   end
 
+  put '/:first/:last/update_name' do
+    page = resolve_page_from_path
+    page.name = params[:name]
+    page.middle_initial = params[:middle_initial]
+    page.last_name = params[:last_name]
+    page.save!
+    status 200
+  end
+
   put '/:first/:last/favorite' do
     resolve_page_from_path.favorite!
     status 200

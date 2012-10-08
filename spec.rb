@@ -292,4 +292,32 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find(".page[data-page-name=#{@page_with_facebook_comments.name}]").should have_css 'i.has-facebook-comments'
     page.find(".page[data-page-name=#{@page_with_html_errors.name}]").should have_css 'i.has-html-errors'
   end
+
+  it 'edits girls name' do
+    @page = Page.create!(:name => 'Joana', :content => 'oi!')
+
+    visit '/list'
+
+    page.execute_script("$('.page').trigger('mouseenter')")
+    page.find('.edit').click
+    page.find('#name-input').value.should == 'Joana'
+    page.find('#middle-initial-input').value.should == ''
+    page.find('#last-name-input').value.should == ''
+    fill_in 'name-input', :with => 'Joaninha'
+    fill_in 'middle-initial-input', :with => 'C'
+    fill_in 'last-name-input', :with => 'Serra'
+    page.find('#edit-submit').click
+
+    page.find('.page').find('.name').text.should == 'Joaninha C Serra'
+
+    page.execute_script("$('.page').trigger('mouseenter')")
+    page.find('.edit').click
+    page.find('#name-input').value.should == 'Joaninha'
+    page.find('#middle-initial-input').value.should == 'C'
+    page.find('#last-name-input').value.should == 'Serra'
+
+    visit '/list'
+
+    page.find('.page').find('.name').text.should == 'Joaninha C Serra'
+  end
 end

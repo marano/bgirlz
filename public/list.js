@@ -54,6 +54,8 @@ $(function () {
     var date = row.data('page-date');
     var eventName = row.data('page-event');
     var name = row.data('page-name');
+    var middleInitial = row.data('page-middle-initial');
+    var lastName = row.data('page-last-name');
     var path = row.data('page-path');
     var contentPath = row.data('page-content-path');
     var prettyUrl = row.data('page-pretty-path');
@@ -69,7 +71,7 @@ $(function () {
     $('#loading').removeClass('hide');
     fillInfoField('#preview-date', date);
     fillInfoField('#preview-event', eventName);
-    $('#preview-name').text(name);
+    $('#preview-name').text(name + ' ' + middleInitial + ' ' + lastName);
     $('#preview-link').empty().append($('<a>', {href: path}).text(prettyUrl));
 
     $('#preview').find('iframe').load(function () {
@@ -92,6 +94,7 @@ $(function () {
   $('.star-it').tooltip({placement: 'bottom', title: 'Star it'});
   $('.enable-delete').tooltip({placement: 'right', title: 'Show delete buttons'});
   $('.move-page').tooltip({placement: 'right', title: 'Move page to another event'});
+  $('.edit').tooltip({placement: 'right', title: 'Edit'});
 
   $('.has-image').tooltip({placement: 'bottom', title: 'Image'});
   $('.has-video').tooltip({placement: 'bottom', title: 'Video'});
@@ -148,6 +151,49 @@ $(function () {
   }).mouseleave(function (event) {
     searchTreeFor('.show-on-hover', getParentRow(event.target)).each(function (index, element) {
       $(element).removeClass('hovering');
+    });
+  });
+
+  $('.edit').click(function (event) {
+    event.preventDefault();
+    var row = getParentRow(event.target);
+    var editLink = row.find('.edit');
+    editLink.addClass('hide')
+    editLink.tooltip('hide');
+    var path = row.data('update-name-path');
+    var name = row.data('page-name');
+    var middleInitial = row.data('page-middle-initial');
+    var lastName = row.data('page-last-name');
+    if(middleInitial == undefined) {
+      middleInitial = ''
+    }
+    if(lastName == undefined) {
+      lastName = ''
+    }
+    var form = $("<form id='edit-form'><input id='name-input' type='text' value='" + name + "' /><input id='middle-initial-input' type='text' value='" + middleInitial + "' /><input id='last-name-input' type='text' value='" + lastName + "' /><input id='edit-submit' class='btn btn-primary' type='submit' value='Save' /></form>");
+    row.find('.name-container').html(form);
+
+    $('#edit-form').submit(function (e) {
+      e.preventDefault();
+
+      var name = $('#name-input').val();
+      var middleInitial = $('#middle-initial-input').val();
+      var lastName = $('#last-name-input').val();
+
+      $.ajax({
+        url: path,
+        type: 'PUT',
+        data: { name: name, middle_initial: middleInitial, last_name: lastName },
+        success: function () {}
+      });
+
+      row.data('page-name', name);
+      row.data('page-middle-initial', middleInitial);
+      row.data('page-last-name', lastName);
+
+      row.find('.name-container').text(name + ' ' + middleInitial + ' ' + lastName);
+      editLink.removeClass('hide');
+      row.trigger('mouseout');
     });
   });
 

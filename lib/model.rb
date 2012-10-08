@@ -102,6 +102,10 @@ class Page
     "#{relative_link_to_self}/change_event"
   end
 
+  def relative_link_to_update_name
+    "#{relative_link_to_self}/update_name"
+  end
+
   def relative_link_to_favorite
     "#{relative_link_to_self}/favorite"
   end
