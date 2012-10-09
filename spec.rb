@@ -81,6 +81,9 @@ describe 'Black Girls Code Website Publisher', :js => true do
       find('.enable-delete').should_not be_visible
       page.execute_script("$(\"#{event_3_div_locator}\").find('thead').find('tr').trigger('mouseenter');")
       find('.enable-delete').should be_visible
+      page.execute_script("$(\"#{event_3_div_locator}\").find('thead').find('tr').trigger('mouseout');")
+      find('.enable-delete').should_not be_visible
+      page.execute_script("$(\"#{event_3_div_locator}\").find('thead').find('tr').trigger('mouseenter');")
       find('.enable-delete .icon-trash').click
     end
 
