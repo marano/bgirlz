@@ -65,6 +65,36 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
+  it 'changes page url format if page attributes are updated' do
+    @page = Page.create!(:name => 'Joana', :content => 'oi!')
+
+    @page.send(:new_url_format?).should be_false
+
+    @page.middle_initial = 'C'
+    @page.last_name = 'Serra'
+    @page.event = 'SuperHTML'
+    @page.save
+
+    @page.send(:new_url_format?).should be_true
+
+    visit @page.relative_link_to_self
+
+    assert_page_is_displayed(@page)
+
+    @page = Page.create!(:name => 'Aloka', :middle_initial => 'V', :last_name => 'Crazy', :event => 'BGCNY', :content => 'Eaí!')
+
+    @page.send(:new_url_format?).should be_true
+
+    @page.middle_initial = ''
+    @page.save
+
+    @page.send(:new_url_format?).should be_false
+
+    visit @page.relative_link_to_self
+
+    assert_page_is_displayed(@page)
+  end
+
   it 'shows my page at list page organized by event' do
     @page1 = Page.create!(:name => 'Joana', :middle_initial => 'S', :content => 'oi!')
     @page2 = Page.create!(:name => 'Paula', :event => 'BGCChicago', :content => 'olá!')

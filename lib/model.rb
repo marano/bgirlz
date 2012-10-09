@@ -13,16 +13,16 @@ class Page
   key :favorite, Boolean
   timestamps!
 
-  before_create :create_salt, :validate
+  before_create :create_salt_before_create, :validate
   after_create :create_link_after_create!
-  before_update :create_link_before_update!
+  before_update :create_salt_before_update, :create_link_before_update!
 
   def self.publish!(name, middle_initial, last_name, event, enable_comments, content)
     return if invalid_page?(name, content)
 
     page_data = {name: name, middle_initial: middle_initial, last_name: last_name, event: event, :content => content, :enable_comments => enable_comments == 'on'}
 
-    if new_url_format?(name, middle_initial, last_name, event)
+    if Page.new_url_format?(name, middle_initial, last_name, event)
       existent_page = Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
       if existent_page.nil?
         return Page.create! page_data
@@ -41,6 +41,10 @@ class Page
 
   def self.new_url_format?(name, middle_initial, last_name, event)
     !name.blank? && !middle_initial.blank? && !last_name.blank? && !event.blank?
+  end
+
+  def new_url_format?
+    Page.new_url_format?(@name, @middle_initial, @last_name, @event)
   end
 
   def self.find_by_name_and_salt(name, salt)
@@ -85,10 +89,10 @@ class Page
   end
 
   def relative_link_to_self
-    if @salt
-      "/#{@salt}/#{URI::encode(@name)}"
-    else
+    if new_url_format?
       "/#{URI::encode(@event)}/#{URI::encode(@name)}_#{URI::encode(@middle_initial)}_#{URI::encode(@last_name)}"
+    else
+      "/#{@salt}/#{URI::encode(@name)}"
     end
   end
 
@@ -117,18 +121,18 @@ class Page
   end
 
   def relative_pretty_link_to_self
-    if @salt
-      "/#{@salt}/#{@name}"
-    else
+    if new_url_format?
       "/#{@event}/#{@name}_#{@middle_initial}_#{@last_name}"
+    else
+      "/#{@salt}/#{@name}"
     end
   end
 
   def relative_panel_path
-    if @salt
-      "/#{@salt}/#{URI::encode(@name)}/panel"
-    else
+    if new_url_format?
       "/#{URI::encode(@event)}/#{URI::encode(@name)}_#{URI::encode(@middle_initial)}_#{URI::encode(@last_name)}/panel"
+    else
+      "/#{@salt}/#{URI::encode(@name)}/panel"
     end
   end
 
@@ -192,17 +196,27 @@ class Page
 
   private
 
-  def create_salt
-    if @middle_initial.blank? ||  @last_name.blank? || @event.blank?
-      @salt = '%.3i' % (rand * 999)
+  def create_salt_before_create
+    unless new_url_format?
+      generate_salt
     end
   end
 
+  def create_salt_before_update
+    unless new_url_format? || @salt
+      generate_salt
+    end
+  end
+
+  def generate_salt
+    @salt = '%.3i' % (rand * 999)
+  end
+
   def validate
-    if @salt
-      raise "validation error" if Page.find_by_name_and_salt(@name, @salt)
-    else
+    if new_url_format?
       raise "validation error" if Page.find_by_full_name_and_event(@name, @middle_initial, @last_name, @event)
+    else
+      raise "validation error" if Page.find_by_name_and_salt(@name, @salt)
     end
   end
 
