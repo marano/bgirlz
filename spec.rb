@@ -33,7 +33,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
-  it 'uses same url for facebook comment href-url parameter after page link changes and the link redirects to current page' do
+  it 'uses original url for facebook comment href-url parameter after page link changes' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Cecilia',
                                                   :enable_comments => true,
                                                   :html => 'Eaí Bob!')
