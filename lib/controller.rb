@@ -99,7 +99,7 @@ class Controller < Sinatra::Base
   end
 
   delete '/*' do
-    resolve_page_from_path.delete
+    resolve_page_from_path.destroy
     redirect '/list'
   end
 
