@@ -46,6 +46,16 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_page_is_displayed(@page)
   end
 
+  it 'should allow other page to have the same url if my page is deleted' do
+    @page = Page.create!(:name => 'Aloka', :middle_initial => 'V', :last_name => 'Crazy', :event => 'BGCNY', :content => 'Eaí!')
+    @page.destroy
+    @page = Page.create!(:name => 'Aloka', :middle_initial => 'V', :last_name => 'Crazy', :event => 'BGCNY', :content => 'How are you doing?')
+
+    visit @page.relative_link_to_self
+
+    assert_page_is_displayed(@page)
+  end
+
   it 'allows me to publish my website using a file' do
     page_file = Tempfile.new('mypage.html')
     page_file.write 'oi!'

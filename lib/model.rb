@@ -17,6 +17,7 @@ class Page
   before_create :create_salt_before_create, :validate
   after_create :create_link_after_create!
   before_update :create_salt_before_update, :create_link_before_update!
+  after_destroy :destroy_links
 
   def self.publish!(name, middle_initial, last_name, event, enable_comments, content)
     return if invalid_page?(name, content)
@@ -235,13 +236,17 @@ class Page
   end
 
   def create_link_before_update!
-    unless links.include?(relative_link_to_self)
+    unless links.map(&:link).include?(relative_link_to_self)
       create_link!
     end
   end
 
   def links
-    PageLink.all(:page_id => _id.to_s).map(&:link)
+    PageLink.all(:page_id => _id.to_s)
+  end
+
+  def destroy_links
+    links.each { |link| link.destroy }
   end
 end
 
