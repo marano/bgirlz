@@ -11,6 +11,20 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
+  it 'keeps the old link after page link changes' do
+    @page = upload_page_and_assert_data_was_saved(:name => 'Cecilia',
+                                                  :html => 'Eaí Bob!')
+
+    old_link = @page.relative_link_to_self
+
+    @page.name = 'Ana Cecília'
+    @page.save
+
+    page.visit old_link
+
+    assert_page_is_displayed(@page)
+  end
+
   it 'add facebook comments to my website' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Cecilia',
                                                   :enable_comments => true,

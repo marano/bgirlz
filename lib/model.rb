@@ -14,6 +14,8 @@ class Page
   timestamps!
 
   before_create :create_salt, :validate
+  after_create :create_link_after_create!
+  before_update :create_link_before_update!
 
   def self.publish!(name, middle_initial, last_name, event, enable_comments, content)
     return if invalid_page?(name, content)
@@ -203,4 +205,30 @@ class Page
       raise "validation error" if Page.find_by_full_name_and_event(@name, @middle_initial, @last_name, @event)
     end
   end
+
+  def create_link!
+    PageLink.create!(:page_id => _id.to_s, :link => relative_link_to_self)
+  end
+
+  def create_link_after_create!
+    create_link!
+  end
+
+  def create_link_before_update!
+    unless links.include?(relative_link_to_self)
+      create_link!
+    end
+  end
+
+  def links
+    PageLink.all(:page_id => _id.to_s).map(&:link)
+  end
+end
+
+class PageLink
+  include MongoMapper::Document
+
+  key :link, String, :required => true, :unique => true
+  key :page_id, String
+  timestamps!
 end

@@ -60,34 +60,26 @@ class Controller < Sinatra::Base
     "404 Not found"
   end
 
-  get '/:first/:last' do
-    @first_time = params[:first_time]
-    @page = resolve_page_from_path
-    add_to_header = erb :_page_header, :layout => false
-    add_to_body = erb :_comments, :layout => false
-    @page.patched_html add_to_header, add_to_body
-  end
-
-  get '/:first/:last/content' do
+  get '/*/content' do
     @page = resolve_page_from_path
     add_to_header = erb :_page_header, :layout => false
     add_to_body = erb :_comments, :layout => false
     @page.content
   end
 
-  get '/:first/:last/featured' do
+  get '/*/featured' do
     @page = resolve_page_from_path
     haml :_featured, :layout => false
   end
 
-  put '/:first/:last/change_event' do
+  put '/*/change_event' do
     page = resolve_page_from_path
     page.event = params[:event]
     page.save!
     status 200
   end
 
-  put '/:first/:last/update_name' do
+  put '/*/update_name' do
     page = resolve_page_from_path
     page.name = params[:name]
     page.middle_initial = params[:middle_initial]
@@ -96,24 +88,32 @@ class Controller < Sinatra::Base
     status 200
   end
 
-  put '/:first/:last/favorite' do
+  put '/*/favorite' do
     resolve_page_from_path.favorite!
     status 200
   end
 
-  put '/:first/:last/unfavorite' do
+  put '/*/unfavorite' do
     resolve_page_from_path.unfavorite!
     status 200
   end
 
-  delete '/:first/:last' do
+  delete '/*' do
     resolve_page_from_path.delete
     redirect '/list'
   end
 
-  get '/:first/:last/panel' do
+  get '/*/panel' do
     @page = resolve_page_from_path
     erb :_page_info_panel, :layout => false
+  end
+
+  get '/*' do
+    @first_time = params[:first_time]
+    @page = resolve_page_from_path
+    add_to_header = erb :_page_header, :layout => false
+    add_to_body = erb :_comments, :layout => false
+    @page.patched_html add_to_header, add_to_body
   end
 
   private
@@ -132,31 +132,14 @@ class Controller < Sinatra::Base
   end
 
   def resolve_page_from_path
-    page = page_url_old_format? ? page_from_path_with_old_format : page_from_path_with_new_format
-
+    link = PageLink.find_by_link "/#{params[:splat].first}"
+    unless link.nil?
+      page = Page.find(link.page_id)
+    end
     if page.nil?
       raise Sinatra::NotFound
     else
       return page
     end
-  end
-
-  def page_url_old_format?
-    params[:first] =~ /\A[0-9]{3}\z/
-  end
-
-  def page_from_path_with_old_format
-    salt = params[:first]
-    name = params[:last]
-    Page.find_by_name_and_salt(name, salt)
-  end
-
-  def page_from_path_with_new_format
-    event = params[:first]
-    name_parts = params[:last].split('_')
-    name = name_parts[0]
-    middle_initial = name_parts[1]
-    last_name = name_parts[2]
-    Page.find_by_full_name_and_event(name, middle_initial, last_name, event)
   end
 end
