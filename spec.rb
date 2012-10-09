@@ -11,6 +11,14 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
+  it 'add facebook comments to my website' do
+    @page = upload_page_and_assert_data_was_saved(:name => 'Cecilia',
+                                                  :enable_comments => true,
+                                                  :html => 'Eaí Bob!')
+
+    assert_upload_is_ok(@page)
+  end
+
   it 'allows me to publish my website using a file' do
     page_file = Tempfile.new('mypage.html')
     page_file.write 'oi!'

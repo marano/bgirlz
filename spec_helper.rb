@@ -34,6 +34,15 @@ def upload_page_and_assert_data_was_saved(params, success = true)
   fill_in 'middle_initial', :with => params[:middle_initial] if params[:middle_initial]
   fill_in 'last_name', :with => params[:last_name] if params[:last_name]
   fill_in 'event', :with => params[:event] if params[:event]
+
+  if params.has_key?(:enable_comments)
+    if params[:enable_comments]
+      check('enable_comments')
+    else
+      uncheck('enable_comments')
+    end
+  end
+
   if params[:html]
     click_link 'HTML'
     fill_in 'html', :with => params[:html]
@@ -64,18 +73,30 @@ def upload_page_and_assert_data_was_saved(params, success = true)
     if params[:page]
       uploadedPage.content.should == File.read(params[:page])
     end
+    if params.has_key?(:enable_comments)
+      uploadedPage.enable_comments.should == params[:enable_comments]
+    end
     return uploadedPage
   end
 end
 
-def url
+def host
   if Capybara.current_session.driver.class == Capybara::Driver::Webkit
-    host = URI(Capybara.current_session.driver.browser.url).host
-    port = URI(Capybara.current_session.driver.browser.url).port
+    URI(Capybara.current_session.driver.browser.url).host
   else
-    host = Capybara.current_session.driver.rack_server.host
-    port = Capybara.current_session.driver.rack_server.port
+    Capybara.current_session.driver.rack_server.host
   end
+end
+
+def port
+  if Capybara.current_session.driver.class == Capybara::Driver::Webkit
+    URI(Capybara.current_session.driver.browser.url).port
+  else
+    Capybara.current_session.driver.rack_server.port
+  end
+end
+
+def url
   "http://#{host}:#{port}"
 end
 
@@ -96,9 +117,19 @@ def assert_upload_is_ok(uploaded_page)
   find('#info_panel').should be_visible
   click_link 'close'
   find('#info_panel').should_not be_visible
+  if uploaded_page.enable_comments
+    page.should have_css '#comments'
+    page.find('#comments').find('.fb-comments')['data-href'].should == uploaded_page.link_to_self(Request.new)
+  end
   visit uploaded_page.relative_link_to_self
   page.should have_content uploaded_page.content
   page.should_not have_css('#info_panel')
+end
+
+class Request
+  def host_with_port
+    "#{host}:#{port}"
+  end
 end
 
 def assert_uploaded_page_is_displayed_within_event(uploaded_page)
