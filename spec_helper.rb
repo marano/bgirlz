@@ -102,25 +102,32 @@ def url
   "http://#{host}:#{port}"
 end
 
-def assert_upload_is_ok(uploaded_page)
-  link = "#{url}#{uploaded_page.relative_link_to_self}"
-  pretty_link = "#{url}#{uploaded_page.relative_pretty_link_to_self}"
-  page.should have_content pretty_link
-  page.should have_link link
-
+def assert_page_is_displayed(uploaded_page)
   page.should have_content uploaded_page.content
-  find('#info_panel').should be_visible
-  click_link 'close'
-  find('#info_panel').should_not be_visible
   if uploaded_page.enable_comments
     page.should have_css '#comments'
     page.find('#comments').find('.fb-comments')['data-href'].should == uploaded_page.link_to_self(Request.new)
   else
     page.should_not have_css '#comments'
   end
+end
+
+def assert_upload_is_ok(uploaded_page)
+  assert_page_is_displayed(uploaded_page)
+
+  link = "#{url}#{uploaded_page.relative_link_to_self}"
+  pretty_link = "#{url}#{uploaded_page.relative_pretty_link_to_self}"
+  page.should have_content pretty_link
+  page.should have_link link
+
+  find('#info_panel').should be_visible
+  click_link 'close'
+  find('#info_panel').should_not be_visible
+
   visit uploaded_page.relative_link_to_self
-  page.should have_content uploaded_page.content
+
   page.should_not have_css('#info_panel')
+  assert_page_is_displayed(uploaded_page)
 end
 
 class Request
