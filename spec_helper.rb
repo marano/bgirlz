@@ -107,7 +107,7 @@ def assert_page_is_displayed(uploaded_page)
   page.should have_content uploaded_page.content
   if uploaded_page.enable_comments
     page.should have_css '#comments'
-    page.find('#comments').find('.fb-comments')['data-href'].should == uploaded_page.link_to_self(Request.new)
+    page.find('#comments').find('.fb-comments')['data-href'].should == uploaded_page.original_link_to_self(Request.new)
   else
     page.should_not have_css '#comments'
   end

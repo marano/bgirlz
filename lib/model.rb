@@ -11,6 +11,7 @@ class Page
   key :salt, String
   key :enable_comments, Boolean
   key :favorite, Boolean
+  key :original_link, String
   timestamps!
 
   before_create :create_salt_before_create, :validate
@@ -82,6 +83,10 @@ class Page
 
   def link_to_self(request)
     "http://#{request.host_with_port}#{relative_link_to_self}"
+  end
+
+  def original_link_to_self(request)
+    "http://#{request.host_with_port}#{@original_link}"
   end
 
   def pretty_link_to_self(request)
@@ -221,11 +226,12 @@ class Page
   end
 
   def create_link!
-    PageLink.create!(:page_id => _id.to_s, :link => relative_link_to_self)
+    PageLink.create!(:page_id => _id.to_s, :link => relative_link_to_self).link
   end
 
   def create_link_after_create!
-    create_link!
+    @original_link = create_link!
+    save!
   end
 
   def create_link_before_update!

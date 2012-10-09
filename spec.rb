@@ -33,6 +33,19 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
+  it 'uses same url for facebook comment href-url parameter after page link changes and the link redirects to current page' do
+    @page = upload_page_and_assert_data_was_saved(:name => 'Cecilia',
+                                                  :enable_comments => true,
+                                                  :html => 'Eaí Bob!')
+
+    @page.name = 'AnaCecilia'
+    @page.save
+
+    visit @page.relative_link_to_self
+
+    assert_page_is_displayed(@page)
+  end
+
   it 'allows me to publish my website using a file' do
     page_file = Tempfile.new('mypage.html')
     page_file.write 'oi!'
