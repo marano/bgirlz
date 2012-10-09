@@ -103,13 +103,6 @@ def url
 end
 
 def assert_upload_is_ok(uploaded_page)
-  if Capybara.current_session.driver.class == Capybara::Driver::Webkit
-    host = URI(Capybara.current_session.driver.browser.url).host
-    port = URI(Capybara.current_session.driver.browser.url).port
-  else
-    host = Capybara.current_session.driver.rack_server.host
-    port = Capybara.current_session.driver.rack_server.port
-  end
   link = "#{url}#{uploaded_page.relative_link_to_self}"
   pretty_link = "#{url}#{uploaded_page.relative_pretty_link_to_self}"
   page.should have_content pretty_link
