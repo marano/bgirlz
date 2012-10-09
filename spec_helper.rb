@@ -75,6 +75,8 @@ def upload_page_and_assert_data_was_saved(params, success = true)
     end
     if params.has_key?(:enable_comments)
       uploadedPage.enable_comments.should == params[:enable_comments]
+    else
+      uploadedPage.should_not be_enable_comments
     end
     return uploadedPage
   end
@@ -120,6 +122,8 @@ def assert_upload_is_ok(uploaded_page)
   if uploaded_page.enable_comments
     page.should have_css '#comments'
     page.find('#comments').find('.fb-comments')['data-href'].should == uploaded_page.link_to_self(Request.new)
+  else
+    page.should_not have_css '#comments'
   end
   visit uploaded_page.relative_link_to_self
   page.should have_content uploaded_page.content
