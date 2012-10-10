@@ -19,3 +19,7 @@ group :test do
   gem 'headless'
   gem 'rake'
 end
+
+group :production do
+  gem 'newrelic_rpm'
+end
