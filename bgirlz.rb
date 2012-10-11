@@ -3,8 +3,8 @@ $LOAD_PATH << path
 
 require 'bundler'
 envs = [:default]
+envs << ENV['RACK_ENV'].to_s
 envs << :development if ENV['RACK_ENV'] != 'production'
-envs << :test if ENV['RACK_ENV'] == 'test'
 Bundler.require *envs
 
 
