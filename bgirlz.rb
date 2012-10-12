@@ -3,9 +3,9 @@ $LOAD_PATH << path
 
 require 'bundler'
 envs = [:default]
-envs << ENV['RACK_ENV'].to_s
+envs << ENV['RACK_ENV']
 envs << :development if ENV['RACK_ENV'] != 'production'
-Bundler.require *envs
+Bundler.require *(envs.map(&:to_sym))
 
 
 Dir['lib/**/*.rb'].each { |file| require file }
