@@ -85,7 +85,7 @@ end
 
 def host
   if Capybara.current_session.driver.class == Capybara::Driver::Webkit
-    URI(Capybara.current_session.driver.browser.url).host
+    Capybara.current_session.driver.instance_variable_get(:@rack_server).host
   else
     Capybara.current_session.driver.rack_server.host
   end
@@ -93,7 +93,7 @@ end
 
 def port
   if Capybara.current_session.driver.class == Capybara::Driver::Webkit
-    URI(Capybara.current_session.driver.browser.url).port
+    Capybara.current_session.driver.instance_variable_get(:@rack_server).port
   else
     Capybara.current_session.driver.rack_server.port
   end
