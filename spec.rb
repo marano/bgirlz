@@ -314,15 +314,14 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'shows fancy slideshow with featured pages' do
-    @page = Page.create!(:name => 'Joana', :content => 'oi!')
-
-    visit '/list'
-    page.execute_script("$('.page').trigger('mouseenter');")
-    find('.star-it').click
+    @page = Page.create!(:name => 'Joana', :content => 'oi!', :favorite => true)
+    link = @page.original_link_to_self(Request.new)
 
     visit '/'
+
     page.should have_css '.carousel-inner iframe'
     evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
+    page.find('#student-name').should have_css ".fb-like[data-href='#{link}']"
   end
 
   pending 'allow me to move page to another event' do

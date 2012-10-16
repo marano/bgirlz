@@ -57,8 +57,8 @@ class Page
     where(name: name, middle_initial: middle_initial, last_name: last_name, event: event).first
   end
 
-  def self.featured_pages_links_list
-    Page.where(:favorite => true).map(&:relative_link_to_featured).randomize.slice(0..10)
+  def self.random_featured_pages_links
+    Page.all(:favorite => true).randomize.slice(0..10).map(&:original_link_page_link)
   end
 
   def self.previous_events
@@ -200,6 +200,10 @@ class Page
     !Nokogiri::HTML(@content).errors.empty?
   end
 
+  def original_link_page_link
+    PageLink.find_by_link(@original_link)
+  end
+
   private
 
   def create_salt_before_create
@@ -254,6 +258,18 @@ class PageLink
   include MongoMapper::Document
 
   key :link, String, :required => true, :unique => true
-  key :page_id, String
+  key :page_id, String, :required => true
   timestamps!
+
+  def url(request)
+    "http://#{request.host_with_port}#{@link}"
+  end
+
+  def featured
+    "#{@link}/featured"
+  end
+
+  def to_json_hash(request)
+    { self: url(request), featured: featured }
+  end
 end

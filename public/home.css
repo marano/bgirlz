@@ -75,6 +75,11 @@
   float: left;
 }
 
+#featured-pages h4 {
+  display: inline-block;
+  margin-right: 20px;
+}
+
 #student-name {
   margin-top: 18px;
 }
@@ -113,6 +118,7 @@ label[for='enable_comments']{
 
 .carousel-inner {
   width: 559px;
+  height: 100%;
 }
 
 #loading .progress {

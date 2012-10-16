@@ -1,2 +1,2 @@
-.item{:'data-page-name' => @page.full_name}
+.item{:'data-page-name' => @page.full_name, :'data-page-original-link' => @page.original_link_to_self(request)}
   %iframe{src: @page.relative_link_to_content}
