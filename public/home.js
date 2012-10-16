@@ -1,8 +1,29 @@
 $(function () {
+  var validateInput = function (event) {
+    if (event.charCode === 13 || event.charCode === 0) {
+      return true;
+    }
+    var key = event.keyCode || event.which;
+    var keyCode = String.fromCharCode(key);
+    var regex = /[a-z|A-Z|0-9]/;
+    if (!regex.test(keyCode)) {
+      event.returnValue = false;
+      event.preventDefault();
+      $(event.target).tooltip('show');
+      setTimeout(function () {
+        $(event.target).tooltip('hide');
+      }, 3000);
+    }
+  };
+
   $('#name').keypress(validateInput);
   $('#middle-initial').keypress(validateInput);
   $('#last-name').keypress(validateInput);
   $('#event').keypress(validateInput);
+
+  var addTooltip = function (element) {
+    $(element).tooltip({delay: {show: 800}, placement: 'right', title: 'Only letters and numbers are allowed. Space and underline are not allowed.'});
+  };
 
   addTooltip('#name');
   addTooltip('#middle-initial');
@@ -29,10 +50,6 @@ $(function () {
   $.getJSON('/previous_events', function (events) {
     $('input[name=event]').typeahead({source: events});
   });
-
-  function addTooltip(element) {
-    $(element).tooltip({delay: {show: 800}, placement: 'right', title: 'Only letters and numbers are allowed. Space and underline are not allowed.'});
-  }
 
   $('#slide').carousel();
   $('#slide').carousel('pause');
@@ -80,23 +97,6 @@ $(function () {
 
     iframe.height = (newheight) + "px";
     iframe.width = (newwidth) + "px";
-  }
-
-  function validateInput(event) {
-    if (event.charCode == 13 || event.charCode == 0) {
-      return true;
-    }
-    var key = event.keyCode || event.which;
-    key = String.fromCharCode( key );
-    var regex = /[a-z|A-Z|0-9]/;
-    if( !regex.test(key) ) {
-      event.returnValue = false;
-      event.preventDefault();
-      $(event.target).tooltip('show');
-      setTimeout(function () {
-        $(event.target).tooltip('hide');
-      }, 3000);
-    }
   }
 
   function getParentLink(element) {
