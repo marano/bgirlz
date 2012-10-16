@@ -1,3 +1,5 @@
+require 'net/http'
+
 module LinkOpener
   def content_from_link(link)
     uri = URI.parse(link)
