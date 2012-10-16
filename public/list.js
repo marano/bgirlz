@@ -51,14 +51,8 @@ $(function () {
       scrollTop: topOffset
     }, 200);
 
-    var date = row.data('page-date');
-    var eventName = row.data('page-event');
-    var name = row.data('page-name');
-    var middleInitial = row.data('page-middle-initial');
-    var lastName = row.data('page-last-name');
     var path = row.data('page-path');
     var contentPath = row.data('page-content-path');
-    var prettyUrl = row.data('page-pretty-path');
     if (currentPreviewPath == path) {
       return;
     }
@@ -69,10 +63,6 @@ $(function () {
 
     $('#preview').addClass('hide');
     $('#loading').removeClass('hide');
-    fillInfoField('#preview-date', date);
-    fillInfoField('#preview-event', eventName);
-    $('#preview-name').text(name + ' ' + middleInitial + ' ' + lastName);
-    $('#preview-link').empty().append($('<a>', {href: path}).text(prettyUrl));
 
     $('#preview').find('iframe').load(function () {
       $('#loading').addClass('hide');
@@ -206,14 +196,6 @@ $(function () {
       row.trigger('mouseout');
     });
   });
-
-  function fillInfoField(field, info) {
-    if (info) {
-      $(field).text(info);
-    } else {
-      $(field).text('-');
-    }
-  }
 
   function filterSelectOnChange() {
     var filterEvent = $('#filter select option:selected').val();

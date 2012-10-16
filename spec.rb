@@ -272,10 +272,6 @@ describe 'Black Girls Code Website Publisher', :js => true do
     visit '/list'
     page.execute_script("$('.page').trigger('mouseenter')")
     find('.preview-link').click
-    find('#preview-date').text.should == @page.created_at.strftime("%m/%d/%Y")
-    find('#preview-event').text.should == @page.event
-    find('#preview-name').text.should == @page.full_name.strip
-    find('#preview-link').text.should == @page.relative_pretty_link_to_self
     evaluate_script("$('#preview iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
   end
 
