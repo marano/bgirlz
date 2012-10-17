@@ -134,7 +134,7 @@ class Controller < Sinatra::Base
   def resolve_page_from_path
     link = PageLink.find_by_link "/#{params[:splat].first}"
     unless link.nil?
-      page = Page.find(link.page_id)
+      page = link.page
     end
     if page.nil?
       raise Sinatra::NotFound

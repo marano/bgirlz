@@ -261,6 +261,10 @@ class PageLink
   key :page_id, String, :required => true
   timestamps!
 
+  def page
+    Page.find @page_id
+  end
+
   def url(request)
     "http://#{request.host_with_port}#{@link}"
   end
