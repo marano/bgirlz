@@ -72,18 +72,7 @@
             .controls
               %input.btn.btn-primary{:type => "submit", :value => "Publish my website"}
 
-    #featured-pages
-      %h2#featured-pages-title Featured Pages
-      #student-name.pull-right.hide
-        %h4
-          by
-          %span Students
-      #slide.carousel.slide.well
-        #loading
-          .progress.progress-striped.active
-            .bar{:style => 'width: 0'}
-        .carousel-inner.hide
-        %a.carousel-control.left{:href => '#slide', :'data-slide' => 'prev'} &lsaquo;
-        %a.carousel-control.right{:href => '#slide', :'data-slide' => 'next'} &rsaquo;
+    = haml :_featured_pages, :layout => false
 
 %script{:src => "/home.js"}
+%script{:src => "/featured_pages.js"}
