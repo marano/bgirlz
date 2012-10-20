@@ -106,10 +106,6 @@ class Page
     "#{relative_link_to_self}/content"
   end
 
-  def relative_link_to_featured
-    "#{relative_link_to_self}/featured"
-  end
-
   def relative_link_to_change_event
     "#{relative_link_to_self}/change_event"
   end
@@ -266,14 +262,20 @@ class PageLink
   end
 
   def url(request)
-    "http://#{request.host_with_port}#{@link}"
+    "#{server(request)}#{@link}"
   end
 
-  def featured
-    "#{@link}/featured"
+  def featured(request)
+    "#{server(request)}#{@link}/featured"
   end
 
   def to_json_hash(request)
-    { self: url(request), featured: featured }
+    { self: url(request), featured: featured(request) }
+  end
+
+  private
+
+  def server(request)
+    "http://#{request.host_with_port}"
   end
 end
