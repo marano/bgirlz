@@ -22,12 +22,12 @@ $(function () {
   $('#slide').on('slid', function () {
     var name = $('.carousel-inner .active').data('page-name');
     var link = $('.carousel-inner .active').data('page-original-link');
-    if(!$('#student-name').is(':visible')) {
-      $('#student-name').show();
-    }
     $('#student-name h4').find('span').text(name);
     $('.fb-like').hide();
     $('.fb-like[data-href="' + link + '"]').show();
+    if(!$('#student-name').is(':visible')) {
+      $('#student-name').show();
+    }
     $('#student-name').animate({opacity: '1'}, 200);
   });
 
