@@ -7,6 +7,7 @@ class Controller < Sinatra::Base
   set :views, 'views'
   set :public_folder, 'public'
 
+  set :protection, :except => :frame_options
   use Rack::MethodOverride
   include Rack::Utils
 
@@ -59,7 +60,6 @@ class Controller < Sinatra::Base
   get '/featured_pages/embedded' do
     @color = params[:color]
     @height = params[:height] || '600px'
-    response.headers['X-Frame-Options'] = 'wow!'
     haml :featured_pages_embedded
   end
 
@@ -76,7 +76,6 @@ class Controller < Sinatra::Base
 
   get '/*/featured' do
     @page = resolve_page_from_path
-    response.headers['X-Frame-Options'] = 'sameorigin'
     haml :_featured, :layout => false
   end
 
