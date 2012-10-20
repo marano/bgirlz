@@ -59,6 +59,7 @@ class Controller < Sinatra::Base
   get '/featured_pages/embedded' do
     @color = params[:color]
     @height = params[:height] || '600px'
+    response.headers['X-Frame-Options'] = 'wow!'
     haml :featured_pages_embedded
   end
 
