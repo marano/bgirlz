@@ -40,7 +40,6 @@ $(function () {
         response = $(response);
         var iframe = response.find('iframe');
         iframe.load(function () {
-          autoResize(iframe[0]);
           linksCount = linksCount + 1;
           $('.bar').css('width', ((linksCount / totalLinks * 100)) + '%');
           if (linksCount == totalLinks) {
@@ -59,14 +58,6 @@ $(function () {
       });
     });
   });
-
-  function autoResize(iframe) {
-    var newheight = $(iframe).parent().parent().height();
-    var newwidth = $(iframe).parent().parent().width();
-
-    iframe.height = (newheight) + "px";
-    iframe.width = (newwidth) + "px";
-  }
 
   function loadFacebook() {
     var d = document;

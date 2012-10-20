@@ -26,7 +26,13 @@
 
 .carousel-inner {
   height: 100%;
+  width: 100%;
   overflow: hidden;
+}
+
+.carousel-inner iframe {
+  height: 100%;
+  width: 100%;
 }
 
 #loading .progress {
