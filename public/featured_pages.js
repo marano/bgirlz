@@ -15,18 +15,20 @@ $(function () {
   $('#slide').carousel();
   $('#slide').carousel('pause');
 
+  $('#slide').on('slide', function () {
+    $('#student-name').animate({opacity: '0'}, 200);
+  });
+
   $('#slide').on('slid', function () {
-    $('#student-name').animate({opacity: '0'}, 80, function () {
-      var name = $('.carousel-inner .active').data('page-name');
-      var link = $('.carousel-inner .active').data('page-original-link');
-      if(!$('#student-name').is(':visible')) {
-        $('#student-name').show();
-      }
-      $('#student-name h4').find('span').text(name);
-      $('.fb-like').hide();
-      $('.fb-like[data-href="' + link + '"]').show();
-      $('#student-name').animate({opacity: '1'}, 200);
-    });
+    var name = $('.carousel-inner .active').data('page-name');
+    var link = $('.carousel-inner .active').data('page-original-link');
+    if(!$('#student-name').is(':visible')) {
+      $('#student-name').show();
+    }
+    $('#student-name h4').find('span').text(name);
+    $('.fb-like').hide();
+    $('.fb-like[data-href="' + link + '"]').show();
+    $('#student-name').animate({opacity: '1'}, 200);
   });
 
   $.getJSON('/featured_pages', function (links) {
