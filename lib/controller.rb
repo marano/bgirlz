@@ -56,6 +56,12 @@ class Controller < Sinatra::Base
     haml :list
   end
 
+  get '/featured_pages/embedded' do
+    @color = params[:color]
+    @height = params[:height] || '600px'
+    haml :featured_pages_embedded
+  end
+
   not_found do
     "404 Not found"
   end

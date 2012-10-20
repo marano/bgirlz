@@ -1,4 +1,17 @@
 $(function () {
+  var height = $('meta[name=featured-pages-height]').attr('content');
+  var color = $('meta[name=featured-pages-color]').attr('content');
+  if (!height) {
+    height = '600px';
+  } else {
+    height = parseInt(height.replace('px', '') - 120) + 'px';
+  }
+
+  $('#slide').css('height', height);
+  if (color) {
+    $('#featured-pages').css('color', color);
+  }
+
   $('#slide').carousel();
   $('#slide').carousel('pause');
 
@@ -46,8 +59,8 @@ $(function () {
   });
 
   function autoResize(iframe) {
-    var newheight = iframe.contentWindow.document.body.scrollHeight;
-    var newwidth = iframe.contentWindow.document.body.scrollWidth;
+    var newheight = $(iframe).parent().parent().height();
+    var newwidth = $(iframe).parent().parent().width();
 
     iframe.height = (newheight) + "px";
     iframe.width = (newwidth) + "px";

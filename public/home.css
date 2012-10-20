@@ -1,3 +1,7 @@
+body {
+  color: #333 !important;
+}
+
 #webpage-content {
   margin-bottom: 30px;
 }
@@ -53,39 +57,11 @@
   margin-top: 36px;
 }
 
-#slide {
-  overflow: hidden;
-  height: 600px;
-  padding-top: 20px;
-  padding-bottom: 40px;
-  padding-left: 67px;
-  padding-right: 564px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-}
-
-#featured-pages {
-  margin-bottom: 10px;
+#featured-pages-container {
   margin-top: 140px;
   padding-top: 20px;
-}
-
-#featured-pages-title {
-  float: left;
-}
-
-#featured-pages h4 {
-  display: inline-block;
-  margin-right: 5px;
-}
-
-#student-name {
-  margin-top: 18px;
-}
-
-#slide iframe {
-  border: 0;
+  margin-bottom: 30px;
+  height: 700px;
 }
 
 #student-info {
@@ -114,13 +90,4 @@
 label[for='enable_comments']{
   text-align: left !important;
   width: 142px !important;
-}
-
-.carousel-inner {
-  width: 559px;
-  height: 100%;
-}
-
-#loading .progress {
-  width: 559px;
 }

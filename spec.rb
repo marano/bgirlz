@@ -324,6 +324,17 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find('#student-name').should have_css ".fb-like[data-href='#{link}']"
   end
 
+  it 'displays embedded featured pages' do
+    @page = Page.create!(:name => 'Joana', :content => 'oi!', :favorite => true)
+    link = @page.original_link_to_self(Request.new)
+
+    visit '/featured_pages/embedded'
+
+    page.should have_css '.carousel-inner iframe'
+    evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
+    page.find('#student-name').should have_css ".fb-like[data-href='#{link}']"
+  end
+
   pending 'allow me to move page to another event' do
     @page1 = Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
     @page2 = Page.create!(:name => 'Claudia', :event => 'Event2', :content => 'hi!')

@@ -1,5 +1,6 @@
 #fb-root
 %link{:href => "/home.css", :media => "all", :rel => "stylesheet"}
+%link{:href => "/featured_pages.css", :media => "all", :rel => "stylesheet"}
 
 .container
   #title-panel.hero-unit
@@ -72,7 +73,8 @@
             .controls
               %input.btn.btn-primary{:type => "submit", :value => "Publish my website"}
 
-    = haml :_featured_pages, :layout => false
+    #featured-pages-container
+      = haml :_featured_pages, :layout => false
 
 %script{:src => "/home.js"}
 %script{:src => "/featured_pages.js"}

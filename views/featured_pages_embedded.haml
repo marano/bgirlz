@@ -1,0 +1,5 @@
+%meta{:name => "featured-pages-height", :content => @height}
+%meta{:name => "featured-pages-color", :content => @color}
+%link{:href => "/featured_pages.css", :media => "all", :rel => "stylesheet"}
+= haml :_featured_pages, :layout => false
+%script{:src => "/featured_pages.js"}
