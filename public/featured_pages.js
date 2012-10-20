@@ -35,14 +35,14 @@ $(function () {
     var totalLinks = links.length;
     var linksCount = 0;
     $(links).each(function (index, link) {
-      $('.bar').css('width', '20%');
+      $('.bar').css('width', '10%');
       $.get(link.featured, function (response) {
         response = $(response);
         var iframe = response.find('iframe');
         iframe.load(function () {
           autoResize(iframe[0]);
           linksCount = linksCount + 1;
-          $('.bar').css('width', ((linksCount / totalLinks * 100) + 20) + '%');
+          $('.bar').css('width', ((linksCount / totalLinks * 100)) + '%');
           if (linksCount == totalLinks) {
             loadFacebook();
             $('#loading').animate({opacity: 0}, 500, function () { $('#loading').hide(); });
