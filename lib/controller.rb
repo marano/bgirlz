@@ -76,7 +76,7 @@ class Controller < Sinatra::Base
 
   get '/*/featured' do
     @page = resolve_page_from_path
-    response.headers['X-Frame-Options'] = 'wow!'
+    response.headers['X-Frame-Options'] = 'sameorigin'
     haml :_featured, :layout => false
   end
 
