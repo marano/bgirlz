@@ -204,12 +204,12 @@ $(function () {
         $(eventDiv).show();
         return;
       }
-      var pageEvent = $(eventDiv).data('event');
-      if (!pageEvent) {
+      var divEvent = $(eventDiv).data('event');
+      if (!divEvent) {
         $(eventDiv).hide();
         return;
       }
-      if (filterEvent == pageEvent) {
+      if (filterEvent == divEvent) {
         $(eventDiv).show();
       } else {
         $(eventDiv).hide();
