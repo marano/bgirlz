@@ -246,12 +246,12 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should have_content 'Paula'
 
     select 'Event1', :from => 'Filter by Event'
-    find("td:contains('Joana')").should be_visible
-    find("td:contains('Paula')").should_not be_visible
+    find(".event:contains('Joana')").should be_visible
+    find(".event:contains('Paula')").should_not be_visible
 
     select 'Event2', :from => 'Filter by Event'
-    find("td:contains('Joana')").should_not be_visible
-    find("td:contains('Paula')").should be_visible
+    find(".event:contains('Joana')").should_not be_visible
+    find(".event:contains('Paula')").should be_visible
   end
 
   it 'shows previous entered information on validation error' do

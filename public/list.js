@@ -199,20 +199,20 @@ $(function () {
 
   function filterSelectOnChange() {
     var filterEvent = $('#filter select option:selected').val();
-    $('.page').each(function (index, page) {
+    $('.event').each(function (index, eventDiv) {
       if (!filterEvent) {
-        $(page).show();
+        $(eventDiv).show();
         return;
       }
-      var pageEvent = $(page).data('page-event');
+      var pageEvent = $(eventDiv).data('event');
       if (!pageEvent) {
-        $(page).hide();
+        $(eventDiv).hide();
         return;
       }
       if (filterEvent == pageEvent) {
-        $(page).show();
+        $(eventDiv).show();
       } else {
-        $(page).hide();
+        $(eventDiv).hide();
       }
     });
   }
