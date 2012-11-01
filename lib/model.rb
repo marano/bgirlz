@@ -279,3 +279,52 @@ class PageLink
     "http://#{request.host_with_port}"
   end
 end
+
+class Event
+  def initialize(name)
+    @name = name
+  end
+
+  def self.all
+    Page.previous_events.map { |event_name| Event.new(event_name) } + [ EventMissing.new ]
+  end
+
+  def name
+    @name
+  end
+
+  def pages
+    Page.all(:event => @name)
+  end
+
+  def title
+    @name
+  end
+
+  def blank?
+    false
+  end
+
+  def relative_link_to_page_links
+    "/event/#{@name}/featured_pages/links"
+  end
+
+  def relative_link_to_featured_pages
+    "/event/#{@name}/featured_pages"
+  end
+end
+
+class EventMissing
+  def name
+    ''
+  end
+  def pages
+    Page.all(:event => '') + Page.all(:event => nil)
+  end
+  def title
+    '<event missing>'
+  end
+  def blank?
+    true
+  end
+end

@@ -138,7 +138,7 @@ class Request
 end
 
 def assert_uploaded_page_is_displayed_within_event(uploaded_page)
-  within ".event[data-event='#{uploaded_page.event}']" do
+  within_event uploaded_page.event do
     if uploaded_page.event.blank?
       page.should have_css('h4', :text => '<event missing>')
     else
@@ -148,5 +148,11 @@ def assert_uploaded_page_is_displayed_within_event(uploaded_page)
     page.should have_css('td.date', :text => uploaded_page.formatted_created_at)
     page.should have_css('td.link', :text => uploaded_page.relative_pretty_link_to_self)
     page.should have_link uploaded_page.relative_link_to_self
+  end
+end
+
+def within_event(event)
+  within ".event[data-event='#{event}']" do
+    yield
   end
 end

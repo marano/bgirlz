@@ -8,18 +8,17 @@
         %label{:for => 'filter-select'} Filter by Event
         %select#filter-select
           %option{:value => ''} All Events
-          - @previous_events.each do |event|
-            %option{:value => event}
-              = event
+          - @events.select { |event| !event.name.blank? }.each do |event|
+            %option{:value => event.name}
+              = event.title
 
   .row-fluid
     .span8
-      - @events_and_pages.each do |event, pages|
-        .event{'data-event' => event}
-          - if event == ''
-            %h4= escape_html '<event missing>'
-          - else
-            %h4= event
+      - @events.each do |event|
+        .event{'data-event' => event.name}
+          %h4= escape_html event.title
+          - unless event.blank?
+            %a{:href => event.relative_link_to_featured_pages} Featured Pages
           %table.table.table-condensed.table-hover
             %thead
               %tr
@@ -33,7 +32,7 @@
                 %th.favorite
                 %th.preview
             %tbody
-              - pages.each do |page|
+              - event.pages.each do |page|
                 %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.name, 'data-page-middle-initial' => page.middle_initial, 'data-page-last-name' => page.last_name, 'data-change-event-path' => page.relative_link_to_change_event, 'data-update-name-path' => page.relative_link_to_update_name, 'data-favorite-path' => page.relative_link_to_favorite, :'data-unfavorite-path' => page.relative_link_to_unfavorite}
                   %td.delete-placeholder
                     %i.icon-move.move-page.show-on-hover

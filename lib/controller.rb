@@ -50,10 +50,7 @@ class Controller < Sinatra::Base
   end
 
   get '/list' do
-    @previous_events = Page.previous_events
-    @events_and_pages = {}
-    @previous_events.each { |event| @events_and_pages[event] = Page.all(:event => event) }
-    @events_and_pages[''] = Page.all(:event => '') + Page.all(:event => nil)
+    @events = Event.all
     haml :list
   end
 
@@ -65,6 +62,15 @@ class Controller < Sinatra::Base
 
   not_found do
     "404 Not found"
+  end
+
+  get '/event/:name/featured_pages' do
+    @event = Event.new(params[:name])
+    haml :event_featured_pages
+  end
+
+  get '/event/:name/featured_pages/links' do
+    Event.new(params[:name]).pages.map(&:original_link_page_link).map { |link| link.to_json_hash(request) }.to_json
   end
 
   get '/*/content' do

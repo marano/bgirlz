@@ -1,0 +1,7 @@
+%meta{:name => "featured-pages-event-link", :content => @event.relative_link_to_page_links}
+%meta{:name => "featured-pages-event-name", :content => @event.name}
+%link{:href => "/featured_pages.css", :media => "all", :rel => "stylesheet"}
+%link{:href => "/event_featured_pages.css", :media => "all", :rel => "stylesheet"}
+#panel
+  = haml :_featured_pages, :layout => false
+%script{:src => "/featured_pages.js"}

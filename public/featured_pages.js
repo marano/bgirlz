@@ -1,6 +1,8 @@
 $(function () {
   var height = $('meta[name=featured-pages-height]').attr('content');
   var color = $('meta[name=featured-pages-color]').attr('content');
+  var eventLink = $('meta[name=featured-pages-event-link]').attr('content');
+  var eventName = $('meta[name=featured-pages-event-name]').attr('content');
   if (!height) {
     height = '600px';
   } else {
@@ -31,7 +33,14 @@ $(function () {
     $('#student-name').animate({opacity: '1'}, 200);
   });
 
-  $.getJSON('/featured_pages', function (links) {
+  var link;
+  if (eventLink) {
+    link = eventLink;
+  } else {
+    link = '/featured_pages';
+  }
+
+  $.getJSON(link, function (links) {
     var totalLinks = links.length;
     var linksCount = 0;
     $(links).each(function (index, link) {
