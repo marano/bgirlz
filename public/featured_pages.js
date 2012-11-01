@@ -25,8 +25,8 @@ $(function () {
     var name = $('.carousel-inner .active').data('page-name');
     var link = $('.carousel-inner .active').data('page-original-link');
     $('#student-name h4').find('span').text(name);
-    $('.fb-like').hide();
-    $('.fb-like[data-href="' + link + '"]').show();
+    $('.fb-like').css('display', 'none');
+    $('.fb-like[data-href="' + link + '"]').css('display', 'inline-block');
     if(!$('#student-name').is(':visible')) {
       $('#student-name').show();
     }
@@ -62,7 +62,7 @@ $(function () {
           }
         });
         $('.carousel-inner').append(response);
-        var likeButton = $('<div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true" data-font="verdana"></div>').hide().attr('data-href', link.self);
+        var likeButton = $('<div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true" data-font="verdana"></div>').css('display', 'none').attr('data-href', link.self);
         $('#student-name').append(likeButton);
       });
     });

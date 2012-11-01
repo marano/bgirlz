@@ -22,6 +22,7 @@
 
 #slide iframe {
   border: 0;
+  overflow: hidden;
 }
 
 .carousel-inner {
@@ -33,6 +34,10 @@
 .carousel-inner iframe {
   height: 100%;
   width: 100%;
+}
+
+.item {
+  height: 100%;
 }
 
 #loading .progress {
