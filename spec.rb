@@ -11,6 +11,12 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
+  it 'properly displays pages with spaces in the name' do
+    @page = Page.create!(:name => 'Ana Cecília', :content => 'Eaws!')
+    visit @page.relative_link_to_self
+    assert_page_is_displayed(@page)
+  end
+
   it 'keeps the old link after page link changes' do
     @page = upload_page_and_assert_data_was_saved(:name => 'Cecilia',
                                                   :html => 'Eaí Bob!')

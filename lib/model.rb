@@ -257,6 +257,10 @@ class PageLink
   key :page_id, String, :required => true
   timestamps!
 
+  def self.by_link(link)
+    find_by_link(URI.escape(link))
+  end
+
   def page
     Page.find @page_id
   end
