@@ -16,9 +16,11 @@
     .span8
       - @events.each do |event|
         .event{'data-event' => event.name}
-          %h4= escape_html event.title
+
+          %h4.event-title= escape_html event.title
           - unless event.blank?
-            %a{:href => event.relative_link_to_featured_pages} Featured Pages
+            %a{:href => event.relative_link_to_featured_pages}
+              %i.icon-play.event-featured-pages
           %table.table.table-condensed.table-hover
             %thead
               %tr

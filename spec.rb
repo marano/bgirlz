@@ -346,7 +346,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     link = @page.original_link_to_self(Request.new)
 
     visit '/list'
-    within_event(@page.event) { click_link 'Featured Pages' }
+    within_event(@page.event) { page.find('.event-featured-pages').click }
 
     page.should have_css '.carousel-inner iframe'
     evaluate_script("$('.carousel-inner iframe')[0].contentWindow.document.body.innerHTML").should == @page.content

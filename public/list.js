@@ -78,6 +78,8 @@ $(function () {
     $('#preview').find('iframe').attr('src', contentPath);
   });
 
+  $('.event-featured-pages').tooltip({placement: 'right', title: 'Featured Pages'});
+
   $('.delete').tooltip({placement: 'right', title: 'Trash it'});
   $('.preview-link').tooltip({placement: 'right', title: 'Preview'});
   $('.starred').tooltip({placement: 'bottom', title: 'Unstar it'});
