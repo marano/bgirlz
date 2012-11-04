@@ -32,11 +32,6 @@ table.pages tr {
   height: 40px !important;
 }
 
-#filter {
-  margin-bottom: 30px;
-  margin-top: 30px;
-}
-
 #preview-container {
   position: absolute;
   right: 0;
