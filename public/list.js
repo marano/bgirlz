@@ -230,7 +230,8 @@ $(function () {
       data: { name: newEventName },
       success: function (eventJSON) {
         var updatedEvent = $.parseJSON(eventJSON);
-        eventDiv.data('event-update-name-path', updatedEvent.link_to_update_name);
+        eventDiv.attr('data-event', updatedEvent.name);
+        eventDiv.attr('data-event-update-name-path', updatedEvent.link_to_update_name);
       }
     });
     eventDiv.find('.event-title').text(newEventName);

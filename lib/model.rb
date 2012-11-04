@@ -328,7 +328,7 @@ class Event
   end
 
   def as_json(options)
-    { :link_to_update_name => relative_link_to_update_name }
+    { :name => @name, :link_to_update_name => relative_link_to_update_name }
   end
 end
 
