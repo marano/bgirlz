@@ -1,4 +1,20 @@
 $(function () {
+  $('.event-expand').click(function (event) {
+    event.preventDefault();
+    var eventDiv = getEventDiv(event.target);
+    eventDiv.find('.pages').removeClass('hide');
+    eventDiv.find('.event-expand').addClass('hide');
+    eventDiv.find('.event-collapse').removeClass('hide');
+  });
+
+  $('.event-collapse').click(function (event) {
+    event.preventDefault();
+    var eventDiv = getEventDiv(event.target);
+    eventDiv.find('.pages').addClass('hide');
+    eventDiv.find('.event-expand').removeClass('hide');
+    eventDiv.find('.event-collapse').addClass('hide');
+  });
+
   $('.delete').click(function (e) {
     var ok = confirm("Are you sure you want to delete that page?");
     if (ok) {
@@ -6,8 +22,6 @@ $(function () {
     }
     e.preventDefault();
   });
-
-  $('#filter select').change(filterSelectOnChange);
 
   var currentPreviewPath = null;
 
@@ -78,7 +92,9 @@ $(function () {
     $('#preview').find('iframe').attr('src', contentPath);
   });
 
-  $('.event-featured-pages').tooltip({placement: 'right', title: 'Featured Pages'});
+  $('.event-collapse i').tooltip({placement: 'right', title: 'Hide pages'});
+  $('.event-expand i').tooltip({placement: 'right', title: 'Show pages'});
+  $('.event-featured-pages i').tooltip({placement: 'right', title: 'Featured Pages'});
 
   $('.delete').tooltip({placement: 'right', title: 'Trash it'});
   $('.preview-link').tooltip({placement: 'right', title: 'Preview'});
@@ -95,14 +111,6 @@ $(function () {
   $('.has-facebook-comments').tooltip({placement: 'bottom', title: 'Facebook Comments'});
   $('.has-html-errors').tooltip({placement: 'bottom', title: 'HTML problems'});
 
-  $('.event-link').click(function (event) {
-    event.preventDefault();
-    var row = getParentRow(event.target);
-    var event = row.data('page-event');
-    $('#filter-select').val(event);
-    filterSelectOnChange();
-  });
-
   $('.enable-delete').click(function (event) {
     event.preventDefault();
     var eventDiv = getEventDiv(event.target);
@@ -110,7 +118,6 @@ $(function () {
     searchTreeFor('.delete', eventDiv).removeClass('hide');
     searchTreeFor('.move-page', eventDiv).addClass('hide');
   });
-
 
   $('.page').draggable({scope: 'events', handle: '.move-page', scrollSensitivity: 100, helper: function(event) {
     return $('<div class="drag-cart-item"><table></table></div>').find('table').append($(event.target).closest('tr').clone()).end();
@@ -198,26 +205,6 @@ $(function () {
       row.trigger('mouseout');
     });
   });
-
-  function filterSelectOnChange() {
-    var filterEvent = $('#filter select option:selected').val();
-    $('.event').each(function (index, eventDiv) {
-      if (!filterEvent) {
-        $(eventDiv).show();
-        return;
-      }
-      var divEvent = $(eventDiv).data('event');
-      if (!divEvent) {
-        $(eventDiv).hide();
-        return;
-      }
-      if (filterEvent == divEvent) {
-        $(eventDiv).show();
-      } else {
-        $(eventDiv).hide();
-      }
-    });
-  }
 
   function getParentRow(element) {
     if (element.tagName == 'TR') {

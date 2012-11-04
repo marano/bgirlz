@@ -1,8 +1,18 @@
-.event-title {
-  float: left;
+.event {
+  clear: left;
 }
 
-.event-featured-pages {
+.event-collapse i, .event-expand i {
+  float: left;
+  margin-top: 12px;
+}
+
+.event-title {
+  float: left;
+  margin-left: 6px;
+}
+
+.event-featured-pages i {
   margin-top: 12px;
   margin-left: 6px;
 }
@@ -11,14 +21,14 @@ form {
   display: inline;
 }
 
-table { table-layout: fixed; }
-table th, table td { overflow: hidden; }
+table.pages { table-layout: fixed; }
+table.pages th, table.pages td { overflow: hidden; }
 
-td {
+table.pages td {
   padding-top: 10px !important;
 }
 
-tr {
+table.pages tr {
   height: 40px !important;
 }
 

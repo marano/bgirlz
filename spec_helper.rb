@@ -151,6 +151,10 @@ def assert_uploaded_page_is_displayed_within_event(uploaded_page)
   end
 end
 
+def expand_event(event)
+  within_event(event) { find('.event-expand').click }
+end
+
 def within_event(event)
   within ".event[data-event='#{event}']" do
     yield

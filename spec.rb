@@ -148,6 +148,8 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_uploaded_page_is_displayed_within_event(@page1)
     assert_uploaded_page_is_displayed_within_event(@page2)
 
+    expand_event(@page3.event)
+
     event_3_div_locator = ".event[data-event='#{@page3.event}']"
 
     within event_3_div_locator do
@@ -242,24 +244,6 @@ describe 'Black Girls Code Website Publisher', :js => true do
     events.should include 'Event2'
   end
 
-  it 'filters list by events' do
-    Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
-    Page.create!(:name => 'Paula', :event => 'Event2', :content => 'hi there!')
-
-    visit '/list'
-
-    page.should have_content 'Joana'
-    page.should have_content 'Paula'
-
-    select 'Event1', :from => 'Filter by Event'
-    find(".event:contains('Joana')").should be_visible
-    find(".event:contains('Paula')").should_not be_visible
-
-    select 'Event2', :from => 'Filter by Event'
-    find(".event:contains('Joana')").should_not be_visible
-    find(".event:contains('Paula')").should be_visible
-  end
-
   it 'shows previous entered information on validation error' do
     params = { :name => 'Joana',
                :middle_initial => 'Silva',
@@ -285,6 +269,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page = Page.create!(:name => 'Joana', :content => 'oi!')
 
     visit '/list'
+    expand_event(@page.event)
     find('.star-it').should_not be_visible
     find('.starred').should_not be_visible
     page.execute_script("$('.page').trigger('mouseenter');")
@@ -298,6 +283,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     find('.starred').should be_visible
 
     visit '/list'
+    expand_event(@page.event)
     find('.star-it').should_not be_visible
     find('.starred').should be_visible
     page.execute_script("$('.page').trigger('mouseenter');")
@@ -312,6 +298,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     find('.star-it').should_not be_visible
 
     visit '/list'
+    expand_event(@page.event)
     find('.starred').should_not be_visible
     find('.star-it').should_not be_visible
     page.execute_script("$('.page').trigger('mouseenter');")
