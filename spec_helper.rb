@@ -155,6 +155,10 @@ def expand_event(event)
   within_event(event) { find('.event-expand').click }
 end
 
+def collapse_event(event)
+  within_event(event) { find('.event-collapse').click }
+end
+
 def within_event(event)
   within ".event[data-event='#{event}']" do
     yield

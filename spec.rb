@@ -138,6 +138,28 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_uploaded_page_is_displayed_within_event(@page4)
   end
 
+  it 'shows pages when event is expanded' do
+    @page = Page.create!(:name => 'Joana', :content => 'oi!')
+
+    visit '/list'
+
+    within_event(@page.event) do
+      find('.pages').should_not be_visible
+    end
+
+    expand_event(@page.event)
+
+    within_event(@page.event) do
+      find('.pages').should be_visible
+    end
+
+    collapse_event(@page.event)
+
+    within_event(@page.event) do
+      find('.pages').should_not be_visible
+    end
+  end
+
   it 'deletes a page from pages list' do
     @page1 = Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
     @page2 = Page.create!(:name => 'Maria', :event => 'Event2', :content => 'oi!')
