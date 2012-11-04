@@ -138,6 +138,22 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_uploaded_page_is_displayed_within_event(@page4)
   end
 
+  it 'show event pages count' do
+    @page1 = Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
+    @page2 = Page.create!(:name => 'Bruna', :event => 'Event2', :content => 'hello!')
+    @page3 = Page.create!(:name => 'Karina', :event => 'Event2', :content => 'whatsup!')
+
+    visit '/list'
+
+    within_event(@page1.event) do
+      find('.event-page-count').should have_content '1 page'
+    end
+
+    within_event(@page2.event) do
+      find('.event-page-count').should have_content '2 pages'
+    end
+  end
+
   it 'shows pages when event is expanded' do
     @page = Page.create!(:name => 'Joana', :content => 'oi!')
 

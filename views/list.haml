@@ -15,6 +15,7 @@
           %a.event-expand{:href => '#'}
             %i.icon-plus
             %h4.event-title= escape_html event.title
+          .event-page-count= "#{event.pages.size} page#{event.pages.size > 1 ? 's' : ''}"
           - unless event.blank?
             %a.event-featured-pages{:href => event.relative_link_to_featured_pages}
               %i.icon-play
