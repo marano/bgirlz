@@ -8,13 +8,19 @@
   .row-fluid
     .span8
       - @events.each do |event|
-        .event{'data-event' => event.name}
+        .event{'data-event' => event.name, 'data-event-update-name-path' => event.relative_link_to_update_name}
           %a.event-collapse.hide{:href => '#'}
             %i.icon-minus
             %h4.event-title= escape_html event.title
           %a.event-expand{:href => '#'}
             %i.icon-plus
             %h4.event-title= escape_html event.title
+          %form.event-edit-form.hide
+            %input.event-name-input{:type => 'text', :value => event.name}
+            %input.event-edit-submit.btn.btn-primary{:type => 'submit', :value => 'Save'}
+          - unless event.blank?
+            %a.event-edit{:href => '#'}
+              %i.icon-edit
           .event-page-count= "#{event.pages.size} page#{event.pages.size > 1 ? 's' : ''}"
           - unless event.blank?
             %a.event-featured-pages{:href => event.relative_link_to_featured_pages}

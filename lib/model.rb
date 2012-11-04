@@ -309,12 +309,22 @@ class Event
     false
   end
 
+  def update_name!(new_name)
+    old_name = @name
+    @name = new_name
+    Page.where(:event => old_name).each { |page| page.update_attribute :event, new_name}
+  end
+
   def relative_link_to_page_links
     "/event/#{@name}/featured_pages/links"
   end
 
   def relative_link_to_featured_pages
     "/event/#{@name}/featured_pages"
+  end
+
+  def relative_link_to_update_name
+    "/event/#{@name}"
   end
 end
 
@@ -330,5 +340,7 @@ class EventMissing
   end
   def blank?
     true
+  end
+  def relative_link_to_update_name
   end
 end

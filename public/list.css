@@ -1,5 +1,6 @@
 .event {
   clear: left;
+  min-height: 40px;
 }
 
 .event-collapse i, .event-expand i {
@@ -10,6 +11,28 @@
 .event-title {
   float: left;
   margin-left: 6px;
+}
+
+.event-edit {
+  float: left;
+  margin-top: 12px;
+  margin-left: 10px;
+}
+
+.event-edit-form {
+  float: left;
+  display: inline-block;
+  margin: 0;
+}
+
+.event-name-input {
+  margin: 0;
+  margin-top: 5px !important;
+  margin-bottom: 0 !important;
+}
+
+.event-edit-submit {
+  margin-top: 5px;
 }
 
 .event-page-count {

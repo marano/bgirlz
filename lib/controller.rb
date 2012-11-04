@@ -64,6 +64,12 @@ class Controller < Sinatra::Base
     "404 Not found"
   end
 
+  put '/event/:current_name' do
+    @event = Event.new(params[:current_name])
+    @event.update_name!(params[:name])
+    status 200
+  end
+
   get '/event/:name/featured_pages' do
     @event = Event.new(params[:name])
     haml :event_featured_pages

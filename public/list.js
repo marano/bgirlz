@@ -96,6 +96,7 @@ $(function () {
   $('.event-collapse h4').tooltip({placement: 'top', title: 'Hide pages'});
   $('.event-expand i').tooltip({placement: 'top', title: 'Show pages'});
   $('.event-expand h4').tooltip({placement: 'top', title: 'Show pages'});
+  $('.event-edit').tooltip({placement: 'top', title: 'Edit'});
   $('.event-featured-pages i').tooltip({placement: 'right', title: 'Featured Pages'});
 
   $('.delete').tooltip({placement: 'right', title: 'Trash it'});
@@ -206,6 +207,35 @@ $(function () {
       editLink.removeClass('hide');
       row.trigger('mouseout');
     });
+  });
+
+  $('.event-edit').click(function (event) {
+    event.preventDefault();
+    var eventDiv = getEventDiv(event.target);
+    eventDiv.find('.event-title').addClass('hide');;
+    eventDiv.find('.event-edit').addClass('hide');;
+    eventDiv.find('.event-page-count').addClass('hide');;
+    eventDiv.find('.event-featured-pages').addClass('hide');;
+    eventDiv.find('.event-edit-form').removeClass('hide');;
+  });
+
+  $('.event-edit-form').submit(function (event) {
+    event.preventDefault();
+    var eventDiv = getEventDiv(event.target);
+    var newEventName = eventDiv.find('.event-name-input').val();
+    var updateEventNamePath = eventDiv.data('event-update-name-path');
+    $.ajax({
+      url: updateEventNamePath,
+      type: 'PUT',
+      data: { name: newEventName },
+      success: function () {}
+    });
+    eventDiv.find('.event-title').text(newEventName);
+    eventDiv.find('.event-title').removeClass('hide');
+    eventDiv.find('.event-edit').removeClass('hide');
+    eventDiv.find('.event-page-count').removeClass('hide');
+    eventDiv.find('.event-featured-pages').removeClass('hide');
+    eventDiv.find('.event-edit-form').addClass('hide');
   });
 
   function getParentRow(element) {

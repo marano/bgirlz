@@ -425,6 +425,28 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find(".page[data-page-name=#{@page_with_html_errors.name}]").should have_css 'i.has-html-errors'
   end
 
+  it 'edits event name' do
+    @page = Page.create!(:name => 'Joana', :event => 'AwesomeEvent', :content => 'oi!')
+
+    visit '/list'
+
+    within_event(@page.event) do
+      find('.event-edit').click
+      find('.event-name-input').set 'NewEventName'
+      click_button 'Save'
+      find('.event-title').should have_content 'NewEventName'
+    end
+
+    visit '/list'
+
+    @page.reload
+
+    within_event(@page.event) do
+      find('.event-title').should have_content 'NewEventName'
+    end
+
+  end
+
   it 'edits girls name' do
     @page = Page.create!(:name => 'Joana', :content => 'oi!')
 
