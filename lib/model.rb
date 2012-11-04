@@ -326,6 +326,10 @@ class Event
   def relative_link_to_update_name
     "/event/#{@name}"
   end
+
+  def as_json(options)
+    { :link_to_update_name => relative_link_to_update_name }
+  end
 end
 
 class EventMissing

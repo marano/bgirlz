@@ -437,14 +437,20 @@ describe 'Black Girls Code Website Publisher', :js => true do
       find('.event-title').should have_content 'NewEventName'
     end
 
+    within_event(@page.event) do
+      find('.event-edit').click
+      find('.event-name-input').set 'UpdatedEventName'
+      click_button 'Save'
+      find('.event-title').should have_content 'UpdatedEventName'
+    end
+
     visit '/list'
 
     @page.reload
 
     within_event(@page.event) do
-      find('.event-title').should have_content 'NewEventName'
+      find('.event-title').should have_content 'UpdatedEventName'
     end
-
   end
 
   it 'edits girls name' do

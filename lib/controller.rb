@@ -67,7 +67,7 @@ class Controller < Sinatra::Base
   put '/event/:current_name' do
     @event = Event.new(params[:current_name])
     @event.update_name!(params[:name])
-    status 200
+    @event.to_json
   end
 
   get '/event/:name/featured_pages' do

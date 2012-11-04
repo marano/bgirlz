@@ -212,11 +212,11 @@ $(function () {
   $('.event-edit').click(function (event) {
     event.preventDefault();
     var eventDiv = getEventDiv(event.target);
-    eventDiv.find('.event-title').addClass('hide');;
-    eventDiv.find('.event-edit').addClass('hide');;
-    eventDiv.find('.event-page-count').addClass('hide');;
-    eventDiv.find('.event-featured-pages').addClass('hide');;
-    eventDiv.find('.event-edit-form').removeClass('hide');;
+    eventDiv.find('.event-title').addClass('hide');
+    eventDiv.find('.event-edit').addClass('hide');
+    eventDiv.find('.event-page-count').addClass('hide');
+    eventDiv.find('.event-featured-pages').addClass('hide');
+    eventDiv.find('.event-edit-form').removeClass('hide');
   });
 
   $('.event-edit-form').submit(function (event) {
@@ -228,7 +228,10 @@ $(function () {
       url: updateEventNamePath,
       type: 'PUT',
       data: { name: newEventName },
-      success: function () {}
+      success: function (eventJSON) {
+        var updatedEvent = $.parseJSON(eventJSON);
+        eventDiv.data('event-update-name-path', updatedEvent.link_to_update_name);
+      }
     });
     eventDiv.find('.event-title').text(newEventName);
     eventDiv.find('.event-title').removeClass('hide');
