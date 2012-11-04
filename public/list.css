@@ -1,5 +1,4 @@
 .event {
-  clear: left;
   min-height: 40px;
 }
 
@@ -51,7 +50,10 @@ form {
   display: inline;
 }
 
-table.pages { table-layout: fixed; }
+table.pages {
+  clear: left;
+  table-layout: fixed;
+}
 table.pages th, table.pages td { overflow: hidden; }
 
 table.pages td {
