@@ -11,9 +11,10 @@
         .event{'data-event' => event.name}
           %a.event-collapse.hide{:href => '#'}
             %i.icon-minus
+            %h4.event-title= escape_html event.title
           %a.event-expand{:href => '#'}
             %i.icon-plus
-          %h4.event-title= escape_html event.title
+            %h4.event-title= escape_html event.title
           - unless event.blank?
             %a.event-featured-pages{:href => event.relative_link_to_featured_pages}
               %i.icon-play

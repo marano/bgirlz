@@ -92,8 +92,10 @@ $(function () {
     $('#preview').find('iframe').attr('src', contentPath);
   });
 
-  $('.event-collapse i').tooltip({placement: 'right', title: 'Hide pages'});
-  $('.event-expand i').tooltip({placement: 'right', title: 'Show pages'});
+  $('.event-collapse i').tooltip({placement: 'top', title: 'Hide pages'});
+  $('.event-collapse h4').tooltip({placement: 'top', title: 'Hide pages'});
+  $('.event-expand i').tooltip({placement: 'top', title: 'Show pages'});
+  $('.event-expand h4').tooltip({placement: 'top', title: 'Show pages'});
   $('.event-featured-pages i').tooltip({placement: 'right', title: 'Featured Pages'});
 
   $('.delete').tooltip({placement: 'right', title: 'Trash it'});
