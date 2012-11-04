@@ -3,6 +3,9 @@
 
 .container-fluid
   .row-fluid
+    .span12
+      %h1 Events
+  .row-fluid
     .span8
       - @events.each do |event|
         .event{'data-event' => event.name}
