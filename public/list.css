@@ -11,9 +11,13 @@
   min-height: 40px;
 }
 
-.event-collapse i, .event-expand i {
+.event-collapse i, .event-expand i, .event-expand-disabled i {
   float: left;
   margin-top: 12px;
+}
+
+.event-expand-disabled i {
+  opacity: 0.2;
 }
 
 .event-title {
@@ -50,9 +54,13 @@
   margin-left: 10px;
 }
 
-.event-featured-pages i {
+.event-featured-pages i, .event-featured-pages-disabled i {
   margin-top: 12px;
   margin-left: 6px;
+}
+
+.event-featured-pages-disabled i {
+  opacity: 0.2;
 }
 
 form {

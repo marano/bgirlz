@@ -217,6 +217,7 @@ $(function () {
       eventDiv.find('.event-edit').addClass('hide');
       eventDiv.find('.event-page-count').addClass('hide');
       eventDiv.find('.event-featured-pages').addClass('hide');
+      eventDiv.find('.event-featured-pages-disabled').addClass('hide');
       eventDiv.find('.event-edit-form').removeClass('hide');
     });
 
@@ -239,6 +240,7 @@ $(function () {
       eventDiv.find('.event-edit').removeClass('hide');
       eventDiv.find('.event-page-count').removeClass('hide');
       eventDiv.find('.event-featured-pages').removeClass('hide');
+      eventDiv.find('.event-featured-pages-disabled').removeClass('hide');
       eventDiv.find('.event-edit-form').addClass('hide');
     });
 
