@@ -38,7 +38,7 @@ namespace :migrate do
   task :create_events do
     ENV['RACK_ENV'] ||= 'development'
     require_relative 'bgirlz'
-    Page.all.sort_by(&:created_at).map(&:event).select { |event| !event.blank? }.uniq.each do |event_name|
+    Page.all.sort_by { |page| page.created_at.nil? ? Time.parse('14-12-1901') || page.created_at }.map(&:event).select { |event| !event.blank? }.uniq.each do |event_name|
       Event.create(:name => event_name)
     end
   end
