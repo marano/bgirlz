@@ -28,7 +28,6 @@ $(function () {
   addTooltip('#name');
   addTooltip('#middle-initial');
   addTooltip('#last-name');
-  addTooltip('#event');
 
   $('#menu a').click(function (event) {
     event.preventDefault();
