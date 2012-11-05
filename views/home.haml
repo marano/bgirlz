@@ -40,7 +40,10 @@
           .control-group
             %label.control-label{:for => 'event'} Event
             .controls
-              %input#event.input-big{:name => "event", :type => "text", :autocomplete => 'off', :value => @event}
+              %select#event{:name => 'event'}
+                %option Select an event
+                - @events_list.each do |event|
+                  %option{:value => event.name, :selected => event.name == @event}= event.name
 
         #webpage
           %h3 Webpage

@@ -47,10 +47,6 @@ $(function () {
     }, 800);
   });
 
-  $.getJSON('/previous_events', function (events) {
-    $('input[name=event]').typeahead({source: events});
-  });
-
   function getParentLink(element) {
     if (element.tagName == 'A') {
       return $(element);

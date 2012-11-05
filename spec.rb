@@ -86,6 +86,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'publishes my website and inform middle, last name and event and show me info bar' do
+    Event.create :name => 'Event1'
     @page = upload_page_and_assert_data_was_saved(:name => 'Joana',
                                                   :middle_initial => 'Silva',
                                                   :last_name => 'Sauro',
@@ -252,6 +253,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
   end
 
   it 'updates my website when I provide the same student information' do
+    Event.create(:name => 'Event1')
     upload_page_and_assert_data_was_saved(:name => 'Joana',
                                           :middle_initial => 'Silva',
                                           :last_name => 'Sauro',
@@ -265,24 +267,21 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_upload_is_ok(@page)
   end
 
-  it 'autocompletes event code with previous informed values' do
+  it 'selects event from list of events' do
+    Event.create(:name => 'Event1')
+    Event.create(:name => 'Event2')
     Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
     Page.create!(:name => 'Marcela', :event => 'Event1', :content => 'ei!')
     Page.create!(:name => 'Paula', :event => 'Event2', :content => 'hi there!')
 
     visit '/'
 
-    fill_in 'event', :with => 'Event'
-
-    events = all('.typeahead li').map(&:text)
-
-    events.size.should == 2
-
-    events.should include 'Event1'
-    events.should include 'Event2'
+    page.should have_css "option[value=Event1]"
+    page.should have_css "option[value=Event2]"
   end
 
   it 'shows previous entered information on validation error' do
+    Event.create(:name => 'Event1')
     params = { :name => 'Joana',
                :middle_initial => 'Silva',
                :last_name => 'Sauro',

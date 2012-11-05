@@ -35,7 +35,7 @@ def upload_page_and_assert_data_was_saved(params, success = true)
   fill_in 'name', :with => params[:name] if params[:name]
   fill_in 'middle_initial', :with => params[:middle_initial] if params[:middle_initial]
   fill_in 'last_name', :with => params[:last_name] if params[:last_name]
-  fill_in 'event', :with => params[:event] if params[:event]
+  select params[:event], :from => 'event' unless params[:event].blank?
 
   if params.has_key?(:enable_comments)
     if params[:enable_comments]
@@ -120,7 +120,7 @@ def assert_upload_is_ok(uploaded_page)
   link = "#{url}#{uploaded_page.relative_link_to_self}"
   pretty_link = "#{url}#{uploaded_page.relative_pretty_link_to_self}"
   page.should have_content pretty_link
-  page.should have_link link
+  page.find('a#link-to-self')['href'].should == link
 
   find('#info_panel').should be_visible
   click_link 'close'
@@ -144,6 +144,9 @@ def assert_uploaded_page_is_displayed_within_event(uploaded_page)
       page.should have_css('h4', :text => '<event missing>')
     else
       page.should have_css('h4', :text => uploaded_page.event)
+    end
+    if find('.event-expand').visible?
+      find('.event-expand').click
     end
     page.should have_css('td.name', :text => uploaded_page.full_name)
     page.should have_css('td.date', :text => uploaded_page.formatted_created_at)

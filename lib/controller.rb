@@ -13,10 +13,6 @@ class Controller < Sinatra::Base
 
   include LinkOpener
 
-  get '/previous_events' do
-    Event.all.map(&:name).to_json
-  end
-
   get '/featured_pages' do
     Page.random_featured_pages_links.map { |link| link.to_json_hash(request) }.to_json
   end
@@ -26,6 +22,7 @@ class Controller < Sinatra::Base
     @middle_initial = params[:middle_initial]
     @last_name = params[:last_name]
     @event = params[:event]
+    @events_list = Event.all.sort_by(&:created_at).reverse
     haml :home
   end
 
