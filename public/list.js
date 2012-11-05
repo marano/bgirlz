@@ -76,10 +76,6 @@ $(function () {
     $('#preview').find('iframe').attr('src', contentPath);
   });
 
-  $('.event-collapse i').tooltip({placement: 'top', title: 'Hide pages'});
-  $('.event-collapse h4').tooltip({placement: 'top', title: 'Hide pages'});
-  $('.event-expand i').tooltip({placement: 'top', title: 'Show pages'});
-  $('.event-expand h4').tooltip({placement: 'top', title: 'Show pages'});
   $('.event-edit').tooltip({placement: 'top', title: 'Edit'});
   $('.event-featured-pages i').tooltip({placement: 'right', title: 'Featured Pages'});
 
