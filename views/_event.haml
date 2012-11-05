@@ -1,0 +1,80 @@
+.event{'data-event' => event.name, 'data-event-update-name-path' => event.relative_link_to_update_name}
+  %a.event-collapse.hide{:href => '#'}
+    %i.icon-minus
+    %h4.event-title= escape_html event.title
+  %a.event-expand{:href => '#'}
+    %i.icon-plus
+    %h4.event-title= escape_html event.title
+  %form.event-edit-form.hide
+    %input.event-name-input{:type => 'text', :value => event.name}
+    %input.event-edit-submit.btn.btn-primary{:type => 'submit', :value => 'Save'}
+  - unless event.blank?
+    %a.event-edit{:href => '#'}
+      %i.icon-edit
+  .event-page-count
+    - if event.pages.size == 0
+      no pages
+    - elsif event.pages.size == 1
+      1 page
+    - elsif event.pages.size > 0
+      = "#{event.pages.size} pages"
+  - unless event.blank?
+    %a.event-featured-pages{:href => event.relative_link_to_featured_pages}
+      %i.icon-play
+  %table.table.table-condensed.table-hover.pages.hide
+    %thead
+      %tr
+        %th.delete-placeholder
+          %a.enable-delete.btn.show-on-header-hover{:href => "#"}
+            %i.icon-trash
+        %th.date Upload Date
+        %th.name Name
+        %th.link Link
+        %th.content Content
+        %th.favorite
+        %th.preview
+    %tbody
+      - event.pages.each do |page|
+        %tr.page{:'data-page-event' => page.event, :'data-page-path' => page.relative_link_to_self, :'data-page-pretty-path' => page.relative_pretty_link_to_self, :'data-page-content-path' => page.relative_link_to_content, :'data-page-date' => page.formatted_created_at, :'data-page-name' => page.name, 'data-page-middle-initial' => page.middle_initial, 'data-page-last-name' => page.last_name, 'data-change-event-path' => page.relative_link_to_change_event, 'data-update-name-path' => page.relative_link_to_update_name, 'data-favorite-path' => page.relative_link_to_favorite, :'data-unfavorite-path' => page.relative_link_to_unfavorite}
+          %td.delete-placeholder
+            %i.icon-move.move-page.show-on-hover
+            %form{:action => page.relative_link_to_self, :id => "delete_page_#{page.salt}_#{URI.encode(page.name)}", :method => "post"}
+              %input{:name => "_method", :type => "hidden", :value => "delete"}
+              %a.btn.delete.hide{:href => "#"}
+                %i.icon-trash
+          %td.date
+            = page.formatted_created_at
+          %td.name
+            %span.name-container
+              = page.full_name
+            %a.edit.show-on-hover{:href => '#'}
+              %i.icon-edit
+          %td.link
+            %a{:href => page.relative_link_to_self}= page.relative_pretty_link_to_self
+          %td.content
+            - if page.have_image?
+              %i.icon-picture.has-image
+            - if page.have_video?
+              %i.icon-film.has-video
+            - if page.have_music?
+              %i.icon-music.has-music
+            - if page.have_stylesheet?
+              %i.icon-font.has-stylesheet
+            - if page.enable_comments
+              %i.icon-comment.has-facebook-comments
+            - if page.have_html_errors?
+              %i.icon-exclamation-sign.has-html-errors
+          %td.favorite
+            - if page.favorite
+              %a.star-it.hide.show-on-hover{:href => '#'}
+                %i.icon-star-empty
+              %a.starred{:href => '#'}
+                %i.icon-star
+            -else
+              %a.star-it.show-on-hover{:href => '#'}
+                %i.icon-star-empty
+              %a.starred.hide{:href => '#'}
+                %i.icon-star
+          %td.preview
+            %a.preview-link.btn.preview-btn.show-on-hover{:href => '#'}
+              %i.icon-eye-open

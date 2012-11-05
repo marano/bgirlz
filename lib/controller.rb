@@ -14,7 +14,7 @@ class Controller < Sinatra::Base
   include LinkOpener
 
   get '/previous_events' do
-    Page.previous_events.to_json
+    Event.all.map(&:name).to_json
   end
 
   get '/featured_pages' do
@@ -50,7 +50,7 @@ class Controller < Sinatra::Base
   end
 
   get '/list' do
-    @events = Event.all
+    @events = Event.all.sort_by(&:created_at).reverse + [ EventMissing.new ]
     haml :list
   end
 
@@ -64,19 +64,24 @@ class Controller < Sinatra::Base
     "404 Not found"
   end
 
+  post '/events' do
+    @event = Event.create!(:name => params[:name])
+    haml :_event, :layout => false, :locals => {:event => @event}
+  end
+
   put '/event/:current_name' do
-    @event = Event.new(params[:current_name])
+    @event = Event.find_by_name(params[:current_name])
     @event.update_name!(params[:name])
     @event.to_json
   end
 
   get '/event/:name/featured_pages' do
-    @event = Event.new(params[:name])
+    @event = Event.find_by_name(params[:name])
     haml :event_featured_pages
   end
 
   get '/event/:name/featured_pages/links' do
-    Event.new(params[:name]).pages.map(&:original_link_page_link).map { |link| link.to_json_hash(request) }.to_json
+    Event.find_by_name(params[:name]).pages.map(&:original_link_page_link).map { |link| link.to_json_hash(request) }.to_json
   end
 
   get '/*/content' do

@@ -1,20 +1,4 @@
 $(function () {
-  $('.event-expand').click(function (event) {
-    event.preventDefault();
-    var eventDiv = getEventDiv(event.target);
-    eventDiv.find('.pages').removeClass('hide');
-    eventDiv.find('.event-expand').addClass('hide');
-    eventDiv.find('.event-collapse').removeClass('hide');
-  });
-
-  $('.event-collapse').click(function (event) {
-    event.preventDefault();
-    var eventDiv = getEventDiv(event.target);
-    eventDiv.find('.pages').addClass('hide');
-    eventDiv.find('.event-expand').removeClass('hide');
-    eventDiv.find('.event-collapse').addClass('hide');
-  });
-
   $('.delete').click(function (e) {
     var ok = confirm("Are you sure you want to delete that page?");
     if (ok) {
@@ -126,26 +110,6 @@ $(function () {
     return $('<div class="drag-cart-item"><table></table></div>').find('table').append($(event.target).closest('tr').clone()).end();
   }});
 
-  $('.event').droppable({scope: 'events', hoverClass: 'droppable-active', drop: function (event, ui) {
-    $('.drag-cart-item').remove();
-    var eventDiv = $(event.target);
-    var pageMovedRow = $(ui.draggable);
-    var pageMovedRowOldEvent = pageMovedRow.data('page-event');
-    var movedToEvent = eventDiv.data('event');
-    if (pageMovedRowOldEvent == movedToEvent) {
-      return;
-    }
-    pageMovedRow.data('page-event', movedToEvent);
-    eventDiv.find('tbody').append(pageMovedRow);
-    var path = pageMovedRow.data('change-event-path');
-    $.ajax({
-      url: path,
-      type: 'PUT',
-      data: { event: movedToEvent },
-      success: function () {}
-    });
-  }});
-
   $('thead').mouseenter(function (event) {
     searchTreeFor('.show-on-header-hover', getParentRow(event.target)).each(function (index, element) {
       $(element).addClass('hovering');
@@ -209,38 +173,99 @@ $(function () {
     });
   });
 
-  $('.event-edit').click(function (event) {
-    event.preventDefault();
-    var eventDiv = getEventDiv(event.target);
-    eventDiv.find('.event-title').addClass('hide');
-    eventDiv.find('.event-edit').addClass('hide');
-    eventDiv.find('.event-page-count').addClass('hide');
-    eventDiv.find('.event-featured-pages').addClass('hide');
-    eventDiv.find('.event-edit-form').removeClass('hide');
+  $('.event').each(function (index, eventDiv) {
+    bindEvents($(eventDiv));
   });
 
-  $('.event-edit-form').submit(function (event) {
+  $('#event-create-window').on('shown', function () {
+    $('#event-create-name').focus();
+  });
+
+  $('#event-create-form').submit(function () {
     event.preventDefault();
-    var eventDiv = getEventDiv(event.target);
-    var newEventName = eventDiv.find('.event-name-input').val();
-    var updateEventNamePath = eventDiv.data('event-update-name-path');
+    $('#event-create-window').modal('hide');
+    var newEventName = $('#event-create-name').val();
+    $('#event-create-name').val('');
     $.ajax({
-      url: updateEventNamePath,
-      type: 'PUT',
+      url: '/events',
+      type: 'POST',
       data: { name: newEventName },
-      success: function (eventJSON) {
-        var updatedEvent = $.parseJSON(eventJSON);
-        eventDiv.attr('data-event', updatedEvent.name);
-        eventDiv.attr('data-event-update-name-path', updatedEvent.link_to_update_name);
+      success: function (eventDiv) {
+        eventDiv = $(eventDiv);
+        $('#events').prepend(eventDiv);
+        bindEvents(eventDiv);
       }
     });
-    eventDiv.find('.event-title').text(newEventName);
-    eventDiv.find('.event-title').removeClass('hide');
-    eventDiv.find('.event-edit').removeClass('hide');
-    eventDiv.find('.event-page-count').removeClass('hide');
-    eventDiv.find('.event-featured-pages').removeClass('hide');
-    eventDiv.find('.event-edit-form').addClass('hide');
   });
+
+  function bindEvents(eventDiv) {
+    eventDiv.find('.event-expand').click(function (event) {
+      event.preventDefault();
+      var eventDiv = getEventDiv(event.target);
+      eventDiv.find('.pages').removeClass('hide');
+      eventDiv.find('.event-expand').addClass('hide');
+      eventDiv.find('.event-collapse').removeClass('hide');
+    });
+
+    eventDiv.find('.event-collapse').click(function (event) {
+      event.preventDefault();
+      var eventDiv = getEventDiv(event.target);
+      eventDiv.find('.pages').addClass('hide');
+      eventDiv.find('.event-expand').removeClass('hide');
+      eventDiv.find('.event-collapse').addClass('hide');
+    });
+
+    eventDiv.find('.event-edit').click(function (event) {
+      event.preventDefault();
+      eventDiv.find('.event-title').addClass('hide');
+      eventDiv.find('.event-edit').addClass('hide');
+      eventDiv.find('.event-page-count').addClass('hide');
+      eventDiv.find('.event-featured-pages').addClass('hide');
+      eventDiv.find('.event-edit-form').removeClass('hide');
+    });
+
+    eventDiv.find('.event-edit-form').submit(function (event) {
+      event.preventDefault();
+      var newEventName = eventDiv.find('.event-name-input').val();
+      var updateEventNamePath = eventDiv.attr('data-event-update-name-path');
+      $.ajax({
+        url: updateEventNamePath,
+        type: 'PUT',
+        data: { name: newEventName },
+        success: function (eventJSON) {
+          var updatedEvent = $.parseJSON(eventJSON);
+          eventDiv.attr('data-event', updatedEvent.name);
+          eventDiv.attr('data-event-update-name-path', updatedEvent.link_to_update_name);
+        }
+      });
+      eventDiv.find('.event-title').text(newEventName);
+      eventDiv.find('.event-title').removeClass('hide');
+      eventDiv.find('.event-edit').removeClass('hide');
+      eventDiv.find('.event-page-count').removeClass('hide');
+      eventDiv.find('.event-featured-pages').removeClass('hide');
+      eventDiv.find('.event-edit-form').addClass('hide');
+    });
+
+    eventDiv.droppable({scope: 'events', hoverClass: 'droppable-active', drop: function (event, ui) {
+      $('.drag-cart-item').remove();
+      var eventDiv = $(event.target);
+      var pageMovedRow = $(ui.draggable);
+      var pageMovedRowOldEvent = pageMovedRow.data('page-event');
+      var movedToEvent = eventDiv.data('event');
+      if (pageMovedRowOldEvent == movedToEvent) {
+        return;
+      }
+      pageMovedRow.data('page-event', movedToEvent);
+      eventDiv.find('tbody').append(pageMovedRow);
+      var path = pageMovedRow.data('change-event-path');
+      $.ajax({
+        url: path,
+        type: 'PUT',
+        data: { event: movedToEvent },
+        success: function () {}
+      });
+    }});
+  }
 
   function getParentRow(element) {
     if (element.tagName == 'TR') {

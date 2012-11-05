@@ -12,6 +12,7 @@ RSpec.configure do |c|
   c.before do
     PageLink.destroy_all
     Page.destroy_all
+    Event.destroy_all
     Capybara.reset_sessions!
   end
 end

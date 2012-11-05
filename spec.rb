@@ -425,19 +425,29 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find(".page[data-page-name=#{@page_with_html_errors.name}]").should have_css 'i.has-html-errors'
   end
 
+  it 'creates new event' do
+    visit '/list'
+    click_link 'Create Event'
+    fill_in :name, :with => 'NewEvent'
+    click_button 'Create'
+    within_event('NewEvent') do
+      find('.event-title').should have_content 'NewEvent'
+    end
+  end
+
   it 'edits event name' do
-    @page = Page.create!(:name => 'Joana', :event => 'AwesomeEvent', :content => 'oi!')
+    @page = Page.create!(:name => 'Joana', :event => 'OriginalEvent', :content => 'oi!')
 
     visit '/list'
 
-    within_event(@page.event) do
+    within_event('OriginalEvent') do
       find('.event-edit').click
       find('.event-name-input').set 'NewEventName'
       click_button 'Save'
       find('.event-title').should have_content 'NewEventName'
     end
 
-    within_event(@page.event) do
+    within_event('NewEventName') do
       find('.event-edit').click
       find('.event-name-input').set 'UpdatedEventName'
       click_button 'Save'
@@ -446,9 +456,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     visit '/list'
 
-    @page.reload
-
-    within_event(@page.event) do
+    within_event('UpdatedEventName') do
       find('.event-title').should have_content 'UpdatedEventName'
     end
   end

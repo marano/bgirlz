@@ -33,3 +33,13 @@ end
 task :deploy do
   sh 'git push -f heroku'
 end
+
+namespace :migrate do
+  task :create_events do
+    ENV['RACK_ENV'] ||= 'development'
+    require_relative 'bgirlz'
+    Page.all.sort_by(&:created_at).map(&:event).select { |event| !event.blank? }.uniq.each do |event_name|
+      Event.create(:name => event_name)
+    end
+  end
+end

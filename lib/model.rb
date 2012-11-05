@@ -15,7 +15,7 @@ class Page
   timestamps!
 
   before_create :create_salt_before_create, :validate
-  after_create :create_link_after_create!
+  after_create :create_link_after_create!, :create_event_after_create!
   before_update :create_salt_before_update, :create_link_before_update!
   after_destroy :destroy_links
 
@@ -59,10 +59,6 @@ class Page
 
   def self.random_featured_pages_links
     Page.all(:favorite => true).randomize.slice(0..10).map(&:original_link_page_link)
-  end
-
-  def self.previous_events
-    Page.all.select { |p| !p.event.blank? }.map(&:event).uniq
   end
 
   def formatted_created_at
@@ -235,6 +231,10 @@ class Page
     save!
   end
 
+  def create_event_after_create!
+    Event.create!(:name => @event) if Event.find_by_name(@event).nil? unless @event.blank?
+  end
+
   def create_link_before_update!
     unless links.map(&:link).include?(relative_link_to_self)
       create_link!
@@ -285,17 +285,10 @@ class PageLink
 end
 
 class Event
-  def initialize(name)
-    @name = name
-  end
+  include MongoMapper::Document
 
-  def self.all
-    Page.previous_events.map { |event_name| Event.new(event_name) } + [ EventMissing.new ]
-  end
-
-  def name
-    @name
-  end
+  key :name, String, :required => true, :unique => true
+  timestamps!
 
   def pages
     Page.all(:event => @name)
@@ -311,8 +304,8 @@ class Event
 
   def update_name!(new_name)
     old_name = @name
-    @name = new_name
-    Page.where(:event => old_name).each { |page| page.update_attribute :event, new_name}
+    update_attributes!(:name => new_name)
+    Page.where(:event => old_name).each { |page| page.update_attributes!(:event => new_name) }
   end
 
   def relative_link_to_page_links
