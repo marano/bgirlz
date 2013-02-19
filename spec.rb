@@ -300,8 +300,10 @@ describe 'Black Girls Code Website Publisher', :js => true do
   it 'shows page preview on list' do
     @page = Page.create(:name => 'Joana', :middle_initial => 'Silva', :last_name => 'Sauro', :event => 'Event1', :content => 'oi!')
     visit '/list'
+    expand_event(@page.event)
     page.execute_script("$('.page').trigger('mouseenter')")
     find('.preview-link').click
+    page.should have_css('#preview', visible: true)
     evaluate_script("$('#preview iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
   end
 
