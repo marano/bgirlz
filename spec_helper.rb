@@ -173,6 +173,10 @@ def hover_page_row(student_page)
   page.execute_script("$('.page').trigger('mouseenter')")
 end
 
+def hover_out_page_row(student_page)
+  page.execute_script("$('.page').trigger('mouseout')")
+end
+
 def collapse_event(event)
   within_event(event) { find('.event-collapse').click }
 end

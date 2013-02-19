@@ -318,7 +318,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     find('.star-it').should_not be_visible
     find('.starred').should be_visible
 
-    page.execute_script("$('.page').trigger('mouseout');")
+    hover_out_page_row(@page)
     find('.star-it').should_not be_visible
     find('.starred').should be_visible
 
@@ -333,7 +333,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     find('.starred').click
     find('.starred').should_not be_visible
     find('.star-it').should be_visible
-    page.execute_script("$('.page').trigger('mouseout');")
+    hover_out_page_row(@page)
     find('.starred').should_not be_visible
     find('.star-it').should_not be_visible
 
