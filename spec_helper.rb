@@ -160,7 +160,13 @@ def expand_event(event)
 end
 
 def hover_event_header(event)
-  page.execute_script("$('.delete-placeholder').trigger('mouseenter')")
+  event_div_locator = ".event[data-event='#{event}']"
+  page.execute_script("$(\"#{event_div_locator}\").find('thead').find('tr').trigger('mouseenter');")
+end
+
+def hover_out_event_header(event)
+  event_div_locator = ".event[data-event='#{event}']"
+  page.execute_script("$(\"#{event_div_locator}\").find('thead').find('tr').trigger('mouseout');")
 end
 
 def hover_page_row(student_page)

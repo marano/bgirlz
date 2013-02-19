@@ -189,29 +189,27 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     expand_event(@page3.event)
 
-    event_3_div_locator = ".event[data-event='#{@page3.event}']"
-
-    within event_3_div_locator do
+    within_event @page3.event do
       find('.enable-delete').should_not be_visible
-      page.execute_script("$(\"#{event_3_div_locator}\").find('thead').find('tr').trigger('mouseenter');")
+      hover_event_header(@page3.event)
       find('.enable-delete').should be_visible
-      page.execute_script("$(\"#{event_3_div_locator}\").find('thead').find('tr').trigger('mouseout');")
+      hover_out_event_header(@page3.event)
       find('.enable-delete').should_not be_visible
-      page.execute_script("$(\"#{event_3_div_locator}\").find('thead').find('tr').trigger('mouseenter');")
+      hover_event_header(@page3.event)
       find('.enable-delete .icon-trash').click
     end
 
-    within ".event[data-event='#{@page1.event}']" do
+    within_event @page1.event do
       find('.enable-delete').should_not be_visible
       find(".delete").should_not be_visible
     end
 
-    within ".event[data-event='#{@page2.event}']" do
+    within_event @page2.event do
       find('.enable-delete').should_not be_visible
       find(".delete").should_not be_visible
     end
 
-    within event_3_div_locator do
+    within_event @page3.event do
       find('.enable-delete').should_not be_visible
       find(".delete").should be_visible
       evaluate_script('window.confirm = function() { return true; }')
