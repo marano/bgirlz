@@ -177,7 +177,7 @@ $(function () {
     $('#event-create-name').focus();
   });
 
-  $('#event-create-form').submit(function () {
+  $('#event-create-form').submit(function (event) {
     event.preventDefault();
     $('#event-create-window').modal('hide');
     var newEventName = $('#event-create-name').val();

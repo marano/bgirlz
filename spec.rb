@@ -432,6 +432,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
   it 'creates new event' do
     visit '/list'
     click_link 'Create Event'
+    page.should have_css('input[value=Create]', visible: true)
     fill_in :name, :with => 'NewEvent'
     click_button 'Create'
     within_event('NewEvent') do
