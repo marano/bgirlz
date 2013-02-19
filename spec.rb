@@ -301,7 +301,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page = Page.create(:name => 'Joana', :middle_initial => 'Silva', :last_name => 'Sauro', :event => 'Event1', :content => 'oi!')
     visit '/list'
     expand_event(@page.event)
-    page.execute_script("$('.page').trigger('mouseenter')")
+    hover_page_row(@page)
     find('.preview-link').click
     page.should have_css('#preview', visible: true)
     evaluate_script("$('#preview iframe')[0].contentWindow.document.body.innerHTML").should == @page.content
@@ -314,7 +314,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     expand_event(@page.event)
     find('.star-it').should_not be_visible
     find('.starred').should_not be_visible
-    page.execute_script("$('.page').trigger('mouseenter');")
+    hover_page_row(@page)
     find('.star-it').should be_visible
     find('.star-it').click
     find('.star-it').should_not be_visible
@@ -328,7 +328,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     expand_event(@page.event)
     find('.star-it').should_not be_visible
     find('.starred').should be_visible
-    page.execute_script("$('.page').trigger('mouseenter');")
+    hover_page_row(@page)
     find('.star-it').should_not be_visible
     find('.starred').should be_visible
 
@@ -343,7 +343,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     expand_event(@page.event)
     find('.starred').should_not be_visible
     find('.star-it').should_not be_visible
-    page.execute_script("$('.page').trigger('mouseenter');")
+    hover_page_row(@page)
     find('.starred').should_not be_visible
     find('.star-it').should be_visible
   end
@@ -472,7 +472,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     visit '/list'
     expand_event(@page.event)
 
-    page.execute_script("$('.page').trigger('mouseenter')")
+    hover_page_row(@page)
     page.find('.edit').click
     page.find('#name-input').value.should == 'Joana'
     page.find('#middle-initial-input').value.should == ''
@@ -484,7 +484,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     page.find('.page').find('.name').text.should == 'Joaninha C Serra'
 
-    page.execute_script("$('.page').trigger('mouseenter')")
+    hover_page_row(@page)
     page.find('.edit').click
     page.find('#name-input').value.should == 'Joaninha'
     page.find('#middle-initial-input').value.should == 'C'

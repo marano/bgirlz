@@ -163,6 +163,10 @@ def hover_event_header(event)
   page.execute_script("$('.delete-placeholder').trigger('mouseenter')")
 end
 
+def hover_page_row(student_page)
+  page.execute_script("$('.page').trigger('mouseenter')")
+end
+
 def collapse_event(event)
   within_event(event) { find('.event-collapse').click }
 end
