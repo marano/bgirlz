@@ -1,11 +1,11 @@
 GIT
   remote: https://github.com/cldwalker/debugger.git
-  revision: 4fb6305f77e8eccdb0065afe3771ab8245732c0f
+  revision: ff7f2a303071c61649b3852d04630d5704f9ec78
   specs:
-    debugger (1.2.0)
+    debugger (1.3.1)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
-      debugger-ruby_core_source (~> 1.1.3)
+      debugger-ruby_core_source (~> 1.1.8)
 
 GEM
   remote: http://rubygems.org/
@@ -37,7 +37,7 @@ GEM
     columnize (0.3.6)
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.3)
+    debugger-ruby_core_source (1.1.8)
     diff-lcs (1.1.3)
     ffi (1.1.2)
     haml (3.1.7)
