@@ -23,7 +23,7 @@ if ENV['headless'] =~ /false/
   Capybara.current_driver = :selenium
   Capybara.javascript_driver = :selenium
 else
-  Headless.new.start if RbConfig::CONFIG['host_os'] == 'linux'
+  Headless.new.start unless RbConfig::CONFIG['host_os'] === /darwin/
   Capybara.current_driver = :webkit
   Capybara.javascript_driver = :webkit
 end
