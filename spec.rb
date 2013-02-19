@@ -470,6 +470,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     @page = Page.create!(:name => 'Joana', :content => 'oi!')
 
     visit '/list'
+    expand_event(@page.event)
 
     page.execute_script("$('.page').trigger('mouseenter')")
     page.find('.edit').click
@@ -490,6 +491,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find('#last-name-input').value.should == 'Serra'
 
     visit '/list'
+    expand_event(@page.event)
 
     page.find('.page').find('.name').text.should == 'Joaninha C Serra'
   end
