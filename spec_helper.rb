@@ -159,6 +159,10 @@ def expand_event(event)
   within_event(event) { find('.event-expand').click }
 end
 
+def hover_event_header(event)
+  page.execute_script("$('.delete-placeholder').trigger('mouseenter')")
+end
+
 def collapse_event(event)
   within_event(event) { find('.event-collapse').click }
 end

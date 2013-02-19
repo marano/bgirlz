@@ -232,6 +232,9 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     visit '/list'
 
+    expand_event(@page.event)
+    hover_event_header(@page.event)
+
     within ".event[data-event='#{@page.event}']" do
       find('.enable-delete .icon-trash').click
       evaluate_script('window.confirm = function() { return true; }')
