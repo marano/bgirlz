@@ -84,24 +84,8 @@ def upload_page_and_assert_data_was_saved(params, success = true)
   end
 end
 
-def host
-  if Capybara.current_session.driver.class == Capybara::Driver::Webkit
-    Capybara.current_session.driver.instance_variable_get(:@rack_server).host
-  else
-    Capybara.current_session.driver.rack_server.host
-  end
-end
-
-def port
-  if Capybara.current_session.driver.class == Capybara::Driver::Webkit
-    Capybara.current_session.driver.instance_variable_get(:@rack_server).port
-  else
-    Capybara.current_session.driver.rack_server.port
-  end
-end
-
 def url
-  "http://#{host}:#{port}"
+  "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}"
 end
 
 def assert_page_is_displayed(uploaded_page)
@@ -134,7 +118,7 @@ end
 
 class Request
   def host_with_port
-    "#{host}:#{port}"
+    "#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}"
   end
 end
 
@@ -157,6 +141,10 @@ end
 
 def expand_event(event)
   within_event(event) { find('.event-expand').click }
+end
+
+def collapse_event(event)
+  within_event(event) { find('.event-collapse').click }
 end
 
 def hover_event_header(event)

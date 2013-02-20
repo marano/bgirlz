@@ -431,7 +431,7 @@ describe 'Black Girls Code Website Publisher', :js => true do
     visit '/list'
     click_link 'Create Event'
     page.should have_css('input[value=Create]', visible: true)
-    fill_in :name, :with => 'NewEvent'
+    fill_in 'Name', :with => 'NewEvent'
     click_button 'Create'
     within_event('NewEvent') do
       find('.event-title').should have_content 'NewEvent'
@@ -447,20 +447,42 @@ describe 'Black Girls Code Website Publisher', :js => true do
       find('.event-edit').click
       find('.event-name-input').set 'NewEventName'
       click_button 'Save'
-      find('.event-title').should have_content 'NewEventName'
     end
 
+
     within_event('NewEventName') do
+      find('.event-expand').find('.event-title').should have_content 'NewEventName'
+    end
+
+    expand_event('NewEventName')
+
+    within_event('NewEventName') do
+      find('.event-collapse').find('.event-title').should have_content 'NewEventName'
       find('.event-edit').click
       find('.event-name-input').set 'UpdatedEventName'
       click_button 'Save'
-      find('.event-title').should have_content 'UpdatedEventName'
+    end
+
+    within_event('UpdatedEventName') do
+      find('.event-collapse').find('.event-title').should have_content 'UpdatedEventName'
+    end
+
+    collapse_event('UpdatedEventName')
+
+    within_event('UpdatedEventName') do
+      find('.event-expand').find('.event-title').should have_content 'UpdatedEventName'
     end
 
     visit '/list'
 
     within_event('UpdatedEventName') do
-      find('.event-title').should have_content 'UpdatedEventName'
+      find('.event-expand').find('.event-title').should have_content 'UpdatedEventName'
+    end
+
+    expand_event('UpdatedEventName')
+
+    within_event('UpdatedEventName') do
+      find('.event-collapse').find('.event-title').should have_content 'UpdatedEventName'
     end
   end
 
