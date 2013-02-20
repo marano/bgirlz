@@ -148,21 +148,24 @@ def collapse_event(event)
 end
 
 def hover_event_header(event)
-  event_div_locator = ".event[data-event='#{event}']"
-  page.execute_script("$(\"#{event_div_locator}\").find('thead').find('tr').trigger('mouseenter');")
+  page.execute_script("$(\"#{event_div_locator(event)}\").find('thead').find('tr').trigger('mouseenter');")
 end
 
 def hover_out_event_header(event)
-  event_div_locator = ".event[data-event='#{event}']"
-  page.execute_script("$(\"#{event_div_locator}\").find('thead').find('tr').trigger('mouseout');")
+  page.execute_script("$(\"#{event_div_locator(event)}\").find('thead').find('tr').trigger('mouseout');")
 end
 
 def hover_page_row(student_page)
-  page.execute_script("$('.page').trigger('mouseenter')")
+  page.execute_script("$(\"#{page_row_locator(student_page)}\").trigger('mouseenter')")
 end
 
 def hover_out_page_row(student_page)
-  page.execute_script("$('.page').trigger('mouseout')")
+  page.execute_script("$(\"#{page_row_locator(student_page)}\").trigger('mouseout')")
+end
+
+def drag_page_to_event(student_page, target_event)
+  target_event_div = page.find(".event[data-event=#{target_event}]")
+  page.find(page_row_locator(student_page)).find('.move-page').drag_to(target_event_div)
 end
 
 def collapse_event(event)
@@ -173,4 +176,14 @@ def within_event(event)
   within ".event[data-event='#{event}']" do
     yield
   end
+end
+
+private
+
+def event_div_locator(event)
+  ".event[data-event='#{event}']"
+end
+
+def page_row_locator(student_page)
+  ".page[data-page-name=#{student_page.full_name}]"
 end

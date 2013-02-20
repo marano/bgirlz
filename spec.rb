@@ -380,27 +380,26 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.find('#student-name').should have_css ".fb-like[data-href='#{link}']"
   end
 
-  pending 'allow me to move page to another event' do
+  it 'allow me to move page to another event' do
     @page1 = Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
     @page2 = Page.create!(:name => 'Claudia', :event => 'Event2', :content => 'hi!')
     @page3 = Page.create!(:name => 'Hyohana', :event => 'Event3', :content => 'hello!')
 
     visit '/list'
 
-    first_event_div = page.find(".event[data-event=#{@page1.event}]")
-    second_event_div = page.find(".event[data-event=#{@page2.event}]")
-    third_event_div = page.find(".event[data-event=#{@page3.event}]")
+    expand_event('Event1')
+    hover_page_row(@page1)
+    drag_page_to_event(@page1, 'Event2')
+    expand_event('Event2')
+    expand_event('Event3')
+    hover_page_row(@page1)
+    drag_page_to_event(@page1, 'Event3')
 
-    page1_row_locator = ".page[data-page-name=#{@page1.full_name}]"
+    page.find(event_div_locator('Event1')).should_not have_css page_row_locator(@page1)
+    page.find(event_div_locator('Event2')).should_not have_css page_row_locator(@page1)
+    page.find(event_div_locator('Event3')).should have_css page_row_locator(@page1)
 
-    page.find(page1_row_locator).find('.move-page').drag_to(second_event_div)
-    page.find(page1_row_locator).find('.move-page').drag_to(third_event_div)
-
-    first_event_div.should_not have_css page1_row_locator
-    second_event_div.should_not have_css page1_row_locator
-    third_event_div.should have_css page1_row_locator
-
-    @page1.reload.event.should == @page3.event
+    @page1.reload.event.should == 'Event3'
 
     visit '/list'
 
