@@ -185,5 +185,9 @@ def event_div_locator(event)
 end
 
 def page_row_locator(student_page)
-  ".page[data-page-name=#{student_page.full_name}]"
+  attributes = []
+  attributes << "[data-page-name='#{student_page.name}']"
+  attributes << "[data-page-middle-initial='#{student_page.middle_initial}']" unless student_page.middle_initial.blank?
+  attributes << "[data-page-last-name='#{student_page.last_name}']" unless student_page.last_name.blank?
+  ".page#{attributes.join('')}"
 end
