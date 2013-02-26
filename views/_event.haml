@@ -16,8 +16,9 @@
   - unless event.blank?
     %a.event-edit{:href => '#'}
       %i.icon-edit
-    %a.event-delete{:href => '#'}
-      %i.icon-trash
+    - if event.pages.size == 0
+      %a.event-delete{:href => '#'}
+        %i.icon-trash   
   .event-page-count
   - if !event.blank? && !event.pages.empty?
     %a.event-featured-pages{:href => event.relative_link_to_featured_pages}

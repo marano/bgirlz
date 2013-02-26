@@ -553,6 +553,15 @@ describe 'Black Girls Code Website Publisher', :js => true do
     page.should_not have_css ".event[data-event='POA Black girls code']"
   end
 
+   it 'events with pages dont have a delete button' do
+    Event.create(:name => 'SP Black Girls code')
+    Page.create!(:name => 'Gustavo', :event => 'SP Black Girls code', :content => 'I love to code!')
+    visit '/list'
+    within_event('SP Black Girls code') do
+      page.should_not have_css '.event-delete'
+    end
+  end
+
 end
 
 
