@@ -72,6 +72,12 @@ class Controller < Sinatra::Base
     @event.to_json
   end
 
+  delete '/event/:name' do
+     @event = Event.find_by_name(params[:name])
+     @event.destroy
+     status 204
+  end
+
   get '/event/:name/featured_pages' do
     @event = Event.find_by_name(params[:name])
     haml :event_featured_pages

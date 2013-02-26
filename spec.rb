@@ -533,4 +533,26 @@ describe 'Black Girls Code Website Publisher', :js => true do
 
     page.find('.page').find('.name').text.should == 'Joaninha C Serra'
   end
+
+  it 'shows the delete button for empty events' do
+    Event.create(:name => 'POA Black girls code')
+    visit '/list'
+    within_event('POA Black girls code') do
+      page.should have_css '.event-delete'
+    end
+  end
+
+  it 'delete button deletes empty events' do
+    Event.create(:name => 'POA Black girls code')
+    visit '/list'
+    within_event('POA Black girls code') do
+      page.find('.event-delete').click
+    end
+    page.should_not have_css ".event[data-event='POA Black girls code']"
+    visit '/list'
+    page.should_not have_css ".event[data-event='POA Black girls code']"
+  end
+
 end
+
+

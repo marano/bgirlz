@@ -223,6 +223,17 @@ $(function () {
       eventDiv.find('.event-edit-form').removeClass('hide');
     });
 
+      eventDiv.find('.event-delete').click(function (event) {
+        event.preventDefault();
+        var deleteEventPath = eventDiv.attr('data-event-update-name-path');
+        $.ajax({
+          url: deleteEventPath, 
+          type: 'DELETE',
+          success: function () {}
+        });
+        eventDiv.remove();
+      });
+
     eventDiv.find('.event-edit-form').submit(function (event) {
       event.preventDefault();
       var newEventName = eventDiv.find('.event-name-input').val();
@@ -269,6 +280,8 @@ $(function () {
       });
     }});
   }
+
+
 
   function getParentRow(element) {
     if (element.tagName == 'TR') {
