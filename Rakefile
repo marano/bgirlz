@@ -20,11 +20,10 @@ end
 
 namespace :deploy do
   task :prod do
-    sh 'wget -O /dev/null http://fourbongo.com:8080/job/bgirlz-deploy/build'
+    sh 'wget -O /dev/null http://fourbongo.com:8080/job/bgirlz-deploy/build --post-data ""'
   end
-
   task :stage do
-    sh 'wget -O /dev/null http://fourbongo.com:8080/job/bgirlz-deploy-stage/build'
+    sh 'wget -O /dev/null http://fourbongo.com:8080/job/bgirlz-deploy-stage/build --post-data ""'
   end
 end
 
