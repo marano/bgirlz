@@ -22,6 +22,7 @@ namespace :deploy do
   task :prod do
     sh 'wget -O /dev/null http://fourbongo.com:8080/job/bgirlz-deploy/build'
   end
+
   task :stage do
     sh 'wget -O /dev/null http://fourbongo.com:8080/job/bgirlz-deploy-stage/build'
   end
