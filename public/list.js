@@ -195,7 +195,7 @@ $(function () {
   });
 
   function bindEvents(eventDiv) {
-    updatePageCount(eventDiv);
+    pageCounter(eventDiv);
 
     eventDiv.find('.event-expand').click(function (event) {
       event.preventDefault();
@@ -248,15 +248,18 @@ $(function () {
 
     eventDiv.droppable({scope: 'events', hoverClass: 'droppable-active', drop: function (event, ui) {
       $('.drag-cart-item').remove();
-      var eventDiv = $(event.target);
+      var toEventDiv = $(event.target);
       var pageMovedRow = $(ui.draggable);
       var pageMovedRowOldEvent = pageMovedRow.data('page-event');
-      var movedToEvent = eventDiv.data('event');
+      var movedToEvent = toEventDiv.data('event');
       if (pageMovedRowOldEvent == movedToEvent) {
         return;
       }
       pageMovedRow.data('page-event', movedToEvent);
-      eventDiv.find('tbody').append(pageMovedRow);
+      var fromEventDiv = $(pageMovedRow).closest('.event');
+      toEventDiv.find('tbody').append(pageMovedRow);
+      updatePageCounter(fromEventDiv, toEventDiv);
+
       var path = pageMovedRow.data('change-event-path');
       $.ajax({
         url: path,
@@ -300,7 +303,7 @@ $(function () {
     iframe.width = (newwidth) + "px";
   }
 
-  function updatePageCount(eventDiv) {
+  function pageCounter(eventDiv) {
     var pageCount = $(eventDiv).find('.page').length;
     var pageCounterMsg;
 
@@ -315,4 +318,10 @@ $(function () {
     }
     $(eventDiv).closest('.event').find('.event-page-count').text(pageCounterMsg);
   }
+
+  function updatePageCounter(fromEventPage, toEventPage) {
+    pageCounter(fromEventPage);
+    pageCounter(toEventPage);
+  }
+
 });

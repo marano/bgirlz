@@ -406,6 +406,25 @@ describe 'Black Girls Code Website Publisher', :js => true do
     assert_uploaded_page_is_displayed_within_event(@page1)
   end
 
+  it 'updates the counter page of event when a page is dragged to another event' do
+    @page1 = Page.create!(:name => 'Joana', :event => 'Event1', :content => 'oi!')
+    @page2 = Page.create!(:name => 'Claudia', :event => 'Event2', :content => 'hi!')
+
+    visit '/list'
+
+    expand_event('Event1')
+    hover_page_row(@page1)
+    drag_page_to_event(@page1, 'Event2')
+
+    within_event(@page1.event) do
+      find('.event-page-count').should have_content 'no pages'
+    end
+
+    within_event(@page2.event) do
+      find('.event-page-count').should have_content '2 pages'
+    end
+  end
+
   it 'shows when page contains image content' do
     @page_with_image = Page.create!(:name => 'Joana', :content => "meet me <img src='/me.jpg'/>!")
     @page_with_video = Page.create!(:name => 'Ana', :content => "meet me <iframe src='http://www.youtube.com/embed/132' />!")
