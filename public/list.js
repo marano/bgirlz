@@ -195,6 +195,8 @@ $(function () {
   });
 
   function bindEvents(eventDiv) {
+    updatePageCount(eventDiv);
+
     eventDiv.find('.event-expand').click(function (event) {
       event.preventDefault();
       var eventDiv = getEventDiv(event.target);
@@ -296,5 +298,21 @@ $(function () {
 
     iframe.height = (newheight) + "px";
     iframe.width = (newwidth) + "px";
+  }
+
+  function updatePageCount(eventDiv) {
+    var pageCount = $(eventDiv).find('.page').length;
+    var pageCounterMsg;
+
+    if (pageCount > 0) {
+      if (pageCount === 1) {
+        pageCounterMsg = "1 page";
+      } else {
+        pageCounterMsg = pageCount + " pages";
+      }
+    } else {
+      pageCounterMsg = "no pages";
+    }
+    $(eventDiv).closest('.event').find('.event-page-count').text(pageCounterMsg);
   }
 });
