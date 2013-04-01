@@ -25,7 +25,7 @@
   margin-left: 6px;
 }
 
-.event-edit {
+.event-edit, .event-delete {
   float: left;
   margin-top: 12px;
   margin-left: 10px;
