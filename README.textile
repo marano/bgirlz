@@ -9,9 +9,8 @@ h3. Code !https://codeclimate.com/badge.png(Code Climate)!:https://codeclimate.c
 
 h2. Dependencies
 
-For installing capybara-webdriver:
-
 <pre>
+$ brew install mondodb
 $ brew install qt
 </pre>
 
