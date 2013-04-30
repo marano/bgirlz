@@ -36,7 +36,7 @@ GEM
     columnize (0.3.6)
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.8)
+    debugger-ruby_core_source (1.1.9)
     diff-lcs (1.1.3)
     ffi (1.4.0)
     haml (4.0.0)
