@@ -10,7 +10,7 @@ h3. Code !https://codeclimate.com/badge.png(Code Climate)!:https://codeclimate.c
 h2. Dependencies
 
 <pre>
-$ brew install mondodb
+$ brew install mongodb
 $ brew install qt
 </pre>
 
