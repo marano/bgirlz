@@ -77,6 +77,7 @@ $(function () {
   });
 
   $('.event-edit').tooltip({placement: 'top', title: 'Edit'});
+  $('.event-delete').tooltip({placement: 'top', title: 'Remove Event'});
   $('.event-featured-pages i').tooltip({placement: 'right', title: 'Featured Pages'});
 
   $('.delete').tooltip({placement: 'right', title: 'Trash it'});
