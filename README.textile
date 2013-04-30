@@ -7,6 +7,13 @@ h3. Build !https://secure.travis-ci.org/marano/bgirlz.png(Build Status)!:http://
 
 h3. Code !https://codeclimate.com/badge.png(Code Climate)!:https://codeclimate.com/github/marano/bgirlz
 
+h2. Dependencies
+
+For installing capybara-webdriver:
+
+<pre>
+$ brew install qt
+</pre>
 
 h2. Testing
 
