@@ -19,7 +19,3 @@ group :test do
   gem 'headless'
   gem 'rake'
 end
-
-group :production do
-  gem 'rpm_contrib'
-end
